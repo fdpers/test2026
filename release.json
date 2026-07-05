@@ -3,5 +3,6 @@
   "operationId": "OP-20260705-001",
   "baseline": "7996142680f9d593d36c1a1433e31b221d2a56e2",
   "baselineTree": "dd70074ed28ff9e3ccda1f66bb9e5457507cc316",
-  "promptVersion": "canonical-v1"
+  "promptVersion": "canonical-v1",
+  "promptSha256": "6f2034650d5048ad204ef163765ac6e3d0a1d99f27ba539617ab1d70f599da44"
 }

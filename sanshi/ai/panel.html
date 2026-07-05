@@ -1,0 +1,33 @@
+<button class="ai-launcher" id="ai-launcher" type="button" hidden aria-controls="ai-study-panel" aria-expanded="false">
+  研习助教
+</button>
+
+<aside class="ai-panel" id="ai-study-panel" data-ai-study-panel hidden aria-label="AI 研习助教">
+  <header class="ai-panel__header">
+    <div>
+      <strong>研习助教</strong>
+      <span id="ai-model-label">连接中</span>
+    </div>
+    <button class="ai-icon-button" id="ai-panel-close" type="button" aria-label="关闭研习助教" title="关闭">×</button>
+  </header>
+
+  <div class="ai-panel__body">
+    <fieldset class="ai-context">
+      <legend>随问题发送</legend>
+      <label><input type="checkbox" name="ai-context" value="current-tab" checked> 当前页签</label>
+      <label><input type="checkbox" name="ai-context" value="selected-section"> 当前选段</label>
+      <label><input type="checkbox" name="ai-context" value="progress"> 十二周进度</label>
+      <label><input type="checkbox" name="ai-context" value="quiz"> 自测成绩</label>
+      <label><input type="checkbox" name="ai-context" value="notes"> 我的笔记</label>
+    </fieldset>
+
+    <p class="ai-disclosure" id="ai-disclosure">仅发送你的问题与已勾选内容。</p>
+    <div class="ai-messages" id="ai-messages" role="log" aria-live="polite"></div>
+  </div>
+
+  <form class="ai-composer" id="ai-composer">
+    <label class="sr-only" for="ai-question">向研习助教提问</label>
+    <textarea id="ai-question" rows="3" maxlength="4000" placeholder="把一种解读改写成可以现实检验的假设"></textarea>
+    <button type="submit">发送</button>
+  </form>
+</aside>
