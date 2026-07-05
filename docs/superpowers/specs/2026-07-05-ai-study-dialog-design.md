@@ -2,7 +2,7 @@
 
 ## Document Control
 
-- Design version: `1.2.0`
+- Design version: `1.3.0`
 - Operation ID: `OP-20260705-001`
 - Provisional product target version: `1.1.0` (reconcile after bundle import)
 - Owner: Codex
@@ -89,17 +89,17 @@ serverless deployment.
 Configuration is provided only through environment variables:
 
 ```text
-AI_PROVIDER=dashscope
-AI_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
+AI_PROVIDER=custom
+AI_BASE_URL=<OpenAI-compatible base URL>
 AI_MODEL=qwen3.7-plus
-AI_API_KEY=<general Model Studio secret>
+AI_API_KEY=<secret>
 APP_ACCESS_TOKEN=<secret>
 ```
 
-The Coding Plan endpoint and its plan-specific credentials are not used by the
-website gateway. Alibaba Cloud documents that Coding Plan is limited to coding
-tools and OpenClaw-type agents and does not support custom application backends.
-Deployment therefore requires a general pay-as-you-go Model Studio credential.
+The gateway does not hard-code a billing plan or provider endpoint. The owner
+selects an OpenAI-compatible endpoint through deployment environment variables;
+credentials and endpoint eligibility are operational configuration, not tracked
+source. Public or multi-user deployment requires a fresh eligibility review.
 
 The local Node service and the Vercel function both call the provider's
 OpenAI-compatible chat endpoint using native `fetch`. They stream the response
