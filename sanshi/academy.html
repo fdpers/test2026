@@ -1,0 +1,398 @@
+<title>三式研习院 · 系统学习与分析方法</title>
+<style>
+:root{
+  --bg:#EDE8DC;--bg-panel:#E4DECD;--bg-panel-2:#DAD3BE;
+  --ink:#262B33;--ink-soft:#666C74;
+  --line:rgba(38,43,51,.14);--line-strong:rgba(38,43,51,.30);
+  --indigo:#3D5A9E;--bamboo:#4A7C59;--gold:#8A6A24;--bad:#A8433A;
+  --hl:rgba(61,90,158,.10);
+  --font-display:"Source Han Serif SC","Songti SC","STSong","Noto Serif SC",serif;
+  --font-body:"PingFang SC","Source Han Sans SC","Noto Sans SC","Microsoft YaHei",-apple-system,sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Cascadia Code",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#171A20;--bg-panel:#1F232C;--bg-panel-2:#282D38;
+    --ink:#E6E4DA;--ink-soft:#9AA0AA;
+    --line:rgba(230,228,218,.13);--line-strong:rgba(230,228,218,.28);
+    --indigo:#8CA5E8;--bamboo:#6FB08A;--gold:#D2AE5B;--bad:#D8756A;
+    --hl:rgba(140,165,232,.12);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171A20;--bg-panel:#1F232C;--bg-panel-2:#282D38;--ink:#E6E4DA;--ink-soft:#9AA0AA;
+  --line:rgba(230,228,218,.13);--line-strong:rgba(230,228,218,.28);
+  --indigo:#8CA5E8;--bamboo:#6FB08A;--gold:#D2AE5B;--bad:#D8756A;--hl:rgba(140,165,232,.12);
+}
+:root[data-theme="light"]{
+  --bg:#EDE8DC;--bg-panel:#E4DECD;--bg-panel-2:#DAD3BE;--ink:#262B33;--ink-soft:#666C74;
+  --line:rgba(38,43,51,.14);--line-strong:rgba(38,43,51,.30);
+  --indigo:#3D5A9E;--bamboo:#4A7C59;--gold:#8A6A24;--bad:#A8433A;--hl:rgba(61,90,158,.10);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);line-height:1.68;-webkit-font-smoothing:antialiased;}
+.page{max-width:1060px;margin:0 auto;padding:44px 20px 90px;}
+header.hero{margin-bottom:22px;}
+.eyebrow{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.16em;color:var(--indigo);text-transform:uppercase;margin-bottom:10px;}
+h1{font-family:var(--font-display);font-weight:700;font-size:clamp(30px,4.6vw,44px);margin:0 0 12px;letter-spacing:.04em;}
+h1 .en{font-family:var(--font-mono);font-size:.32em;font-weight:500;color:var(--ink-soft);letter-spacing:.08em;margin-left:12px;vertical-align:middle;}
+.hero p{max-width:68ch;color:var(--ink-soft);font-size:15px;margin:0;}
+
+nav.tabs{position:sticky;top:0;z-index:9;display:flex;gap:6px;flex-wrap:wrap;background:color-mix(in srgb, var(--bg) 86%, transparent);backdrop-filter:blur(6px);padding:10px 0;margin:20px 0 26px;border-bottom:1px solid var(--line);}
+nav.tabs button{font-family:var(--font-display);font-size:14.5px;font-weight:600;color:var(--ink-soft);background:transparent;border:1px solid transparent;border-radius:999px;padding:7px 15px;cursor:pointer;}
+nav.tabs button:hover{color:var(--ink);}
+nav.tabs button.active{color:var(--ink);background:var(--bg-panel);border-color:var(--line-strong);}
+nav.tabs button:focus-visible{outline:2px solid var(--indigo);outline-offset:2px;}
+section.tab{display:none;} section.tab.active{display:block;}
+
+h2{font-family:var(--font-display);font-size:21px;margin:32px 0 12px;}
+h2:first-child{margin-top:0;}
+h2 .en{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);letter-spacing:.1em;margin-left:10px;}
+h3{font-family:var(--font-display);font-size:16px;margin:18px 0 8px;}
+p.note{color:var(--ink-soft);font-size:14px;max-width:78ch;}
+.small{font-size:12.5px;color:var(--ink-soft);}
+.card{background:var(--bg-panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.card+.card{margin-top:14px;}
+a{color:var(--indigo);}
+
+.twrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg-panel);}
+table.plain{border-collapse:collapse;width:100%;font-size:13.5px;min-width:600px;}
+table.plain th{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-soft);text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-strong);white-space:nowrap;}
+table.plain td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+table.plain td:first-child{font-family:var(--font-display);font-weight:600;color:var(--ink);white-space:nowrap;}
+table.plain tr:last-child td{border-bottom:none;}
+
+/* knowledge map */
+.kmap{display:flex;flex-direction:column;gap:0;align-items:center;margin:18px 0;}
+.krow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%;}
+.kbox{background:var(--bg-panel);border:1px solid var(--line-strong);border-radius:12px;padding:10px 16px;text-align:center;min-width:130px;}
+.kbox b{font-family:var(--font-display);font-size:14.5px;display:block;}
+.kbox span{font-size:11.5px;color:var(--ink-soft);}
+.kbox.base{border-color:var(--indigo);}
+.kbox.zw{border-top:3px solid #9385D6;} .kbox.bz{border-top:3px solid #D8765F;} .kbox.qm{border-top:3px solid #C0973F;}
+.kbox.ht{border-color:var(--bamboo);}
+.kdown{font-family:var(--font-mono);color:var(--ink-soft);padding:4px 0;text-align:center;}
+
+/* guard */
+.guard{border:1px dashed var(--line-strong);border-radius:14px;padding:16px 18px;margin:18px 0;background:repeating-linear-gradient(135deg, color-mix(in srgb, var(--indigo) 5%, transparent) 0 10px, transparent 10px 20px), var(--bg-panel);}
+.guard b{color:var(--indigo);font-family:var(--font-display);}
+
+/* weeks */
+.week{background:var(--bg-panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0;display:grid;grid-template-columns:auto 1fr;gap:12px;}
+.week .wk{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.week .wk .n{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--indigo);white-space:nowrap;}
+.week input[type=checkbox]{width:20px;height:20px;accent-color:var(--bamboo);cursor:pointer;}
+.week .body b.t{font-family:var(--font-display);font-size:15.5px;}
+.week .body .li{font-size:13.5px;color:var(--ink-soft);margin:3px 0;padding-left:38px;position:relative;}
+.week .body .li::before{position:absolute;left:0;font-family:var(--font-mono);font-size:10.5px;color:var(--indigo);border:1px solid var(--line-strong);border-radius:4px;padding:0 4px;}
+.week .body .li.xue::before{content:'学';} .week .body .li.lian::before{content:'练';} .week .body .li.yan::before{content:'验';color:var(--bamboo);}
+.week.done{opacity:.62;}
+.progress{display:flex;align-items:center;gap:12px;margin:14px 0;}
+.progress .track{flex:1;height:10px;background:var(--bg-panel-2);border-radius:5px;overflow:hidden;}
+.progress .bar{height:100%;background:var(--bamboo);border-radius:5px;transition:width .3s;}
+.progress .txt{font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums;}
+
+/* method steps */
+.step5{border-left:4px solid var(--indigo);background:var(--bg-panel);border-radius:0 12px 12px 0;padding:14px 18px;margin:12px 0;}
+.step5 h3{margin:0 0 6px;}
+.step5 h3 .num{font-family:var(--font-mono);font-size:11px;color:var(--indigo);border:1px solid var(--indigo);border-radius:5px;padding:1px 7px;margin-right:8px;}
+.step5 ul{margin:6px 0 0;padding-left:20px;}
+.step5 li{font-size:13.5px;color:var(--ink-soft);margin:4px 0;}
+.step5 li b{color:var(--ink);}
+
+/* quiz */
+.qlevel{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--indigo);margin:22px 0 8px;text-transform:uppercase;}
+.q{background:var(--bg-panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0;}
+.q .qt{font-family:var(--font-display);font-weight:600;font-size:15px;margin-bottom:10px;}
+.q .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;}
+.q .opts button{font-family:var(--font-body);font-size:13.5px;text-align:left;color:var(--ink);background:var(--bg-panel-2);border:1px solid var(--line-strong);border-radius:9px;padding:9px 12px;cursor:pointer;}
+.q .opts button:hover{border-color:var(--indigo);}
+.q .opts button:disabled{cursor:default;}
+.q .opts button.right{background:color-mix(in srgb, var(--bamboo) 22%, var(--bg-panel));border-color:var(--bamboo);}
+.q .opts button.wrong{background:color-mix(in srgb, var(--bad) 18%, var(--bg-panel));border-color:var(--bad);}
+.q .expl{display:none;font-size:13px;color:var(--ink-soft);margin-top:10px;border-top:1px dashed var(--line);padding-top:9px;}
+.q .expl b{color:var(--bamboo);}
+.q.answered .expl{display:block;}
+.scorebar{position:sticky;top:52px;z-index:5;background:var(--bg-panel);border:1px solid var(--line-strong);border-radius:10px;padding:9px 14px;font-family:var(--font-mono);font-size:12.5px;color:var(--ink-soft);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.scorebar b{color:var(--ink);}
+.scorebar button{font-family:var(--font-mono);font-size:11.5px;background:transparent;color:var(--ink-soft);border:1px solid var(--line-strong);border-radius:7px;padding:3px 10px;cursor:pointer;}
+
+footer{margin-top:60px;border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:var(--ink-soft);}
+footer p{max-width:80ch;}
+</style>
+
+<div class="page">
+<header class="hero">
+  <div class="eyebrow">系统课程 · 分析方法论 · 闯关自测</div>
+  <h1>三式研习院<span class="en">THE ACADEMY</span></h1>
+  <p>四个站点给了你排盘引擎与辞典，这里给你<b>次第</b>与<b>方法</b>：一个先学共同内核、再入三式、终至会通的十二周课程；一套任何盘都适用的五步分析法；以及检验学习成果的三关自测。学习进度与成绩保存在本地，随时续学。</p>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="t-map" class="active">总纲 · 知识地图</button>
+  <button data-tab="t-base">地基 · 共同内核</button>
+  <button data-tab="t-plan">课程 · 十二周</button>
+  <button data-tab="t-method">方法 · 五步分析</button>
+  <button data-tab="t-quiz">自测 · 三关</button>
+</nav>
+
+<!-- ================= 总纲 ================= -->
+<section class="tab active" id="t-map">
+  <h2>知识地图 · 先学什么，后学什么<span class="en">DEPENDENCY MAP</span></h2>
+  <p class="note">三式看似三门学问，实际共享一个内核。<b>系统学习的关键，是先学一次内核，再把三式当作三种"方言"</b>——这样每门的学习量都会骤降，且互相印证。依赖关系自下而上：</p>
+  <div class="kmap">
+    <div class="krow">
+      <div class="kbox ht"><b>三式会通</b><span>交叉验证 · 分析与指引</span></div>
+    </div>
+    <div class="kdown">↑ 三式皆通后（第11–12周）</div>
+    <div class="krow">
+      <div class="kbox bz"><b>四柱八字</b><span>时间代数（第3–5周）</span></div>
+      <div class="kbox zw"><b>紫微斗数</b><span>命盘几何（第6–8周）</span></div>
+      <div class="kbox qm"><b>奇门遁甲</b><span>时空博弈（第9–10周）</span></div>
+    </div>
+    <div class="kdown">↑ 三种"方言"，共用同一语法</div>
+    <div class="krow">
+      <div class="kbox base"><b>干支系统</b><span>60甲子编码（第2周）</span></div>
+      <div class="kbox base"><b>双轨历法</b><span>节气×朔望（第2周）</span></div>
+    </div>
+    <div class="kdown">↑</div>
+    <div class="krow">
+      <div class="kbox base"><b>阴阳</b><span>对偶与消长（第1周）</span></div>
+      <div class="kbox base"><b>五行</b><span>生克网络（第1周）</span></div>
+    </div>
+  </div>
+  <p class="note">学习顺序上，<b>八字应先于紫微、紫微先于奇门</b>：八字直接建立在干支与历法上，概念最少；紫微增加"宫位几何"一层；奇门再叠加"空间方位与四盘"，最复杂。倒过来学会事倍功半。</p>
+
+  <h2>三式一览 · 你在学什么<span class="en">WHAT EACH ART IS</span></h2>
+  <div class="twrap"><table class="plain">
+    <thead><tr><th>系统</th><th>输入</th><th>核心机制</th><th>一句话本质</th><th>站点</th></tr></thead>
+    <tbody>
+      <tr><td>四柱八字</td><td>公历生时</td><td>节气定年月柱 → 十神关系代数 → 大运推移</td><td>真实天文坐标上的五行代数</td><td><a href="https://claude.ai/code/artifact/6804e7fd-a907-45e2-b9a7-e9854c1046f2">八字站</a></td></tr>
+      <tr><td>紫微斗数</td><td>农历生时</td><td>安星诀布十四主星 → 十二宫 → 四化大限</td><td>虚星系统的命盘几何</td><td><a href="https://claude.ai/code/artifact/0c6878a9-dbb4-4ae8-8ea9-3e78c6e7fe34">紫微站</a></td></tr>
+      <tr><td>奇门遁甲</td><td>起局时刻</td><td>阴阳遁定局 → 四盘叠加 → 择时择向</td><td>洛书棋盘上的决策博弈</td><td><a href="https://claude.ai/code/artifact/1a782ec6-8480-4f66-97fb-dd642e806914">奇门站</a></td></tr>
+      <tr><td>三式会通</td><td>同一生时</td><td>特质标签共振 → 反馈校准 → 档案接力</td><td>多表征交叉验证的自省引擎</td><td><a href="https://claude.ai/code/artifact/04c5eb5b-2d3b-47d4-ade7-d554acd6d988">会通站</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="guard"><b>研习院立场（与全系一致）：</b>我们把三式当作<b>思想文物与自省语言</b>来系统研习——历法天文层是可验证的真知识，符号解释层是不可证伪的启发装置。学习目标是：既能熟练排盘断局（技艺），又能一眼分清哪层是真、哪层是喻（见识）。二者缺一，都不算学会。</div>
+</section>
+
+<!-- ================= 地基 ================= -->
+<section class="tab" id="t-base">
+  <h2>共同内核 · 学一次，用三处<span class="en">THE SHARED KERNEL</span></h2>
+
+  <h3>① 阴阳：对偶与消长</h3>
+  <p class="note">一切符号都先分阴阳：天干奇数位为阳、偶数位为阴；地支同理。系统层面，阴阳决定<b>方向</b>——紫微的星系顺逆布、八字的大运顺逆排、奇门的阳遁阴遁，全是同一条规则的三次复用：<b>阳顺阴逆</b>。记住这四个字，三式的"方向类"规则就全部记完了。</p>
+
+  <h3>② 五行：一张生克网络</h3>
+  <p class="note">相生环：木→火→土→金→水→木；相克环（隔一位）：木⊣土⊣水⊣火⊣金⊣木。全部命理推演的"物理引擎"仅此两条边。十神由它派生（同我/我生/我克/克我/生我），旺衰由它派生（旺相休囚死），格局吉凶也由它派生（门迫=门克宫）。<b>把生克背到不假思索，是一切后续学习的前提。</b></p>
+  <div class="twrap"><table class="plain">
+    <thead><tr><th>以日主为"我"</th><th>关系</th><th>十神</th><th>紫微近似</th><th>奇门近似</th></tr></thead>
+    <tbody>
+      <tr><td>生我</td><td>资源流入</td><td>正印 / 偏印</td><td>天梁·天府（荫庇库藏）</td><td>值符·九地（庇护固守）</td></tr>
+      <tr><td>同我</td><td>同侪并立</td><td>比肩 / 劫财</td><td>紫微·七杀（自我意志）</td><td>比和之宫</td></tr>
+      <tr><td>我生</td><td>才华输出</td><td>食神 / 伤官</td><td>贪狼·文昌文曲（才艺）</td><td>景门（文书宣传）</td></tr>
+      <tr><td>我克</td><td>掌控资源</td><td>正财 / 偏财</td><td>武曲·天府（财库）</td><td>生门（求财）</td></tr>
+      <tr><td>克我</td><td>约束压力</td><td>正官 / 七杀</td><td>天相·廉贞（印与囚）</td><td>庚（阻隔对手）</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">右两列是"方言对照"——不必强求一一对应，用于建立跨系直觉即可。</p>
+
+  <h3>③ 干支：六十进制的时间编码</h3>
+  <p class="note">十天干 × 十二地支，<b>阳配阳、阴配阴</b>，得 60 组合（而非 120）——这就是为什么没有"甲丑"。四柱、纳音、旬空、遁甲的"旬首"，全部构造在这套 60 进制上。地支各藏 1–3 个天干（藏干），使"字少而意繁"。背诵最小集：十干十二支的五行阴阳、地支藏干、六十甲子的旬（六旬各以甲某开头）。</p>
+
+  <h3>④ 双轨历法：太阳系与月亮系</h3>
+  <div class="twrap"><table class="plain">
+    <thead><tr><th>轨道</th><th>刻度</th><th>谁在用</th><th>天文实质</th></tr></thead>
+    <tbody>
+      <tr><td>太阳轨</td><td>二十四节气（黄经每15°）</td><td>八字的年柱月柱、奇门的阴阳遁与定局</td><td>地球公转的真实相位，可精确计算</td></tr>
+      <tr><td>月亮轨</td><td>朔望月（新月为初一）</td><td>紫微的月、日</td><td>月相周期，闰月由"无中气之月"产生</td></tr>
+      <tr><td>自转轨</td><td>日（60日循环）与时辰（12等分）</td><td>三式共用</td><td>连续计数两千年不断——1949-10-01 恰为甲子日</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">很多"排盘错误"其实是历法错误：拿农历当公历、忘了年柱以<b>立春</b>为界（不是正月初一）、23:00 后不换日、闰月归属——先在历法上一丝不苟，符号层才有意义。</p>
+</section>
+
+<!-- ================= 课程 ================= -->
+<section class="tab" id="t-plan">
+  <h2>十二周课程 · 从零到会通<span class="en">THE 12-WEEK CURRICULUM</span></h2>
+  <p class="note">每周三件事：<b>学</b>（读指定页面）、<b>练</b>（在排盘引擎上动手）、<b>验</b>（达到验收标准才算过）。勾选进度自动保存在本地。每周约需 2–4 小时；快者可两周并一周，慢者可拆开——次第不要乱。</p>
+  <div class="progress"><div class="track"><div class="bar" id="pbar" style="width:0%"></div></div><span class="txt" id="ptxt">0 / 12</span></div>
+  <div id="weeks"></div>
+  <div class="guard"><b>课程之外的一条铁律：</b>从第 3 周起，每周把自己或熟人的盘存进会通站<b>档案库</b>并写笔记。学命理最大的坑是"背了一堆断语、从未验证一条"——档案库就是你的实验记录本。十二周结束时，你应有至少 10 份带验证笔记的档案。</div>
+</section>
+
+<!-- ================= 方法 ================= -->
+<section class="tab" id="t-method">
+  <h2>五步分析法 · 任何盘都这么读<span class="en">THE FIVE-STEP METHOD</span></h2>
+  <p class="note">这是本研习院的核心交付：一套<b>与具体系统无关</b>的分析流程。无论八字、紫微、奇门还是三式合参，都按同一次第走，保证分析系统、完整、可复盘。</p>
+
+  <div class="step5"><h3><span class="num">STEP 1</span>定盘 · 输入正确性</h3>
+    <ul>
+      <li>核对<b>历法</b>：公历还是农历？年柱是否跨立春？23:00 后是否换日？闰月归属？</li>
+      <li>核对<b>边界</b>：出生在节气临界（±1天）或时辰临界（±20分钟）吗？临界者标注存疑，结论降级。</li>
+      <li>真太阳时：出生地远离东八区中央经线（120°E）者做经度修正。</li>
+      <li><b>产出：一行"盘面元数据"</b>——输入、换算结果、存疑点。错盘则全错，此步不可省。</li>
+    </ul></div>
+
+  <div class="step5"><h3><span class="num">STEP 2</span>立骨 · 静态结构主线</h3>
+    <ul>
+      <li>八字：日主是谁？月令处何状态（旺相休囚死）？身强身弱？最旺的十神是哪一路？</li>
+      <li>紫微：命宫主星（或借对宫）？三方四正会照什么？四化落在哪些宫？</li>
+      <li>奇门：值符值使是谁？用神落宫的星门神干四层如何？有无结构格局（伏反吟、击刑、门迫、空马）？</li>
+      <li><b>产出：一句话主线</b>——例如"身弱辛金、伤官吐秀，命宫武府守财，当下值符天禽居中"。说不出一句话，说明还没立起骨架。</li>
+    </ul></div>
+
+  <div class="step5"><h3><span class="num">STEP 3</span>观动 · 时间动态</h3>
+    <ul>
+      <li>八字：当前大运干支的五行，与喜忌相合还是相悖？未来两步大运趋势？</li>
+      <li>紫微：当前大限落在哪一宫？大限四化与生年四化叠加出什么？</li>
+      <li>奇门：此刻的局（问事之时）吉方吉门何在？——注意奇门看"此刻"，与前两者的"一生/十年"尺度不同。</li>
+      <li><b>产出：三个时间尺度的叠合判断</b>——十年底色（运）× 领域重心（限）× 此刻方向（局）。</li>
+    </ul></div>
+
+  <div class="step5"><h3><span class="num">STEP 4</span>会通 · 交叉验证</h3>
+    <ul>
+      <li>提取三系特质标签，找<b>共振</b>（两系以上同指）——共振者优先当真。</li>
+      <li>处理<b>矛盾</b>：矛盾不是系统错了，而通常是真实的内在张力（如"独立"与"亲和"并存）——把矛盾本身当作发现。</li>
+      <li>守<b>权重纪律</b>：论人格以八字紫微为主（各50%），奇门只作时机旁证；论时机以奇门与大运为主。</li>
+      <li><b>产出：共振清单 + 张力清单</b>——会通站已自动化此步，但你应能手工复核它。</li>
+    </ul></div>
+
+  <div class="step5"><h3><span class="num">STEP 5</span>验证 · 现实闭环</h3>
+    <ul>
+      <li>把每条结论改写成<b>可检验假设</b>："我在高压场景下反而果断"——本周找一个场景验证。</li>
+      <li>记录进会通站<b>档案库笔记</b>：日期、假设、验证结果（准/不准/部分准）。</li>
+      <li>警惕<b>确认偏误</b>：不准的必须记，而且要加倍记——只记准的等于没验证。</li>
+      <li><b>产出：更新后的档案</b>——下次分析从这里接力，而不是从头再来。这一步把命理从断言变成迭代。</li>
+    </ul></div>
+
+  <h2>常见错误清单 · 逐条对照<span class="en">COMMON MISTAKES</span></h2>
+  <div class="twrap"><table class="plain">
+    <thead><tr><th>错误</th><th>后果</th><th>纠正</th></tr></thead>
+    <tbody>
+      <tr><td>历法错位</td><td>盘全错，分析全废</td><td>五步法第一步永远是定盘；用站内引擎换算并核对</td></tr>
+      <tr><td>跳过立骨直接查断语</td><td>断语互相打架，无所适从</td><td>先说出"一句话主线"，再看细节；细节服从主线</td></tr>
+      <tr><td>把奇门当命盘</td><td>用时机工具论人格，张冠李戴</td><td>奇门只答"此刻/此事/此方"，不答"我是谁"</td></tr>
+      <tr><td>只记应验、不记落空</td><td>确认偏误滚雪球，越学越"信"</td><td>档案笔记强制记录不准项；不准率是最有价值的数据</td></tr>
+      <tr><td>断语当预测、据此决策</td><td>把启发装置误用为检验装置</td><td>重读认识论护栏：生成假设→现实检验，顺序不能反</td></tr>
+      <tr><td>贪多求全、乱序学习</td><td>概念相互污染，久学不通</td><td>按知识地图的依赖顺序；地基未牢不进下一层</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ================= 自测 ================= -->
+<section class="tab" id="t-quiz">
+  <h2>三关自测 · 学没学会，一测便知<span class="en">SELF-ASSESSMENT</span></h2>
+  <p class="note">十五题分三关：第一关对应第 1–2 周（地基），第二关对应第 3–10 周（三式），第三关对应第 11–12 周（会通与方法论）。答错会给出讲解——<b>错了才是收获</b>。最好成绩自动保存。</p>
+  <div class="scorebar"><span>本次：<b id="q-cur">0</b> / 15</span><span>最好成绩：<b id="q-best">—</b></span><button id="q-reset">重新作答</button></div>
+  <div id="quiz"></div>
+</section>
+
+<footer>
+  <p><strong>本站在知识树上的位置：</strong>研习院是五站体系的"方法层"——它把散落的排盘技艺组织成有次第的课程，把即兴解读升级为五步分析法。这正是知识树"跨学科翻译力"树干的一次完整演练：同一内核（阴阳五行干支历法）在三种表征间来回翻译。全系导航：<a href="https://claude.ai/code/artifact/9bf13c6a-e392-47fe-850b-23b854fd84cd">知识树</a> · <a href="https://claude.ai/code/artifact/0c6878a9-dbb4-4ae8-8ea9-3e78c6e7fe34">紫微</a> · <a href="https://claude.ai/code/artifact/6804e7fd-a907-45e2-b9a7-e9854c1046f2">八字</a> · <a href="https://claude.ai/code/artifact/1a782ec6-8480-4f66-97fb-dd642e806914">奇门</a> · <a href="https://claude.ai/code/artifact/04c5eb5b-2d3b-47d4-ade7-d554acd6d988">会通</a>。</p>
+  <p class="small">课程进度与自测成绩保存在浏览器本地。所有内容与全系认识论护栏一致：技艺与见识并重，启发与检验分层。</p>
+</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+/* Tabs */
+const tabsNav=$('tabs');
+tabsNav.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  tabsNav.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));
+  document.querySelectorAll('section.tab').forEach(s=>s.classList.toggle('active',s.id===b.dataset.tab));});
+
+/* ============ 十二周课程 ============ */
+const WEEKS=[
+ {t:'阴阳与五行',x:'研习院「地基」①②节；知识树·太极场（阴阳如何生成整棵体系）',l:'默画五行生克双环 10 遍至不假思索；用生克各解释一件身边事（如"监管克产业"）',y:'合上资料，30 秒内说出任意两行的生克关系及"阳顺阴逆"用在三式何处'},
+ {t:'干支与双轨历法',x:'研习院「地基」③④节；八字站「机理」页的换算法则表',l:'在八字站排 3 个不同年代的盘，核对年柱是否跨立春、23:00 换日',y:'能解释为什么没有"甲丑"；说出节气轨与朔望轨各归哪个系统用'},
+ {t:'八字 · 四柱排法',x:'八字站「机理解析」全文',l:'排自己的盘；手推自己的年柱与时柱（五虎遁/五鼠遁），与引擎对照',y:'手推结果与引擎一致；能说出自己盘的节气坐标'},
+ {t:'八字 · 十神代数',x:'八字站「干支与十神」辞典，研习院地基的十神对照表',l:'推自己日主见四柱各干的十神；点击盘上藏干核对',y:'任给两个天干，10 秒说出十神；能说出自己的主导十神及其现代语义'},
+ {t:'八字 · 旺衰与大运',x:'八字站「关系与推演」页（旺相休囚死、大运起法）',l:'判自己日主的月令状态与身强弱；核对起运岁数与大运方向',y:'能解释自己当前大运为何顺/逆排、与喜忌相合还是相悖'},
+ {t:'紫微 · 安星逻辑',x:'紫微站「原理解析」+安星诀口诀',l:'用农历生日排盘；手推命宫位置与五行局，与引擎对照',y:'能说出紫微系逆行/天府系顺行互为镜像及其阴阳含义'},
+ {t:'紫微 · 星曜与宫位',x:'紫微站「星曜辞典」与「宫位与四化」',l:'点击自己命宫，看三方四正高亮；逐宫做十二宫自省提问',y:'不看资料说出命宫三方四正是哪三宫、自己命宫主星的化气'},
+ {t:'紫微 · 四化与大限',x:'紫微站四化总表与大限说明',l:'找出自己生年四化各落何宫；确认当前大限宫位',y:'能说出四化的现代语义（流入/扩张/缓和/纠结）与大限顺逆的阴阳规则'},
+ {t:'奇门 · 定局与四盘',x:'奇门站「机理解析」全文（重点：四盘=环境/决策分层）',l:'起"此刻"局，逐项核对：节气→三元→局数→值符值使',y:'能复述排局八步；说出四盘各自的决策论角色'},
+ {t:'奇门 · 格局与用法',x:'奇门站「符号辞典」与「格局与用法」',l:'一周内起 3 局（不同日期），识别其中的结构格局与名格',y:'能识别伏反吟/击刑/门迫/空马；能说明奇门为何不答"我是谁"'},
+ {t:'会通 · 交叉验证',x:'会通站「会通之道」（共振机制、权重纪律）',l:'合盘自己；对五个切面逐一做"准/不准"反馈；写第一篇档案笔记',y:'能手工复核一条共振标签的来源（哪两系、各因何星/何神）'},
+ {t:'验证与立场 · 毕业',x:'重读三站认识论护栏；研习院「方法」页全文',l:'用五步分析法为一位熟人做完整分析并存档；把一条结论设计成本周可验证实验',y:'档案库≥10份；能向外行讲清"哪层是真知识、哪层是启发装置"——讲不清就没毕业'}
+];
+const WKEY='academy-weeks';
+let WDONE=(()=>{try{return JSON.parse(localStorage.getItem(WKEY)||'[]');}catch(e){return [];}})();
+function renderWeeks(){
+  $('weeks').innerHTML=WEEKS.map((w,i)=>`
+    <div class="week ${WDONE.includes(i)?'done':''}">
+      <div class="wk"><span class="n">第${['一','二','三','四','五','六','七','八','九','十','十一','十二'][i]}周</span>
+        <input type="checkbox" data-w="${i}" ${WDONE.includes(i)?'checked':''} aria-label="第${i+1}周完成"></div>
+      <div class="body"><b class="t">${w.t}</b>
+        <div class="li xue">${w.x}</div>
+        <div class="li lian">${w.l}</div>
+        <div class="li yan">${w.y}</div>
+      </div>
+    </div>`).join('');
+  const pct=Math.round(WDONE.length/12*100);
+  $('pbar').style.width=pct+'%';$('ptxt').textContent=WDONE.length+' / 12';
+}
+$('weeks')?renderWeeks():null;
+$('weeks').addEventListener('change',e=>{
+  const cb=e.target.closest('input[type=checkbox]');if(!cb)return;
+  const i=+cb.dataset.w;
+  WDONE=cb.checked?[...new Set([...WDONE,i])]:WDONE.filter(x=>x!==i);
+  try{localStorage.setItem(WKEY,JSON.stringify(WDONE));}catch(e2){}
+  renderWeeks();
+});
+
+/* ============ 自测 ============ */
+const QUIZ=[
+ {lv:'第一关 · 地基（第1–2周）',qs:[
+  {q:'五行中，木生____，____克木。',o:['火；金','土；水','火；水','金；火'],a:0,e:'相生环：木→火→土→金→水→木；相克隔一位：金克木。生克双环是全部推演的物理引擎。'},
+  {q:'为什么六十甲子里没有"甲丑"这一组合？',o:['甲丑不吉利被剔除','阳干只配阳支、阴干只配阴支','丑属土与甲木相克','历史散佚'],a:1,e:'干支按奇偶同步配对：甲(阳)只配子寅辰午申戌(阳支)，故 10×12 只产生 60 组合。'},
+  {q:'八字的年柱以什么为分界？',o:['正月初一','冬至','立春','元旦'],a:2,e:'年柱月柱走太阳轨（节气）：立春（黄经315°）为岁首。这是最常见的排盘错误来源。'},
+  {q:'"阳顺阴逆"在三式中的三次复用不包括：',o:['八字大运的排列方向','奇门阳遁阴遁的布局方向','紫微大限的行进方向','纳音五行的推算方向'],a:3,e:'纳音由干支组合查表/推算，与顺逆无关；其余三者皆由"阳男阴女顺、阴男阳女逆"或"冬至后顺、夏至后逆"驱动。'},
+  {q:'农历闰月是如何产生的？',o:['每三年固定加一个月','无中气之月置闰','皇帝颁诏决定','按干支循环补齐'],a:1,e:'朔望月约29.53天，12个月比回归年短约11天；不含中气（黄经30°整倍数）的月份被定为闰月，以对齐两轨。'}]},
+ {lv:'第二关 · 三式（第3–10周）',qs:[
+  {q:'日主为辛金，见丙火，是什么十神？',o:['七杀','正官','伤官','正财'],a:1,e:'火克金=克我者=官杀；辛为阴、丙为阳，异性为正官。克我者+阴阳异=正官。'},
+  {q:'八字中"我克者"这一类十神主什么？',o:['资源与庇护','约束与压力','财富与掌控','才华与输出'],a:2,e:'我克者为财（正财/偏财）——我能支配的对象；生我=印，克我=官杀，我生=食伤，同我=比劫。'},
+  {q:'紫微在卯宫，天府在哪一宫？',o:['丑','酉','亥','卯'],a:0,e:'天府是紫微关于寅申轴的镜像：紫微顺行一位（寅→卯），天府就逆行一位（寅→丑）。公式：天府支=(16−紫微支) mod 12。'},
+  {q:'紫微斗数命宫的三方四正不包括：',o:['财帛宫','事业宫','迁移宫','福德宫'],a:3,e:'三方四正=本宫+三合两宫(±4位)+对宫(+6位)。命宫三方四正恒为命、财帛、事业、迁移——理解人要同时看自我、资源、志业、外界。'},
+  {q:'奇门遁甲"遁甲"二字的含义是？',o:['甲士遁逃之术','主帅甲隐于六仪之下','六甲神将护体','遁入甲子时空'],a:1,e:'十干之尊"甲"永不露面：六个甲旬首分别藏于戊己庚辛壬癸六仪之下——主帅隐形，全系统因此得名。'},
+  {q:'奇门四盘中，代表"你可选择的行动"的是哪一盘？',o:['天盘九星','地盘奇仪','人盘八门','神盘八神'],a:2,e:'天=环境态势、地=地利禀赋、神=不可控运气，唯独人盘八门是行动选项——奇门在结构上区分了环境变量与决策变量。'}]},
+ {lv:'第三关 · 会通与方法（第11–12周）',qs:[
+  {q:'为什么说八字比紫微"天文上更真实"？',o:['八字更古老','八字的节气与日序是实测天文量，紫微的星全是虚星','八字流传更广','紫微是从八字简化来的'],a:1,e:'八字的坐标层（节气=公转相位、日柱=自转计数）可精确计算验证；紫微诸星与真实天体无关，是纯符号。两者的解释层则同样不可证伪。'},
+  {q:'三系"共振标签"的方法论价值在于？',o:['三系同指即为命运定论','提高自省假设的信噪比','可以精确预测事件','证明三式同源'],a:1,e:'三套独立结构的系统偶然同指一处，该特征更可能真实显著——但这只是"优先检验哪个假设"的排序，不构成预测。'},
+  {q:'五步分析法的第一步是？',o:['查断语','立骨定主线','定盘核输入','找共振'],a:2,e:'定盘（历法、边界、真太阳时核对）永远第一：错盘则全错。跳过此步的分析无论多精彩都是空中楼阁。'},
+  {q:'档案库笔记中最有价值、也最容易被忽略的数据是？',o:['应验的断语','不准的断语','排盘的截图','他人的评价'],a:1,e:'只记准的=确认偏误滚雪球。不准率才是检验系统（和你自己判断力）的关键数据——这是把命理变成自我认识工具的分水岭。'}]}
+];
+const QKEY='academy-quiz-best';
+let ANS={};
+function renderQuiz(){
+  let idx=0;
+  $('quiz').innerHTML=QUIZ.map(sec=>`<div class="qlevel">${sec.lv}</div>`+sec.qs.map(q=>{
+    const qi=idx++;
+    const answered=ANS[qi]!==undefined;
+    return `<div class="q ${answered?'answered':''}" data-qi="${qi}">
+      <div class="qt">${qi+1}. ${q.q}</div>
+      <div class="opts">${q.o.map((o,oi)=>{
+        let cls='';
+        if(answered){if(oi===q.a)cls='right';else if(oi===ANS[qi])cls='wrong';}
+        return `<button data-oi="${oi}" ${answered?'disabled':''} class="${cls}">${'ABCD'[oi]}. ${o}</button>`;}).join('')}</div>
+      <div class="expl">${ANS[qi]===q.a?'<b>✓ 正确。</b>':'<b>✗ 正解：'+'ABCD'[q.a]+'。</b>'}${q.e}</div>
+    </div>`;}).join('')).join('');
+  const allQ=QUIZ.flatMap(s=>s.qs);
+  const score=Object.entries(ANS).filter(([k,v])=>allQ[+k]&&v===allQ[+k].a).length;
+  $('q-cur').textContent=score;
+  let best=0;try{best=+localStorage.getItem(QKEY)||0;}catch(e){}
+  if(Object.keys(ANS).length===allQ.length&&score>best){best=score;try{localStorage.setItem(QKEY,String(best));}catch(e){}}
+  $('q-best').textContent=best||'—';
+}
+$('quiz').addEventListener('click',e=>{
+  const btn=e.target.closest('button[data-oi]');if(!btn)return;
+  const qEl=btn.closest('.q'), qi=+qEl.dataset.qi;
+  if(ANS[qi]!==undefined)return;
+  ANS[qi]=+btn.dataset.oi;
+  renderQuiz();
+});
+$('q-reset').addEventListener('click',()=>{ANS={};renderQuiz();});
+renderQuiz();
+renderWeeks();
+</script>

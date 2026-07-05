@@ -1,0 +1,575 @@
+<title>紫微斗数 · 原理与排盘</title>
+<style>
+:root{
+  --bg:#171320;
+  --bg-panel:#201A2E;
+  --bg-panel-2:#282138;
+  --ink:#E9E2D3;
+  --ink-soft:#A99FB8;
+  --line:rgba(233,226,211,.14);
+  --line-strong:rgba(233,226,211,.28);
+  --purple:#A08FD0;
+  --gold:#CBA452;
+  --vermilion:#CE6A5A;
+  --jade:#6FAE8F;
+  --sky:#7FA3CE;
+  --hl:rgba(160,143,208,.16);
+  --font-display:"Source Han Serif SC","Songti SC","STSong","Noto Serif SC",serif;
+  --font-body:"PingFang SC","Source Han Sans SC","Noto Sans SC","Microsoft YaHei",-apple-system,sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Cascadia Code",monospace;
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#EFE9DB;
+    --bg-panel:#E7DFCC;
+    --bg-panel-2:#DDD3BC;
+    --ink:#251E35;
+    --ink-soft:#6A6076;
+    --line:rgba(37,30,53,.15);
+    --line-strong:rgba(37,30,53,.32);
+    --purple:#5D4A93;
+    --gold:#95702A;
+    --vermilion:#A8433A;
+    --jade:#35705A;
+    --sky:#3E608D;
+    --hl:rgba(93,74,147,.12);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171320; --bg-panel:#201A2E; --bg-panel-2:#282138;
+  --ink:#E9E2D3; --ink-soft:#A99FB8;
+  --line:rgba(233,226,211,.14); --line-strong:rgba(233,226,211,.28);
+  --purple:#A08FD0; --gold:#CBA452; --vermilion:#CE6A5A; --jade:#6FAE8F; --sky:#7FA3CE;
+  --hl:rgba(160,143,208,.16);
+}
+:root[data-theme="light"]{
+  --bg:#EFE9DB; --bg-panel:#E7DFCC; --bg-panel-2:#DDD3BC;
+  --ink:#251E35; --ink-soft:#6A6076;
+  --line:rgba(37,30,53,.15); --line-strong:rgba(37,30,53,.32);
+  --purple:#5D4A93; --gold:#95702A; --vermilion:#A8433A; --jade:#35705A; --sky:#3E608D;
+  --hl:rgba(93,74,147,.12);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);line-height:1.65;-webkit-font-smoothing:antialiased;}
+.page{max-width:1100px;margin:0 auto;padding:44px 20px 90px;}
+
+header.hero{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:26px;}
+.hero-text .eyebrow{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.16em;color:var(--purple);text-transform:uppercase;margin-bottom:10px;}
+h1{font-family:var(--font-display);font-weight:700;font-size:clamp(30px,4.6vw,44px);margin:0 0 10px;letter-spacing:.04em;}
+h1 .en{font-family:var(--font-mono);font-size:.34em;font-weight:500;color:var(--ink-soft);letter-spacing:.08em;margin-left:12px;vertical-align:middle;}
+.hero-text p{max-width:64ch;color:var(--ink-soft);font-size:15px;margin:0;}
+.dipper{flex:none;margin-top:6px;}
+
+nav.tabs{
+  position:sticky;top:0;z-index:9;
+  display:flex;gap:6px;flex-wrap:wrap;
+  background:color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter:blur(6px);
+  padding:10px 0;margin:18px 0 26px;
+  border-bottom:1px solid var(--line);
+}
+nav.tabs button{
+  font-family:var(--font-display);font-size:14.5px;font-weight:600;
+  color:var(--ink-soft);background:transparent;border:1px solid transparent;
+  border-radius:999px;padding:7px 16px;cursor:pointer;
+}
+nav.tabs button:hover{color:var(--ink);}
+nav.tabs button.active{color:var(--ink);background:var(--bg-panel);border-color:var(--line-strong);}
+nav.tabs button:focus-visible{outline:2px solid var(--purple);outline-offset:2px;}
+
+section.tab{display:none;}
+section.tab.active{display:block;}
+
+h2{font-family:var(--font-display);font-size:21px;margin:34px 0 12px;letter-spacing:.02em;}
+h2:first-child{margin-top:0;}
+h2 .en{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);letter-spacing:.1em;margin-left:10px;}
+h3{font-family:var(--font-display);font-size:16px;margin:20px 0 8px;}
+p.note{color:var(--ink-soft);font-size:14px;max-width:74ch;}
+.small{font-size:12.5px;color:var(--ink-soft);}
+
+.card{background:var(--bg-panel);border:1px solid var(--line);border-radius:14px;padding:18px 18px;}
+.card + .card{margin-top:14px;}
+
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:14px 0;}
+.flow .step{
+  flex:1 1 150px;min-width:150px;
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;
+}
+.flow .step b{font-family:var(--font-display);display:block;margin-bottom:4px;}
+.flow .step span{font-size:12.5px;color:var(--ink-soft);}
+.flow .arr{align-self:center;color:var(--ink-soft);font-family:var(--font-mono);}
+
+.guard{
+  border:1px dashed var(--line-strong);
+  border-radius:14px;padding:16px 18px;margin:18px 0;
+  background:repeating-linear-gradient(135deg, color-mix(in srgb, var(--vermilion) 5%, transparent) 0 10px, transparent 10px 20px), var(--bg-panel);
+}
+.guard b{color:var(--vermilion);font-family:var(--font-display);}
+
+details.verse{border-bottom:1px solid var(--line);padding:10px 0;}
+details.verse summary{cursor:pointer;font-family:var(--font-display);font-weight:600;list-style:none;display:flex;gap:8px;align-items:center;}
+details.verse summary::-webkit-details-marker{display:none;}
+details.verse summary::before{content:"+";font-family:var(--font-mono);color:var(--ink-soft);width:14px;}
+details.verse[open] summary::before{content:"–";}
+details.verse .body{margin:8px 0 4px 22px;font-size:13.5px;color:var(--ink-soft);}
+details.verse .body .ku{font-family:var(--font-display);color:var(--ink);line-height:2;}
+
+/* form */
+form.pai{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;background:var(--bg-panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+form.pai label{display:flex;flex-direction:column;gap:5px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--ink-soft);}
+form.pai input,form.pai select{
+  font-family:var(--font-body);font-size:14.5px;color:var(--ink);
+  background:var(--bg);border:1px solid var(--line-strong);border-radius:8px;
+  padding:8px 10px;min-width:96px;
+}
+form.pai input:focus-visible,form.pai select:focus-visible{outline:2px solid var(--purple);outline-offset:1px;}
+form.pai button{
+  font-family:var(--font-display);font-weight:700;font-size:15px;
+  background:var(--purple);color:var(--bg);border:none;border-radius:10px;
+  padding:10px 22px;cursor:pointer;
+}
+form.pai button.ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--line-strong);font-weight:500;}
+form.pai button:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+.form-note{font-size:12.5px;color:var(--ink-soft);margin:10px 2px 0;max-width:80ch;}
+
+/* chart grid */
+.chart-scroll{overflow-x:auto;margin-top:18px;}
+.chart{
+  display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(148px,auto);
+  gap:5px;min-width:720px;
+}
+.palace{
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:10px;
+  padding:8px 9px;position:relative;cursor:pointer;
+  display:flex;flex-direction:column;gap:4px;
+  transition:border-color .15s, background .15s;
+}
+.palace:hover{border-color:var(--line-strong);}
+.palace.hl{background:var(--hl);border-color:var(--purple);}
+.palace.hl-op{background:color-mix(in srgb, var(--hl) 60%, transparent);border-color:color-mix(in srgb, var(--purple) 55%, transparent);}
+.palace .top{display:flex;justify-content:space-between;align-items:baseline;gap:6px;}
+.palace .pname{font-family:var(--font-display);font-weight:700;font-size:13.5px;color:var(--purple);}
+.palace .daxian{font-family:var(--font-mono);font-size:10px;color:var(--ink-soft);}
+.palace .mains{display:flex;flex-wrap:wrap;gap:4px 8px;min-height:22px;}
+.palace .mains .star{font-family:var(--font-display);font-weight:700;font-size:15.5px;cursor:pointer;}
+.palace .mains .star:hover{text-decoration:underline;}
+.palace .aux{display:flex;flex-wrap:wrap;gap:2px 7px;font-size:11.5px;line-height:1.5;}
+.palace .aux .star{cursor:pointer;}
+.palace .aux .ji{color:var(--gold);}
+.palace .aux .sha{color:var(--vermilion);}
+.palace .aux .za{color:var(--ink-soft);}
+.palace .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;}
+.palace .gz{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);}
+.palace .shen{font-family:var(--font-display);font-size:11px;color:var(--gold);border:1px solid var(--gold);border-radius:4px;padding:0 4px;}
+.center{
+  grid-column:2/4;grid-row:2/4;
+  background:var(--bg-panel-2);border:1px solid var(--line-strong);border-radius:10px;
+  padding:16px;display:flex;flex-direction:column;gap:6px;justify-content:center;
+}
+.center .t{font-family:var(--font-display);font-weight:700;font-size:17px;}
+.center .row{font-size:13px;color:var(--ink-soft);}
+.center .row b{color:var(--ink);font-weight:600;}
+.hua{
+  display:inline-block;font-family:var(--font-display);font-size:10.5px;font-weight:700;
+  border-radius:4px;padding:0 3.5px;margin-left:2px;vertical-align:2px;color:var(--bg);
+}
+.hua.lu{background:var(--jade);}
+.hua.quan{background:var(--gold);}
+.hua.ke{background:var(--sky);}
+.hua.jii{background:var(--vermilion);}
+
+#detail{margin-top:16px;}
+#detail .card b.name{font-family:var(--font-display);font-size:17px;}
+#detail .tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}
+.tag{font-family:var(--font-mono);font-size:11px;border:1px solid var(--line-strong);border-radius:6px;padding:2px 7px;color:var(--ink-soft);}
+
+/* dictionary */
+.searchbar{display:flex;gap:10px;margin:4px 0 16px;}
+.searchbar input{
+  flex:1;max-width:420px;font-size:14.5px;color:var(--ink);
+  background:var(--bg-panel);border:1px solid var(--line-strong);border-radius:10px;padding:9px 13px;
+}
+.dict{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}
+.scard{background:var(--bg-panel);border:1px solid var(--line);border-radius:12px;padding:13px 14px;}
+.scard .head{display:flex;align-items:baseline;gap:8px;}
+.scard .head b{font-family:var(--font-display);font-size:16.5px;}
+.scard .head .cls{font-family:var(--font-mono);font-size:10px;color:var(--ink-soft);}
+.scard .attrs{font-family:var(--font-mono);font-size:11px;color:var(--purple);margin:3px 0 6px;}
+.scard p{font-size:13px;color:var(--ink-soft);margin:0 0 8px;}
+.scard .kw{display:flex;flex-wrap:wrap;gap:4px;}
+.scard .kw span{font-size:11px;background:var(--bg-panel-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;}
+
+table.plain{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px;}
+table.plain th{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--ink-soft);text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-strong);}
+table.plain td{padding:8px 12px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+table.plain td:first-child{font-family:var(--font-display);font-weight:600;color:var(--ink);white-space:nowrap;}
+table.plain tr:last-child td{border-bottom:none;}
+.twrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg-panel);}
+
+footer{margin-top:64px;border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:var(--ink-soft);}
+footer a{color:var(--purple);}
+footer p{max-width:78ch;}
+</style>
+
+<div class="page">
+<header class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">符号系统研究 · 排盘引擎 · 学习辞典</div>
+    <h1>紫微斗数<span class="en">ZI WEI DOU SHU</span></h1>
+    <p>一套以北极星（紫微）为象征原点的宋代命理符号系统。本站把它当作一件精密的思想文物来拆解：先解析其生成原理，再提供完整排盘与查询工具——供学习、研究与自省之用。</p>
+  </div>
+  <svg class="dipper" width="150" height="96" viewBox="0 0 150 96" aria-hidden="true">
+    <polyline points="10,72 32,60 52,64 70,52 92,50 112,36 128,44" fill="none" stroke="var(--line-strong)" stroke-width="1"/>
+    <g fill="var(--gold)">
+      <circle cx="10" cy="72" r="2.5"/><circle cx="32" cy="60" r="2"/><circle cx="52" cy="64" r="2.2"/>
+      <circle cx="70" cy="52" r="2"/><circle cx="92" cy="50" r="2.4"/><circle cx="112" cy="36" r="2"/><circle cx="128" cy="44" r="2.6"/>
+    </g>
+    <circle cx="138" cy="12" r="3.6" fill="var(--purple)"/>
+    <text x="138" y="30" text-anchor="middle" font-size="9" fill="var(--ink-soft)" font-family="var(--font-mono)">紫微垣</text>
+  </svg>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="t-yuanli" class="active">原理解析</button>
+  <button data-tab="t-paipan">排盘工具</button>
+  <button data-tab="t-dict">星曜辞典</button>
+  <button data-tab="t-gong">宫位与四化</button>
+</nav>
+
+<!-- ===================== 原理 ===================== -->
+<section class="tab active" id="t-yuanli">
+  <h2>一句话本质<span class="en">WHAT IT REALLY IS</span></h2>
+  <p class="note">紫微斗数是一个<b>确定性的符号代数系统</b>：把出生时间（农历年干支、月、日、时辰）作为输入，经过一组固定算法（安星诀），映射为「十二宫 × 百余颗虚星」的盘面，再用一套解释语法（四化、三方四正、大限流年）读出叙事。全程没有任何天文观测——紫微、天府等皆为<b>虚星</b>，只是算法中的符号，与真实星体无关。这一点使它区别于依赖行星实际位置的西方占星：紫微斗数在结构上更接近一门<b>形式语言</b>。</p>
+
+  <div class="flow">
+    <div class="step"><b>输入 · 时间坐标</b><span>农历年（干支）、月、日、时辰、性别——共约 51 万种组合</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>算法 · 安星诀</b><span>五虎遁定宫干 → 定命宫 → 纳音定五行局 → 起紫微 → 布百星</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>盘面 · 十二宫</b><span>人生领域的本体论切分：命、财、官、迁、福……</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>解释语法</b><span>四化算子 + 三方四正组合 + 大限流年推演</span></div>
+  </div>
+
+  <h2>生成语法三律<span class="en">THE GENERATIVE GRAMMAR</span></h2>
+  <div class="card">
+    <h3 style="margin-top:0;">① 阴阳对称：两组星系互为镜像</h3>
+    <p class="note">十四主星分为两个家族：<b>紫微星系</b>（紫微、天机、太阳、武曲、天同、廉贞）沿地支<b>逆行</b>排布；<b>天府星系</b>（天府、太阴、贪狼、巨门、天相、天梁、七杀、破军）<b>顺行</b>排布，且天府的位置恰是紫微关于「寅申轴」的镜像。一逆一顺、互为镜像——这正是阴阳鱼的结构：整张命盘就是一枚展开的太极。</p>
+    <h3>② 五行局：起点决定节奏</h3>
+    <p class="note">命宫干支的纳音五行决定「局数」（水二、木三、金四、土五、火六），局数既决定紫微星的起始位置，也决定大限从几岁起步、每步十年。五行在此不是玄学装饰，而是系统的<b>初始化参数</b>。</p>
+    <h3>③ 四化：时间的扰动算子</h3>
+    <p class="note">每个天干把四颗星「变换」为禄（能量流入）、权（掌控扩张）、科（名声缓和）、忌（执念纠结）四种状态。生年干定本命四化，大限、流年之干再叠加新一轮四化——同一张静态盘因此获得随时间演化的动力学。禄权为放、科忌为收，仍是一放一收的阴阳节律。</p>
+  </div>
+
+  <h2>它为什么让人觉得「准」<span class="en">WHY IT FEELS ACCURATE</span></h2>
+  <p class="note">诚实的解析必须包含这一节。① <b>巴纳姆效应</b>：星曜断语多为高覆盖率的人格描述，人人皆可对号入座；② <b>组合的丰富性</b>：百余颗星 × 十二宫 × 四化，任何人生事件都能在盘中找到事后解释——能解释一切的系统，恰恰预测不了任何事（波普尔判据）；③ <b>结构化访谈的价值</b>：十二宫是一份出色的人生领域清单，逐宫自问相当于一次系统的自我盘点——这部分价值是真实的，且不依赖任何预测力。</p>
+
+  <div class="guard"><b>认识论护栏（本站立场）：</b>紫微斗数是<b>启发装置</b>，不是<b>检验装置</b>。它可以用作自省的符号语言、文化史与思想史的研究对象、了解中国古代"关联式思维"的完整标本；不应用于医疗、婚姻、投资等真实决策。用它生成关于自己的假说，用现实检验假说——顺序不能反。</div>
+
+  <h2>安星诀 · 算法原文<span class="en">THE ORIGINAL ALGORITHMS</span></h2>
+  <p class="note">以下口诀即本站排盘引擎的实现依据，展开可对照学习。</p>
+  <details class="verse"><summary>五虎遁（定十二宫天干）</summary><div class="body"><div class="ku">甲己之年丙作首，乙庚之岁戊为头，<br>丙辛必定寻庚起，丁壬壬位顺行流，<br>戊癸甲寅之上好追求。</div>由生年天干推出寅宫天干，其余宫干顺行递推。</div></details>
+  <details class="verse"><summary>定命宫身宫</summary><div class="body"><div class="ku">寅起正月，顺数至生月；再自生月宫起子时，逆数至生时安命，顺数至生时安身。</div>命宫=寅+（月−1）−时辰序；身宫=寅+（月−1）＋时辰序。命身对称于月支——又是一组镜像。</div></details>
+  <details class="verse"><summary>定五行局与起紫微</summary><div class="body"><div class="ku">以命宫干支纳音取局：水二、木三、金四、土五、火六。<br>以局数除生日：取不小于生日的最小倍数，差为借数；借数偶则顺加、奇则逆减，得紫微所在。</div>例：土五局初一——最小倍数5，借数4（偶），自寅顺行 0+4 得午，紫微在午。</div></details>
+  <details class="verse"><summary>布十四主星</summary><div class="body"><div class="ku">紫微逆去天机星，隔一太阳武曲辰，<br>连接天同空二宫，廉贞居处方是真。<br>天府顺行有太阴，贪狼而后巨门临，<br>随来天相天梁继，七杀空三是破军。</div>紫微系逆行、天府系顺行，天府位置为紫微关于寅申轴之镜像。</div></details>
+  <details class="verse"><summary>六吉六煞与四化（摘要）</summary><div class="body"><div class="ku">文昌戌上子时起逆数，文曲辰上顺数；左辅辰上正月顺，右弼戌上正月逆；<br>禄存依年干（甲寅乙卯…），擎羊前一位、陀罗后一位；<br>火铃依年支三合分组起点加时辰；地劫亥上顺、地空亥上逆。</div>生年四化表见「宫位与四化」页。</div></details>
+</section>
+
+<!-- ===================== 排盘 ===================== -->
+<section class="tab" id="t-paipan">
+  <h2>排盘工具<span class="en">CHART CALCULATOR</span></h2>
+  <form class="pai" id="form">
+    <label>农历出生年（公历年号）<input type="number" id="f-year" min="1800" max="2200" value="1990" required></label>
+    <label>农历月（1–12）<select id="f-month"></select></label>
+    <label>农历日（1–30）<select id="f-day"></select></label>
+    <label>时辰<select id="f-hour"></select></label>
+    <label>性别<select id="f-gender"><option value="m">男</option><option value="f">女</option></select></label>
+    <button type="submit">起盘</button>
+    <button type="button" class="ghost" id="f-demo">示例</button>
+  </form>
+  <p class="form-note">须用<b>农历</b>生日（手机日历可查公历对照）。闰月出生：上半月按本月、下半月按次月计（通行惯例）。夜里 23:00 之后出生，按<b>次日</b>的日期取子时。年份填公历年号，程序自动换算干支；正月初一前后请以农历年为准（如 1990 年 1 月生人多属己巳年，应填 1989）。</p>
+
+  <div class="chart-scroll"><div class="chart" id="chart" aria-live="polite"></div></div>
+  <p class="small" id="chart-tip" style="display:none;margin-top:10px;">点击<b>宫名</b>高亮三方四正并查看宫义；点击<b>星名</b>查看星曜释义。深色徽记为生年四化：<span class="hua lu">禄</span><span class="hua quan">权</span><span class="hua ke">科</span><span class="hua jii">忌</span></p>
+  <div id="detail"></div>
+</section>
+
+<!-- ===================== 辞典 ===================== -->
+<section class="tab" id="t-dict">
+  <h2>星曜辞典<span class="en">STAR DICTIONARY</span></h2>
+  <div class="searchbar"><input type="search" id="dict-q" placeholder="搜索星名或关键词，如：贪狼 / 桃花 / 财"></div>
+  <h3>十四主星</h3>
+  <div class="dict" id="dict-main"></div>
+  <h3>六吉 · 六煞 · 常用杂曜</h3>
+  <div class="dict" id="dict-aux"></div>
+</section>
+
+<!-- ===================== 宫位与四化 ===================== -->
+<section class="tab" id="t-gong">
+  <h2>十二宫 · 人生领域的本体论<span class="en">THE TWELVE PALACES</span></h2>
+  <p class="note">十二宫是这套系统最有现代价值的部分：一份完备的人生领域清单。即使完全不信命理，逐宫自问「我在这个领域的现状与期望」也是一次高质量的结构化自省。</p>
+  <div class="twrap"><table class="plain" id="gong-table"><thead><tr><th>宫位</th><th>所辖领域</th><th>自省提问</th></tr></thead><tbody></tbody></table></div>
+
+  <h2>三方四正 · 组合的读法<span class="en">TRIANGULAR READING</span></h2>
+  <p class="note">读盘从不孤立看一宫：任一宫与其<b>对宫</b>（相隔六位）及两个<b>三合宫</b>（相隔四位）构成「三方四正」，四宫星曜合参。命宫的三方四正恒为「命、财帛、事业＋迁移」——即这套系统认为：理解一个人，要同时看其自我、资源、志业与外部世界。这个洞察本身是站得住的。排盘页点击任意宫位即可看到高亮演示。</p>
+
+  <h2>生年四化总表<span class="en">FOUR TRANSFORMATIONS BY YEAR STEM</span></h2>
+  <div class="twrap"><table class="plain" id="sihua-table"><thead><tr><th>年干</th><th><span class="hua lu">禄</span> 流入·顺遂</th><th><span class="hua quan">权</span> 掌控·扩张</th><th><span class="hua ke">科</span> 声名·缓和</th><th><span class="hua jii">忌</span> 执念·纠结</th></tr></thead><tbody></tbody></table></div>
+  <p class="small">注：庚干、壬干的科忌各派略有出入（如庚干或作"天府化科"、壬干或作"天府化科"），本站取三合派通行版本。</p>
+
+  <h2>大限 · 时间的展开<span class="en">DECADE CYCLES</span></h2>
+  <p class="note">五行局数即第一个大限的起始年龄（如金四局 4–13 岁），以后每宫十年：阳年生男与阴年生女顺行，阴年生男与阳年生女逆行——又是一处阴阳分流。大限宫的天干引发新一轮四化，叠加在本命四化之上，构成"静盘 + 动盘"的双层结构。</p>
+</section>
+
+<footer>
+  <p><strong>本站在知识树上的位置：</strong>紫微斗数挂于「历史与案例思维」之根与地脉「知识能否统一」的阴阳条目之下，作为中国古代<b>关联式思维</b>的完整标本被研究——它展示了一个纯符号系统如何仅凭阴阳（顺逆镜像）、五行（初始化参数）、干支（六十进制坐标）三种语法就生成出足以覆盖整个人生叙事的组合空间；也提醒我们：能解释一切的系统预测不了任何事。参见 <a href="https://claude.ai/code/artifact/9bf13c6a-e392-47fe-850b-23b854fd84cd">知识树 · 太极场</a>。</p>
+  <p class="small">排盘算法依《紫微斗数全书》通行安星诀实现（主星十四、六吉六煞、禄存天马、红鸾天喜、天刑天姚、生年四化、大限）。星曜庙旺、命主身主、博士流曜等进阶层未纳入，各派差异处已注明。</p>
+</footer>
+</div>
+
+<script>
+/* ============ 基础常量 ============ */
+const STEMS='甲乙丙丁戊己庚辛壬癸';
+const BRANCHES='子丑寅卯辰巳午未申酉戌亥';
+const HOUR_HINT=['23–1','1–3','3–5','5–7','7–9','9–11','11–13','13–15','15–17','17–19','19–21','21–23'];
+const PALACE_NAMES=['命宫','兄弟','夫妻','子女','财帛','疾厄','迁移','交友','事业','田宅','福德','父母'];
+// 六十甲子纳音（两柱一组，共三十）：元素 + 名称
+const NAYIN_EL='金火木土金火水土金木水土火木水金火木土金火水土金木水土火木水';
+const NAYIN_NAME=['海中金','炉中火','大林木','路旁土','剑锋金','山头火','涧下水','城头土','白蜡金','杨柳木','泉中水','屋上土','霹雳火','松柏木','长流水','砂中金','山下火','平地木','壁上土','金箔金','覆灯火','天河水','大驿土','钗钏金','桑柘木','大溪水','沙中土','天上火','石榴木','大海水'];
+const JU={'水':2,'木':3,'金':4,'土':5,'火':6};
+const LUCUN=[2,3,5,6,5,6,8,9,11,0];
+const KUIYUE=[[1,7],[0,8],[11,9],[11,9],[1,7],[0,8],[1,7],[6,2],[3,5],[3,5]];
+const SIHUA=[
+ ['廉贞','破军','武曲','太阳'],['天机','天梁','紫微','太阴'],
+ ['天同','天机','文昌','廉贞'],['太阴','天同','天机','巨门'],
+ ['贪狼','太阴','右弼','天机'],['武曲','贪狼','天梁','文曲'],
+ ['太阳','武曲','太阴','天同'],['巨门','太阳','文曲','文昌'],
+ ['天梁','紫微','左辅','武曲'],['破军','巨门','太阴','贪狼']
+];
+const HUA_CLS=['lu','quan','ke','jii'], HUA_NAME=['禄','权','科','忌'];
+
+/* ============ 排盘算法 ============ */
+function computeChart(year, month, day, hour, gender){
+  const ys=((year-4)%10+10)%10, yb=((year-4)%12+12)%12;
+  const yinStem=(ys%5*2+2)%10;                       // 五虎遁：寅宫天干
+  const stemOf=b=>(yinStem+((b-2+12)%12))%10;
+  const ming=(2+(month-1)-hour+24)%12;
+  const shen=(2+(month-1)+hour)%12;
+  // 五行局：命宫干支纳音
+  const ms=stemOf(ming);
+  let gzIdx=0; for(let i=0;i<60;i++){ if(i%10===ms&&i%12===ming){gzIdx=i;break;} }
+  const el=NAYIN_EL[gzIdx>>1], ju=JU[el], juName=el+['','','二','三','四','五','六'][ju]+'局';
+  // 起紫微
+  const mult=Math.ceil(day/ju)*ju, x=mult-day, q=mult/ju;
+  const zw=x%2===0 ? (2+(q-1)+x)%12 : (2+(q-1)-x+120)%12;
+  const tf=(16-zw)%12;
+  const stars={}; const put=(b,name,cls)=>{ (stars[(b+120)%12]=stars[(b+120)%12]||[]).push({name,cls}); };
+  // 紫微系（逆） / 天府系（顺）
+  put(zw,'紫微','main'); put(zw-1,'天机','main'); put(zw-3,'太阳','main');
+  put(zw-4,'武曲','main'); put(zw-5,'天同','main'); put(zw-8,'廉贞','main');
+  put(tf,'天府','main'); put(tf+1,'太阴','main'); put(tf+2,'贪狼','main'); put(tf+3,'巨门','main');
+  put(tf+4,'天相','main'); put(tf+5,'天梁','main'); put(tf+6,'七杀','main'); put(tf+10,'破军','main');
+  // 时系
+  put(10-hour,'文昌','ji'); put(4+hour,'文曲','ji'); put(11+hour,'地劫','sha'); put(11-hour,'地空','sha');
+  const hlGroup={0:[2,10],1:[3,10],2:[1,3],3:[9,10]}[yb%4];
+  put(hlGroup[0]+hour,'火星','sha'); put(hlGroup[1]+hour,'铃星','sha');
+  // 月系
+  put(4+month-1,'左辅','ji'); put(10-(month-1),'右弼','ji');
+  put(9+month-1,'天刑','za'); put(1+month-1,'天姚','za');
+  // 年干系
+  const lc=LUCUN[ys]; put(lc,'禄存','ji'); put(lc+1,'擎羊','sha'); put(lc-1,'陀罗','sha');
+  put(KUIYUE[ys][0],'天魁','ji'); put(KUIYUE[ys][1],'天钺','ji');
+  // 年支系
+  const hongluan=(3-yb+12)%12; put(hongluan,'红鸾','za'); put(hongluan+6,'天喜','za');
+  put({0:2,1:11,2:8,3:5}[yb%4],'天马','ji');
+  // 四化标记
+  const hua=SIHUA[ys], huaMap={}; hua.forEach((s,i)=>huaMap[s]=i);
+  // 大限方向：阳男阴女顺行
+  const forward=(ys%2===0)===(gender==='m');
+  const daxian={};
+  for(let k=0;k<12;k++){
+    const b=forward?(ming+k)%12:(ming-k+12)%12;
+    daxian[b]=[ju+10*k, ju+10*k+9];
+  }
+  const palaces={};
+  for(let i=0;i<12;i++) palaces[(ming-i+12)%12]=PALACE_NAMES[i];
+  return {ys,yb,yinStem,stemOf,ming,shen,ju,juName,nayin:NAYIN_NAME[gzIdx>>1],zw,stars,huaMap,daxian,palaces,forward,
+          gz:STEMS[ys]+BRANCHES[yb]};
+}
+
+/* ============ 辞典数据 ============ */
+const MAIN_STARS={
+ '紫微':{a:'己土 · 北斗主 · 化气为尊',d:'帝座。主导、整合与秩序感，天然被期待担责；得左右昌曲拱则格局开阔，无辅佐则为"孤君"，易高处不胜寒。',k:['领导','尊贵','统御','孤高']},
+ '天机':{a:'乙木 · 南斗 · 化气为善',d:'智囊之星。机敏善变、长于筹划与分析，宜幕僚、研究、策略之职；心思流转过速则多虑难安。',k:['智谋','机敏','策划','善变']},
+ '太阳':{a:'丙火 · 中天 · 主贵',d:'光明博爱、乐于付出与照亮他人，主名声与公共性；光芒外放，故施多于受，昼生人尤旺。',k:['博爱','声名','付出','公众']},
+ '武曲':{a:'辛金 · 北斗 · 化气为财',d:'正财星。刚毅果决、执行力强，宜财务、工程、军警实务；刚而少柔，情感表达偏钝。',k:['财富','果决','执行','刚毅']},
+ '天同':{a:'壬水 · 南斗 · 化气为福',d:'福星。温和知足、亲和随缘，善享受生活、化解冲突；安逸有余则进取不足，晚发之象。',k:['温和','福气','安逸','亲和']},
+ '廉贞':{a:'丁火 · 北斗 · 化气为囚',d:'最复杂的一颗星：原则与欲望并存，可为清正干才，亦可为权谋桃花；能量强烈，走向取决于整体结构。',k:['权谋','原则','桃花','张力']},
+ '天府':{a:'戊土 · 南斗主 · 库星',d:'财库与令星。稳健保守、善守成与管理存量，包容厚重；开创性弱，倚仗既有资源。',k:['稳健','库藏','包容','守成']},
+ '太阴':{a:'癸水 · 中天 · 化气为富',d:'月亮。阴柔细腻、重积蓄与不动产，主母性与静谧之美；夜生人佳，情感内敛而深。',k:['细腻','积蓄','田宅','温柔']},
+ '贪狼':{a:'甲木 · 北斗 · 化气为桃花',d:'欲望与才艺之星。多才多艺、社交长袖善舞，学习面极广；欲望即动力，也即软肋。第一桃花星。',k:['欲望','多艺','社交','桃花']},
+ '巨门':{a:'癸水 · 北斗 · 化气为暗',d:'口舌之星。口才与质疑精神俱佳，宜教学、法律、评论、深究之业；言多易招是非，疑心重。',k:['口才','质疑','是非','深究']},
+ '天相':{a:'壬水 · 南斗 · 化气为印',d:'宰相之印。辅佐、公正、重形象与礼制，服务精神强；主见易弱，随所辅之主而定成色。',k:['辅佐','公正','服务','印信']},
+ '天梁':{a:'戊土 · 南斗 · 化气为荫',d:'荫庇之星。如长者护佑，正直重原则，善化解灾厄，有宗教与医药缘；好为人师，略显固执。',k:['荫庇','正直','化解','长者']},
+ '七杀':{a:'庚金 · 南斗 · 将星',d:'冲锋之将。果敢独断、敢破敢立，人生多大起大落，宜独当一面之职；不耐约束，成败皆烈。',k:['果敢','冲劲','孤胆','变动']},
+ '破军':{a:'癸水 · 北斗 · 化气为耗',d:'先破后立之星。破坏旧局以开新局，消耗与开创一体两面；宜变革性事业，忌守成之位。',k:['开创','变革','消耗','破立']}
+};
+const AUX_STARS={
+ '文昌':{c:'六吉',a:'金 · 时系',d:'科甲文书之星，主正统学业、考试、文笔与契约。',k:['学业','文书','考试']},
+ '文曲':{c:'六吉',a:'水 · 时系',d:'才艺口才之星，主异路才华、艺术与辩才，偏感性。',k:['才艺','口才','艺术']},
+ '左辅':{c:'六吉',a:'土 · 月系',d:'贵助之星，主平辈有力的扶持，行事得道多助。',k:['助力','扶持']},
+ '右弼':{c:'六吉',a:'水 · 月系',d:'与左辅成对，主暗中之助与人缘，细腻周到。',k:['人缘','暗助']},
+ '天魁':{c:'六吉',a:'火 · 年干系',d:'阳贵人：明处的提携，多来自长辈、上司、体制。',k:['贵人','提携']},
+ '天钺':{c:'六吉',a:'火 · 年干系',d:'阴贵人：暗处的援手，多在困顿时不期而至。',k:['贵人','机缘']},
+ '禄存':{c:'吉曜',a:'土 · 年干系',d:'俸禄之星，主稳定财源与谨慎积蓄；恒被羊陀相夹，故守财常伴压力。',k:['财禄','积蓄']},
+ '天马':{c:'吉曜',a:'火 · 年支系',d:'驿马星，主迁动、外出与流动之财；与禄存同会为"禄马交驰"。',k:['迁动','外出','流动']},
+ '擎羊':{c:'六煞',a:'金 · 随禄存',d:'明刀之煞：冲劲、竞争与刑伤并存，入庙可为开拓之力。',k:['冲劲','刑伤','竞争']},
+ '陀罗':{c:'六煞',a:'金 · 随禄存',d:'暗磨之煞：拖延、纠缠、原地打转，事多迁延反复。',k:['拖延','纠缠']},
+ '火星':{c:'六煞',a:'火 · 时系',d:'明火：爆发、急躁、突发之变；与贪狼同宫反成"火贪"横发之格。',k:['爆发','急躁','横发']},
+ '铃星':{c:'六煞',a:'火 · 时系',d:'阴燃之火：郁结、记恨、延迟的爆发；铃贪亦主暴起。',k:['郁结','隐忍','暴起']},
+ '地空':{c:'六煞',a:'火 · 时系',d:'精神之空：理想化、幻灭感、不利守财，利哲思与出世之学。',k:['空想','哲思','破财']},
+ '地劫':{c:'六煞',a:'火 · 时系',d:'物质之劫：起伏波动、投机易损，宜务实避虚。',k:['波动','劫失']},
+ '红鸾':{c:'杂曜',a:'水 · 年支系',d:'婚恋喜庆之星，主姻缘、人缘与喜事。',k:['姻缘','喜事']},
+ '天喜':{c:'杂曜',a:'水 · 年支系',d:'与红鸾对照，主添丁进喜、气氛之喜。',k:['喜庆','人缘']},
+ '天刑':{c:'杂曜',a:'火 · 月系',d:'自律与刑克之星，主纪律、法律、医药，孤直。',k:['自律','法律','孤直']},
+ '天姚':{c:'杂曜',a:'水 · 月系',d:'风流交际之星，主魅力、情趣与应酬。',k:['魅力','交际']}
+};
+const GONG_INFO={
+ '命宫':['基本人格、天赋倾向与一生格局的总纲','我如何描述自己的核心性格？它在帮我还是限制我？'],
+ '兄弟':['手足、同侪、亲密伙伴与合伙关系','我与平辈最深的联结和最大的张力各是什么？'],
+ '夫妻':['婚恋模式、亲密关系的样态与期待','我在亲密关系中反复出现的模式是什么？'],
+ '子女':['子女缘分，也泛指创作、学生、下属与"产出"','我留给世界的"作品"是什么？'],
+ '财帛':['金钱观、赚钱方式与现金流样态','我对钱的真实态度：工具、安全感还是记分牌？'],
+ '疾厄':['体质、健康隐患与情绪的身体化','我的身体最常用什么方式向我报警？'],
+ '迁移':['外出际遇、外界评价与环境变动','离开熟悉环境时，我通常变强还是变弱？'],
+ '交友':['朋友圈层、部属与广义人际网络','我的人际网络在滋养我还是消耗我？'],
+ '事业':['职业样态、做事风格与志业方向（官禄宫）','抛开头衔，我真正擅长的"动词"是什么？'],
+ '田宅':['不动产、居住环境与家庭根基','什么样的空间让我真正安定？'],
+ '福德':['精神生活、价值观、享受与内在安宁','独处无事时，我的心安放在何处？'],
+ '父母':['父母长辈、师长上司与文书庇荫','我从上一代继承了什么，又想放下什么？']
+};
+
+/* ============ Tabs ============ */
+const tabsNav=document.getElementById('tabs');
+tabsNav.addEventListener('click',e=>{
+  const btn=e.target.closest('button'); if(!btn)return;
+  tabsNav.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===btn));
+  document.querySelectorAll('section.tab').forEach(s=>s.classList.toggle('active',s.id===btn.dataset.tab));
+});
+
+/* ============ 表单 ============ */
+const selM=document.getElementById('f-month'), selD=document.getElementById('f-day'), selH=document.getElementById('f-hour');
+for(let i=1;i<=12;i++) selM.insertAdjacentHTML('beforeend',`<option value="${i}">${['正','二','三','四','五','六','七','八','九','十','十一','十二'][i-1]}月</option>`);
+for(let i=1;i<=30;i++) selD.insertAdjacentHTML('beforeend',`<option value="${i}">${i<=10?'初'+'一二三四五六七八九十'[i-1]:i<20?'十'+'一二三四五六七八九'[i-11]||'十':i===20?'二十':i===30?'三十':'廿'+'一二三四五六七八九'[i-21]}</option>`);
+for(let i=0;i<12;i++) selH.insertAdjacentHTML('beforeend',`<option value="${i}">${BRANCHES[i]}时（${HOUR_HINT[i]}点）</option>`);
+
+document.getElementById('f-demo').addEventListener('click',()=>{
+  document.getElementById('f-year').value=1990; selM.value=1; selD.value=1; selH.value=0;
+  document.getElementById('f-gender').value='m';
+  document.getElementById('form').requestSubmit();
+});
+document.getElementById('form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const year=+document.getElementById('f-year').value;
+  const c=computeChart(year,+selM.value,+selD.value,+selH.value,document.getElementById('f-gender').value);
+  renderChart(c,year);
+});
+
+/* ============ 渲染命盘 ============ */
+const GRID_POS={5:[1,1],6:[1,2],7:[1,3],8:[1,4],4:[2,1],9:[2,4],3:[3,1],10:[3,4],2:[4,1],1:[4,2],0:[4,3],11:[4,4]};
+let CUR=null;
+function renderChart(c,year){
+  CUR=c;
+  const chart=document.getElementById('chart');
+  chart.innerHTML='';
+  for(let b=0;b<12;b++){
+    const [r,col]=GRID_POS[b];
+    const cell=document.createElement('div');
+    cell.className='palace'; cell.dataset.branch=b;
+    cell.style.gridRow=r; cell.style.gridColumn=col;
+    const list=c.stars[b]||[];
+    const mains=list.filter(s=>s.cls==='main');
+    const auxs=list.filter(s=>s.cls!=='main');
+    const starHtml=s=>{
+      const h=c.huaMap[s.name];
+      const badge=h===undefined?'':`<span class="hua ${HUA_CLS[h]}">${HUA_NAME[h]}</span>`;
+      return `<span class="star ${s.cls==='main'?'':s.cls}" data-star="${s.name}">${s.name}${badge}</span>`;
+    };
+    cell.innerHTML=`
+      <div class="top"><span class="pname" data-gong="${c.palaces[b]}">${c.palaces[b]}</span>
+      <span class="daxian">${c.daxian[b][0]}–${c.daxian[b][1]}</span></div>
+      <div class="mains">${mains.map(starHtml).join('')||'<span class="small">（借对宫）</span>'}</div>
+      <div class="aux">${auxs.map(starHtml).join('')}</div>
+      <div class="foot"><span class="gz">${STEMS[c.stemOf(b)]}${BRANCHES[b]}</span>${b===c.shen?'<span class="shen">身</span>':''}</div>`;
+    chart.appendChild(cell);
+  }
+  const center=document.createElement('div');
+  center.className='center';
+  const hua=SIHUA[c.ys];
+  center.innerHTML=`
+    <div class="t">${c.gz}年 ${selM.options[selM.selectedIndex].text}${selD.options[selD.selectedIndex].text} ${BRANCHES[+selH.value]}时 · ${document.getElementById('f-gender').value==='m'?(c.ys%2===0?'阳男':'阴男'):(c.ys%2===0?'阳女':'阴女')}</div>
+    <div class="row"><b>五行局：</b>${c.juName}（纳音${c.nayin}）——大限自 ${c.ju} 岁起，${c.forward?'顺':'逆'}行</div>
+    <div class="row"><b>命宫：</b>${STEMS[c.stemOf(c.ming)]}${BRANCHES[c.ming]} · <b>身宫：</b>${BRANCHES[c.shen]}（在${c.palaces[c.shen]}）</div>
+    <div class="row"><b>生年四化：</b>${hua[0]}<span class="hua lu">禄</span> ${hua[1]}<span class="hua quan">权</span> ${hua[2]}<span class="hua ke">科</span> ${hua[3]}<span class="hua jii">忌</span></div>
+    <div class="row small">紫微在${BRANCHES[c.zw]} · 天府在${BRANCHES[(16-c.zw)%12]}（寅申轴镜像）</div>`;
+  chart.appendChild(center);
+  document.getElementById('chart-tip').style.display='block';
+  document.getElementById('detail').innerHTML='';
+}
+/* 点击交互：星曜 / 宫位（三方四正） */
+document.getElementById('chart').addEventListener('click',e=>{
+  const star=e.target.closest('[data-star]');
+  const gong=e.target.closest('[data-gong]');
+  const detail=document.getElementById('detail');
+  if(star){
+    const n=star.dataset.star, d=MAIN_STARS[n]||AUX_STARS[n];
+    if(!d)return;
+    const h=CUR&&CUR.huaMap[n];
+    detail.innerHTML=`<div class="card"><b class="name">${n}</b>
+      <div class="tagrow"><span class="tag">${d.a}</span>${d.c?`<span class="tag">${d.c}</span>`:''}${h!==undefined?`<span class="tag">生年化${HUA_NAME[h]}</span>`:''}</div>
+      <p class="note" style="margin:6px 0 8px;">${d.d}</p>
+      <div class="tagrow">${d.k.map(k=>`<span class="tag">${k}</span>`).join('')}</div></div>`;
+    e.stopPropagation(); return;
+  }
+  const cell=e.target.closest('.palace');
+  if(cell){
+    const b=+cell.dataset.branch;
+    document.querySelectorAll('.palace').forEach(p=>{p.classList.remove('hl','hl-op');});
+    [b,(b+4)%12,(b+8)%12].forEach(x=>{
+      const el=document.querySelector(`.palace[data-branch="${x}"]`); if(el)el.classList.add('hl');
+    });
+    const op=document.querySelector(`.palace[data-branch="${(b+6)%12}"]`); if(op)op.classList.add('hl-op');
+    const name=CUR.palaces[b], info=GONG_INFO[name];
+    detail.innerHTML=`<div class="card"><b class="name">${name}（${BRANCHES[b]}）· 三方四正已高亮</b>
+      <p class="note" style="margin:6px 0 4px;"><b>所辖：</b>${info[0]}</p>
+      <p class="note" style="margin:0 0 4px;"><b>自省提问：</b>${info[1]}</p>
+      <p class="small" style="margin:0;">深色高亮为本宫与三合宫（±4位），浅色为对宫（+6位）：读盘时四宫星曜合参。</p></div>`;
+  }
+});
+
+/* ============ 辞典渲染与搜索 ============ */
+function starCard(n,d){
+  return `<div class="scard" data-text="${n}${d.a}${d.d}${d.k.join('')}">
+    <div class="head"><b>${n}</b>${d.c?`<span class="cls">${d.c}</span>`:''}</div>
+    <div class="attrs">${d.a}</div><p>${d.d}</p>
+    <div class="kw">${d.k.map(k=>`<span>${k}</span>`).join('')}</div></div>`;
+}
+document.getElementById('dict-main').innerHTML=Object.entries(MAIN_STARS).map(([n,d])=>starCard(n,d)).join('');
+document.getElementById('dict-aux').innerHTML=Object.entries(AUX_STARS).map(([n,d])=>starCard(n,d)).join('');
+document.getElementById('dict-q').addEventListener('input',e=>{
+  const q=e.target.value.trim();
+  document.querySelectorAll('.scard').forEach(c=>{
+    c.style.display=!q||c.dataset.text.includes(q)?'':'none';
+  });
+});
+
+/* ============ 宫位表 / 四化表 ============ */
+document.querySelector('#gong-table tbody').innerHTML=
+  Object.entries(GONG_INFO).map(([n,i])=>`<tr><td>${n}</td><td>${i[0]}</td><td>${i[1]}</td></tr>`).join('');
+document.querySelector('#sihua-table tbody').innerHTML=
+  SIHUA.map((row,i)=>`<tr><td>${STEMS[i]}</td>${row.map(s=>`<td>${s}</td>`).join('')}</tr>`).join('');
+
+/* 默认展示示例盘 */
+document.getElementById('f-demo').click();
+</script>

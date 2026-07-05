@@ -1,0 +1,707 @@
+<title>三式会通 · 紫微 × 八字 × 奇门</title>
+<style>
+:root{
+  --bg:#141B1C;--bg-panel:#1C2526;--bg-panel-2:#243030;
+  --ink:#E7E6DA;--ink-soft:#9DA7A3;
+  --line:rgba(231,230,218,.13);--line-strong:rgba(231,230,218,.28);
+  --teal:#4FA6A0;                         /* 会通 accent */
+  --ziwei:#9385D6;--bazi:#D8765F;--qimen:#C0973F; /* three systems */
+  --gold:#D2AE5B;--good:#5FAE86;--warn:#D8894C;--bad:#CE6A5A;
+  --hl:rgba(79,166,160,.14);
+  --font-display:"Source Han Serif SC","Songti SC","STSong","Noto Serif SC",serif;
+  --font-body:"PingFang SC","Source Han Sans SC","Noto Sans SC","Microsoft YaHei",-apple-system,sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Cascadia Code",monospace;
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#ECE9DE;--bg-panel:#E3DFD0;--bg-panel-2:#D8D3C0;
+    --ink:#23292A;--ink-soft:#5E6968;
+    --line:rgba(35,41,42,.14);--line-strong:rgba(35,41,42,.30);
+    --teal:#2C6E6A;--ziwei:#5D4A93;--bazi:#A8433A;--qimen:#8A6D24;
+    --gold:#8A6A24;--good:#347056;--warn:#9A5A22;--bad:#A8433A;
+    --hl:rgba(44,110,106,.11);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141B1C;--bg-panel:#1C2526;--bg-panel-2:#243030;--ink:#E7E6DA;--ink-soft:#9DA7A3;
+  --line:rgba(231,230,218,.13);--line-strong:rgba(231,230,218,.28);
+  --teal:#4FA6A0;--ziwei:#9385D6;--bazi:#D8765F;--qimen:#C0973F;
+  --gold:#D2AE5B;--good:#5FAE86;--warn:#D8894C;--bad:#CE6A5A;--hl:rgba(79,166,160,.14);
+}
+:root[data-theme="light"]{
+  --bg:#ECE9DE;--bg-panel:#E3DFD0;--bg-panel-2:#D8D3C0;--ink:#23292A;--ink-soft:#5E6968;
+  --line:rgba(35,41,42,.14);--line-strong:rgba(35,41,42,.30);
+  --teal:#2C6E6A;--ziwei:#5D4A93;--bazi:#A8433A;--qimen:#8A6D24;
+  --gold:#8A6A24;--good:#347056;--warn:#9A5A22;--bad:#A8433A;--hl:rgba(44,110,106,.11);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);line-height:1.65;-webkit-font-smoothing:antialiased;}
+.page{max-width:1080px;margin:0 auto;padding:44px 20px 90px;}
+
+header.hero{margin-bottom:24px;}
+.eyebrow{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.16em;color:var(--teal);text-transform:uppercase;margin-bottom:10px;}
+h1{font-family:var(--font-display);font-weight:700;font-size:clamp(30px,4.6vw,44px);margin:0 0 12px;letter-spacing:.04em;}
+h1 .en{font-family:var(--font-mono);font-size:.32em;font-weight:500;color:var(--ink-soft);letter-spacing:.08em;margin-left:12px;vertical-align:middle;}
+.hero p{max-width:66ch;color:var(--ink-soft);font-size:15px;margin:0 0 14px;}
+.triband{display:flex;gap:8px;flex-wrap:wrap;}
+.triband .t{font-family:var(--font-mono);font-size:11.5px;padding:5px 11px;border-radius:999px;border:1px solid var(--line-strong);display:flex;align-items:center;gap:7px;}
+.triband .t .d{width:9px;height:9px;border-radius:50%;}
+.triband .zw .d{background:var(--ziwei);} .triband .bz .d{background:var(--bazi);} .triband .qm .d{background:var(--qimen);} .triband .ht .d{background:var(--teal);}
+
+nav.tabs{position:sticky;top:0;z-index:9;display:flex;gap:6px;flex-wrap:wrap;background:color-mix(in srgb, var(--bg) 86%, transparent);backdrop-filter:blur(6px);padding:10px 0;margin:20px 0 26px;border-bottom:1px solid var(--line);}
+nav.tabs button{font-family:var(--font-display);font-size:14.5px;font-weight:600;color:var(--ink-soft);background:transparent;border:1px solid transparent;border-radius:999px;padding:7px 15px;cursor:pointer;}
+nav.tabs button:hover{color:var(--ink);}
+nav.tabs button.active{color:var(--ink);background:var(--bg-panel);border-color:var(--line-strong);}
+nav.tabs button:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+section.tab{display:none;} section.tab.active{display:block;}
+
+h2{font-family:var(--font-display);font-size:21px;margin:32px 0 12px;}
+h2:first-child{margin-top:0;}
+h2 .en{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);letter-spacing:.1em;margin-left:10px;}
+h3{font-family:var(--font-display);font-size:16px;margin:18px 0 8px;}
+p.note{color:var(--ink-soft);font-size:14px;max-width:76ch;}
+.small{font-size:12.5px;color:var(--ink-soft);}
+.card{background:var(--bg-panel);border:1px solid var(--line);border-radius:14px;padding:18px;}
+.card+.card{margin-top:14px;}
+
+.guard{border:1px dashed var(--line-strong);border-radius:14px;padding:16px 18px;margin:18px 0;background:repeating-linear-gradient(135deg, color-mix(in srgb, var(--teal) 5%, transparent) 0 10px, transparent 10px 20px), var(--bg-panel);}
+.guard b{color:var(--teal);font-family:var(--font-display);}
+
+.twrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg-panel);}
+table.plain{border-collapse:collapse;width:100%;font-size:13.5px;min-width:600px;}
+table.plain th{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-soft);text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-strong);white-space:nowrap;}
+table.plain td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+table.plain td:first-child{font-family:var(--font-display);font-weight:600;color:var(--ink);white-space:nowrap;}
+table.plain tr:last-child td{border-bottom:none;}
+.zwc{color:var(--ziwei);font-weight:600;} .bzc{color:var(--bazi);font-weight:600;} .qmc{color:var(--qimen);font-weight:600;}
+
+form.pai{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;background:var(--bg-panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+form.pai label{display:flex;flex-direction:column;gap:5px;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--ink-soft);}
+form.pai input,form.pai select{font-family:var(--font-body);font-size:14.5px;color:var(--ink);background:var(--bg);border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px;width:88px;}
+form.pai input.wide{width:150px;}
+form.pai input:focus-visible,form.pai select:focus-visible{outline:2px solid var(--teal);outline-offset:1px;}
+form.pai button{font-family:var(--font-display);font-weight:700;font-size:15px;background:var(--teal);color:var(--bg);border:none;border-radius:10px;padding:10px 22px;cursor:pointer;}
+form.pai button.ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--line-strong);font-weight:500;}
+.form-note{font-size:12.5px;color:var(--ink-soft);margin:10px 2px 0;max-width:82ch;}
+.lunar-box{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:12px;padding:12px;border:1px dashed var(--line-strong);border-radius:10px;background:var(--bg-panel-2);}
+.lunar-box .lab{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);align-self:center;}
+
+/* three-panel compact summary */
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;}
+@media(max-width:760px){.tri{grid-template-columns:1fr;}}
+.sys{background:var(--bg-panel);border:1px solid var(--line);border-radius:14px;padding:15px 16px;border-top:3px solid;}
+.sys.zw{border-top-color:var(--ziwei);} .sys.bz{border-top-color:var(--bazi);} .sys.qm{border-top-color:var(--qimen);}
+.sys h4{font-family:var(--font-display);font-size:15px;margin:0 0 4px;display:flex;justify-content:space-between;align-items:baseline;}
+.sys h4 .role{font-family:var(--font-mono);font-size:10px;color:var(--ink-soft);font-weight:400;}
+.sys .big{font-family:var(--font-display);font-weight:700;font-size:15px;margin:8px 0 6px;line-height:1.5;}
+.sys .kv{font-size:12.5px;color:var(--ink-soft);margin:3px 0;}
+.sys .kv b{color:var(--ink);}
+.sys a.more{font-family:var(--font-mono);font-size:11px;color:var(--teal);text-decoration:none;display:inline-block;margin-top:8px;}
+
+/* convergence */
+.conv{display:flex;flex-direction:column;gap:8px;margin:12px 0;}
+.conv .row{display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:12px;}
+.conv .theme{font-family:var(--font-display);font-weight:700;font-size:15px;}
+.conv .track{height:12px;background:var(--bg-panel-2);border-radius:4px;overflow:hidden;display:flex;gap:2px;}
+.conv .seg{height:100%;}
+.conv .who{display:flex;gap:5px;}
+.conv .who i{width:10px;height:10px;border-radius:50%;display:inline-block;}
+.dotzw{background:var(--ziwei);} .dotbz{background:var(--bazi);} .dotqm{background:var(--qimen);}
+.conv .n{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);}
+.reson{display:inline-flex;gap:4px;margin-left:8px;vertical-align:middle;}
+.reson button{font-family:var(--font-mono);font-size:11px;border:1px solid var(--line-strong);background:transparent;color:var(--ink-soft);border-radius:6px;padding:1px 8px;cursor:pointer;}
+.reson button.on-y{background:var(--good);color:var(--bg);border-color:var(--good);}
+.reson button.on-n{background:var(--bad);color:var(--bg);border-color:var(--bad);}
+
+.domain{background:var(--bg-panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:12px 0;}
+.domain .dh{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px;}
+.domain .dh b{font-family:var(--font-display);font-size:16px;}
+.domain .lines{display:flex;flex-direction:column;gap:6px;margin:8px 0;}
+.domain .ln{font-size:13.5px;color:var(--ink-soft);padding-left:18px;position:relative;}
+.domain .ln::before{position:absolute;left:0;top:1px;font-family:var(--font-display);font-weight:700;font-size:11px;}
+.domain .ln.zw::before{content:'紫';color:var(--ziwei);} .domain .ln.bz::before{content:'八';color:var(--bazi);} .domain .ln.qm::before{content:'奇';color:var(--qimen);}
+.domain .synth{font-size:13.5px;color:var(--ink);background:var(--hl);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:9px 12px;margin-top:8px;}
+.domain .synth b{color:var(--teal);}
+
+.wux{margin:12px 0;}
+.wux .row{display:grid;grid-template-columns:78px 1fr 82px;align-items:center;gap:10px;margin:5px 0;}
+.wux .name{font-family:var(--font-display);font-weight:700;font-size:14px;}
+.wux .track{height:14px;background:var(--bg-panel-2);border-radius:4px;overflow:hidden;}
+.wux .bar{height:100%;border-radius:0 4px 4px 0;min-width:2px;}
+.wux .tag{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);text-align:right;}
+.elmu{color:#3FA164;} .elhuo{color:#E06A50;} .eltu{color:#BD8820;} .eljin{color:#3aa0c8;} .elshui{color:#6E8FE8;}
+.bmu{background:#3FA164;} .bhuo{background:#E06A50;} .btu{background:#BD8820;} .bjin{background:#3aa0c8;} .bshui{background:#6E8FE8;}
+
+.guide{background:var(--bg-panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:12px 0;border-left:4px solid;}
+.guide.shi{border-left-color:var(--good);} .guide.pian{border-left-color:var(--warn);} .guide.ji{border-left-color:var(--qimen);} .guide.bu{border-left-color:var(--teal);}
+.guide h3{margin:0 0 6px;display:flex;align-items:center;gap:8px;}
+.guide h3 .badge{font-family:var(--font-mono);font-size:10px;padding:2px 7px;border-radius:5px;border:1px solid currentColor;}
+.guide ul{margin:6px 0 0;padding-left:20px;} .guide li{font-size:13.5px;color:var(--ink-soft);margin:4px 0;}
+.guide li b{color:var(--ink);}
+.selfimg{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;}
+.selfimg .tg{font-family:var(--font-display);font-size:14px;padding:4px 12px;border-radius:999px;border:1px solid var(--teal);color:var(--ink);}
+.selfimg .tg.dim{opacity:.4;border-color:var(--line-strong);}
+
+.placeholder{color:var(--ink-soft);font-size:14px;text-align:center;padding:40px 10px;border:1px dashed var(--line-strong);border-radius:12px;}
+.vaultbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0;}
+.vaultbar input{flex:1;min-width:200px;font-size:14px;color:var(--ink);background:var(--bg-panel);border:1px solid var(--line-strong);border-radius:10px;padding:9px 12px;}
+.vaultbar button,.io-row button{font-family:var(--font-display);font-weight:600;font-size:14px;background:var(--teal);color:var(--bg);border:none;border-radius:10px;padding:9px 18px;cursor:pointer;}
+.vaultbar button.ghost,.io-row button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line-strong);font-weight:500;}
+.io-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0;}
+#vault-list{display:flex;flex-direction:column;gap:10px;margin:14px 0;}
+.vrec{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg-panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;flex-wrap:wrap;}
+.vrec .vmeta{display:flex;flex-direction:column;gap:2px;}
+.vrec .vmeta b{font-family:var(--font-display);font-size:15px;}
+.vrec .vact{display:flex;gap:8px;}
+.vrec .vact button{font-family:var(--font-mono);font-size:12px;background:transparent;color:var(--ink-soft);border:1px solid var(--line-strong);border-radius:8px;padding:5px 12px;cursor:pointer;}
+.vrec .vact button:hover{color:var(--ink);border-color:var(--teal);}
+#io-box,#deep-notes{width:100%;min-height:120px;font-family:var(--font-mono);font-size:12.5px;line-height:1.6;color:var(--ink);background:var(--bg-panel);border:1px solid var(--line-strong);border-radius:10px;padding:12px;resize:vertical;margin-top:8px;}
+#deep-notes{font-family:var(--font-body);font-size:14px;min-height:140px;}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+footer{margin-top:60px;border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:var(--ink-soft);}
+footer a{color:var(--teal);} footer p{max-width:80ch;}
+</style>
+
+<div class="page">
+<header class="hero">
+  <div class="eyebrow">命理三式 · 交叉验证 · 自省与指引</div>
+  <h1>三式会通<span class="en">CONVERGENCE OF THREE ARTS</span></h1>
+  <p>把出生的同一个坐标，同时投进三面结构迥异的镜子——紫微（命盘的几何）、八字（时间的代数）、奇门（时空的博弈）。本站不重复排盘，而专注两件事：<b>把结果读成分析</b>，以及<b>用三系交叉验证</b>找出最值得你正视的自我假设，并据此给出可检验的人生指引。</p>
+  <div class="triband">
+    <span class="t zw"><span class="d"></span>紫微 · 几何</span>
+    <span class="t bz"><span class="d"></span>八字 · 代数</span>
+    <span class="t qm"><span class="d"></span>奇门 · 博弈</span>
+    <span class="t ht"><span class="d"></span>会通 · 综合</span>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="t-dao" class="active">会通之道</button>
+  <button data-tab="t-cast">合盘</button>
+  <button data-tab="t-read">会通解读</button>
+  <button data-tab="t-guide">人生指引</button>
+  <button data-tab="t-vault">档案库</button>
+</nav>
+
+<!-- ============ 会通之道 ============ -->
+<section class="tab active" id="t-dao">
+  <h2>为什么要"会通"<span class="en">WHY TRIANGULATE</span></h2>
+  <p class="note">任何单一命理系统都是一台"能解释一切"的机器——而能解释一切的系统，恰恰预测不了任何事（波普尔判据）。但如果把三套<b>独立发明、结构互不相同</b>的符号系统对准同一个人，它们<b>偶然指向同一处</b>的地方，就格外值得注意：那更可能是你身上一个真实、显著、连不同抽象框架都能照见的特征，而非某套系统的自我循环。会通不增加"灵验度"，它增加的是<b>信噪比</b>——把三面镜子的共同反光，当作优先自省的对象。</p>
+
+  <h2>三系各擅其长，也各有盲区<span class="en">EACH ARTS' EDGE &amp; BLIND SPOT</span></h2>
+  <div class="twrap"><table class="plain">
+    <thead><tr><th>系统</th><th>本质</th><th>最擅长</th><th>盲区（本站诚实标注）</th></tr></thead>
+    <tbody>
+      <tr><td class="zwc">紫微斗数</td><td>虚星的命盘几何</td><td>人格结构、人生领域的分区（十二宫）、关系与格局的<b>空间直观</b></td><td>星皆虚设，无天文实据；断语依赖组合，易事后附会</td></tr>
+      <tr><td class="bzc">四柱八字</td><td>真实时间的五行代数</td><td>禀赋的<b>量化</b>（五行旺衰）、日主强弱、大运顺逆的时间轴</td><td>天文层为真、符号层不可证伪；无空间信息</td></tr>
+      <tr><td class="qmc">奇门遁甲</td><td>时空棋盘的决策博弈</td><td><b>当下</b>择时择向、把决策要素分层（可控/不可控）</td><td>本为择时而非论命；对"先天性格"贡献很弱，本站只取其"倾向与时机"</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">注意最后一列：<b>奇门本质是时机工具，不是性命工具</b>。所以在本站的人格分析里，奇门只作旁证（权重最低）；它真正登场是在"当下时机"与"人生指引"里——那才是它的主场。诚实地让每个系统只干它擅长的事，本身就是会通的第一课。</p>
+
+  <h2>交叉验证的机制：特质标签共振<span class="en">THE CONVERGENCE ENGINE</span></h2>
+  <p class="note">本站的做法是可计算、可复核的：从每个系统的关键落点（八字日主与十神、紫微命宫与官财诸星、奇门日干与值符）各自提取一组<b>特质标签</b>（领导、稳健、创新、亲和、思辨、行动……），归一同义词后统计——<b>凡是被两套及以上系统同时指向的标签，即为"共振主题"</b>。三系全中者为"三系共振"，最应正视；仅一系提及者，作为待检验的弱信号保留。这把玄学断语转成了一个透明的信号叠加，而非黑箱裁决。</p>
+
+  <h2>会通如何"指导人生"——诚实的那一种<span class="en">HOW IT GUIDES, HONESTLY</span></h2>
+  <p class="note">本站不预言你的命运，它做的是把命理当作一套<b>结构化的自省语言</b>，走知识树地脉层那条路：① 用三系共振<b>生成</b>关于你的假设；② 交给<b>现实检验</b>——你觉得准的留下、不准的划掉（本站的"共鸣"反馈与你我的对话都在做这件事）；③ 用斯多葛"控制二分法"<b>落到行动</b>——把注意力从不可控（命定）移到可控（此刻能做的一步）。指引的每一条都写成"可检验的实验"，而非"注定的结局"。</p>
+  <div class="guard"><b>认识论护栏：</b>三系会通是<b>自省的放大镜</b>，不是命运的判决书。交叉验证提高的是"哪个自我假设值得先看"的信噪比，不构成任何预测保证。请勿据此做医疗、婚姻、投资、诉讼等真实决策。真正指导你人生的，永远是你在现实中检验后留下的东西。</div>
+</section>
+
+<!-- ============ 合盘 ============ -->
+<section class="tab" id="t-cast">
+  <h2>合盘 · 一次输入，三式同起<span class="en">CAST ALL THREE</span></h2>
+  <form class="pai" id="form">
+    <label>公历年<input type="number" id="f-y" min="1900" max="2100" value="1990" required></label>
+    <label>月<input type="number" id="f-m" min="1" max="12" value="6" required></label>
+    <label>日<input type="number" id="f-d" min="1" max="31" value="15" required></label>
+    <label>时:分<input type="time" id="f-t" value="12:30" required></label>
+    <label>性别<select id="f-g"><option value="m">男</option><option value="f">女</option></select></label>
+    <label>所问之事(选填)<input type="text" id="f-q" class="wide" placeholder="如：事业选择"></label>
+    <button type="submit">合盘会通</button>
+    <button type="button" class="ghost" id="f-save">★ 存档</button>
+    <button type="button" class="ghost" id="f-demo">示例</button>
+  </form>
+  <div class="lunar-box" id="lunarbox">
+    <span class="lab">紫微用农历，已自动换算（可核对修正）：</span>
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);">农历月<input type="number" id="l-m" min="1" max="12" style="width:70px;background:var(--bg);color:var(--ink);border:1px solid var(--line-strong);border-radius:6px;padding:5px 8px;"></label>
+    <label style="font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);">农历日<input type="number" id="l-d" min="1" max="30" style="width:70px;background:var(--bg);color:var(--ink);border:1px solid var(--line-strong);border-radius:6px;padding:5px 8px;"></label>
+    <button type="button" class="ghost" id="l-apply" style="padding:6px 14px;">按修正重排</button>
+  </div>
+  <p class="form-note">出生时间请填<b>公历</b>（北京时间）。三式所需的干支、节气、农历均由程序换算：八字与奇门用节气与真太阳时，紫微用换算出的农历（如与你所知不符可上方修正）。"所问之事"仅用于奇门"当下时机"的取用神，可留空。</p>
+  <div id="cast-out"></div>
+</section>
+
+<!-- ============ 会通解读 ============ -->
+<section class="tab" id="t-read">
+  <h2>会通解读<span class="en">INTEGRATED READING</span></h2>
+  <div id="read-out"><div class="placeholder">请先到「合盘」输入出生信息并起盘。</div></div>
+</section>
+
+<!-- ============ 人生指引 ============ -->
+<section class="tab" id="t-guide">
+  <h2>人生指引<span class="en">LIFE GUIDANCE</span></h2>
+  <div id="guide-out"><div class="placeholder">请先到「合盘」起盘，并在「会通解读」中对各主题做"共鸣"反馈，指引会据此校准。</div></div>
+</section>
+
+<!-- ============ 档案库 ============ -->
+<section class="tab" id="t-vault">
+  <h2>档案库 · 保存与接力<span class="en">VAULT — SAVE &amp; RESUME</span></h2>
+  <p class="note">每次合盘都可存档——连同你的"准/不准"反馈与深入笔记一起保存在本地。下次<b>载入接力</b>，分析、反馈、笔记原样恢复，从上次的深度继续，而非从头再来。这正是把命理从"一次性算命"变成"持续自我校准"的关键。</p>
+  <div class="vaultbar">
+    <input type="text" id="prof-name" placeholder="给当前命盘起个名（可留空，自动用生日）">
+    <button type="button" id="v-save">保存 / 更新当前命盘</button>
+    <span class="small" id="v-status"></span>
+  </div>
+  <div id="vault-list"></div>
+
+  <h3>导出 / 导入 · 跨设备与跨对话接力</h3>
+  <p class="note">导出后是一段 JSON：可保存到别处备份，也可以<b>下次对话时贴给 Claude</b>，我便能从你上次的反馈与笔记处接力，做更深的解读。导入会覆盖当前档案库。</p>
+  <div class="io-row">
+    <button type="button" class="ghost" id="io-export">导出全部</button>
+    <button type="button" class="ghost" id="io-copy">复制</button>
+    <button type="button" class="ghost" id="io-import">导入(覆盖)</button>
+    <span class="small" id="io-status"></span>
+  </div>
+  <textarea id="io-box" placeholder="点“导出全部”把档案库变成 JSON；或把之前导出的 JSON 粘贴到这里，点“导入”。"></textarea>
+
+  <div class="guard"><b>持久性说明：</b>存档保存在你当前浏览器的本地存储（localStorage）里，换设备或清理浏览器数据会丢失——所以重要的命盘请用<b>导出</b>留一份 JSON 备份。本站不上传任何数据，一切留在你本地。</div>
+</section>
+
+<footer>
+  <p><strong>本站在知识树上的位置：</strong>三式会通是「历史与案例思维」之根与地脉「知识能否统一」阴阳条目下的综合标本——它演示了如何用多套互补表征逼近同一对象（会通），又如何用交叉验证的信噪比、控制二分法把一套不可证伪的符号系统，转化为可用的自省与决策语言。三个独立站点：<a href="https://claude.ai/code/artifact/0c6878a9-dbb4-4ae8-8ea9-3e78c6e7fe34">紫微斗数</a> · <a href="https://claude.ai/code/artifact/6804e7fd-a907-45e2-b9a7-e9854c1046f2">四柱八字</a> · <a href="https://claude.ai/code/artifact/1a782ec6-8480-4f66-97fb-dd642e806914">奇门遁甲</a>；总览：<a href="https://claude.ai/code/artifact/9bf13c6a-e392-47fe-850b-23b854fd84cd">知识树 · 太极场</a>。</p>
+  <p class="small">八字/奇门节气用 Meeus 太阳黄经实算，日柱双锚点校验；公历→农历用新月(朔)+中气定月，8 例校验通过（闰月极端情形以上方修正为准）；紫微安星依《全书》通行诀。分析层的五行喜用为<b>简化强弱模型</b>，非命理师精断；共振标签为透明的关键词叠加。一切解读均为自省假设，非预测。</p>
+</footer>
+</div>
+
+<script>
+/* ================= 公共天文与干支 ================= */
+const STEMS='甲乙丙丁戊己庚辛壬癸',BRANCHES='子丑寅卯辰巳午未申酉戌亥',ELEM='木火土金水';
+const STEM_EL=[0,0,1,1,2,2,3,3,4,4], BR_EL=[4,2,0,0,2,1,1,2,3,3,2,4];
+const HIDDEN={0:[9],1:[5,9,7],2:[0,2,4],3:[1],4:[4,1,9],5:[2,6,4],6:[3,5],7:[5,3,1],8:[6,8,4],9:[7],10:[4,7,3],11:[8,0]};
+const GODS=[['比肩','劫财'],['食神','伤官'],['偏财','正财'],['七杀','正官'],['偏印','正印']];
+function tenGod(ds,os){const rel=(STEM_EL[os]-STEM_EL[ds]+5)%5,same=(ds%2)===(os%2);return GODS[rel][same?0:1];}
+function jdUT(y,m,d,hF){if(m<=2){y--;m+=12;}const a=Math.floor(y/100),b=2-a+Math.floor(a/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+b-1524.5+hF/24;}
+function sunLon(jd){const T=(jd-2451545)/36525,D=Math.PI/180;const L0=280.46646+36000.76983*T+0.0003032*T*T;const M=(357.52911+35999.05029*T-0.0001537*T*T)*D;const C=(1.914602-0.004817*T-0.000014*T*T)*Math.sin(M)+(0.019993-0.000101*T)*Math.sin(2*M)+0.000289*Math.sin(3*M);return ((L0+C-0.00569-0.00478*Math.sin((125.04-1934.136*T)*D))%360+360)%360;}
+function termJD(year,lon){let jd=jdUT(year,1,5,0)+((lon-285+360)%360)/360*365.2422;for(let i=0;i<8;i++){const diff=(lon-sunLon(jd)+540)%360-180;jd+=diff/0.98565;if(Math.abs(diff)<1e-6)break;}return jd;}
+function newMoonJDE(k){const T=k/1236.85,T2=T*T,T3=T2*T,T4=T3*T,D=Math.PI/180;let jde=2451550.09766+29.530588861*k+0.00015437*T2-0.00000015*T3+0.00000000073*T4;const E=1-0.002516*T-0.0000074*T2;const M=(2.5534+29.1053567*k-0.0000014*T2-0.00000011*T3)*D;const Mp=(201.5643+385.81693528*k+0.0107582*T2+0.00001238*T3-0.000000058*T4)*D;const F=(160.7108+390.67050284*k-0.0016118*T2-0.00000227*T3+0.000000011*T4)*D;const Om=(124.7746-1.56375588*k+0.0020672*T2+0.00000215*T3)*D;let c=-0.4072*Math.sin(Mp)+0.17241*E*Math.sin(M)+0.01608*Math.sin(2*Mp)+0.01039*Math.sin(2*F)+0.00739*E*Math.sin(Mp-M)-0.00514*E*Math.sin(Mp+M)+0.00208*E*E*Math.sin(2*M)-0.00111*Math.sin(Mp-2*F)-0.00057*Math.sin(Mp+2*F)+0.00056*E*Math.sin(2*Mp+M)-0.00042*Math.sin(3*Mp)+0.00042*E*Math.sin(M+2*F)+0.00038*E*Math.sin(M-2*F)-0.00024*E*Math.sin(2*Mp-M)-0.00017*Math.sin(Om);return jde+c;}
+const civ=jd=>Math.floor(jd+8/24+0.5);
+function solarToLunar(y,m,d){const jd=jdUT(y,m,d,4),bc=civ(jd);let k=Math.round((jd-2451550.09766)/29.530588861)+1;while(civ(newMoonJDE(k))>bc)k--;while(civ(newMoonJDE(k+1))<=bc)k++;const nm=newMoonJDE(k),nmN=newMoonJDE(k+1);const day=bc-civ(nm)+1;const monthOf=zl=>{const i=(Math.round(zl/30)+2)%12;return i===0?12:i;};let month=null;for(let z=0;z<12;z++){const zl=(270+z*30)%360;let g=nm+((zl-sunLon(nm)+360)%360)/0.9856;for(let it=0;it<6;it++){const diff=(zl-sunLon(g)+540)%360-180;g+=diff/0.98565;}if(civ(g)>=civ(nm)&&civ(g)<civ(nmN)){month=monthOf(zl);break;}}return {month:month||1,day,leap:month===null};}
+
+/* ================= 八字引擎（校验版精简） ================= */
+const NAYIN_NAME=['海中金','炉中火','大林木','路旁土','剑锋金','山头火','涧下水','城头土','白蜡金','杨柳木','泉中水','屋上土','霹雳火','松柏木','长流水','砂中金','山下火','平地木','壁上土','金箔金','覆灯火','天河水','大驿土','钗钏金','桑柘木','大溪水','沙中土','天上火','石榴木','大海水'];
+function computeBazi(y,m,d,hh,mi,gender){
+  const localH=hh+mi/60, birthUT=jdUT(y,m,d,localH-8);
+  let lh=localH; const rolled=lh>=23;
+  const t0=new Date(Date.UTC(y,m-1,d)); t0.setUTCDate(t0.getUTCDate()+(rolled?1:0));
+  const jdn=Math.round(jdUT(t0.getUTCFullYear(),t0.getUTCMonth()+1,t0.getUTCDate(),0)+0.5);
+  const dayGZ=((jdn+49)%60+60)%60, ds=dayGZ%10;
+  const lichun=termJD(y,315), zy=birthUT>=lichun?y:y-1, yearGZ=((zy-4)%60+60)%60, ys=yearGZ%10;
+  const JIE=[{l:315,b:2},{l:345,b:3},{l:15,b:4},{l:45,b:5},{l:75,b:6},{l:105,b:7},{l:135,b:8},{l:165,b:9},{l:195,b:10},{l:225,b:11},{l:255,b:0},{l:285,b:1}];
+  const arr=[];for(const yy of[y-1,y,y+1])for(const j of JIE)arr.push({jd:termJD(j.l>=255?yy+(j.l>=285?1:0):yy,j.l),b:j.b});
+  arr.sort((a,b)=>a.jd-b.jd);let cur=arr[0],next=arr[1];for(let i=0;i<arr.length;i++){if(arr[i].jd<=birthUT)cur=arr[i];else{next=arr[i];break;}}
+  const mb=cur.b, ms=(ys%5*2+2+((mb-2+12)%12))%10;
+  const mGZ=(()=>{for(let i=0;i<60;i++)if(i%10===ms&&i%12===mb)return i;})();
+  const hourIdx=Math.floor((lh%24+1)/2)%12, hs=(ds%5*2+hourIdx)%10;
+  const forward=(ys%2===0)===(gender==='m');
+  const gap=forward?(next.jd-birthUT):(birthUT-cur.jd), qy=Math.floor(gap/3);
+  const dayun=[];for(let k=1;k<=8;k++){const gz=((mGZ+(forward?k:-k))%60+60)%60;dayun.push({gz,from:qy+10*(k-1),to:qy+10*k-1});}
+  const pillars=[{s:ys,b:yearGZ%12,gz:yearGZ},{s:ms,b:mb,gz:mGZ},{s:ds,b:dayGZ%12,gz:dayGZ},{s:hs,b:hourIdx,gz:(()=>{for(let i=0;i<60;i++)if(i%10===hs&&i%12===hourIdx)return i;})()}];
+  const wux=[0,0,0,0,0],HW=[0.7,0.4,0.2];
+  pillars.forEach(p=>{wux[STEM_EL[p.s]]+=1;(HIDDEN[p.b]||[]).forEach((h,i)=>wux[STEM_EL[h]]+=HW[i]);});
+  const seasonEl=[4,2,0,0,2,1,1,2,3,3,2,4][mb], stateOf=e=>['旺','相','死','囚','休'][(e-seasonEl+5)%5];
+  // 十神统计
+  const godTally={};
+  pillars.forEach((p,i)=>{if(i!==2)godTally[tenGod(ds,p.s)]=(godTally[tenGod(ds,p.s)]||0)+1;(HIDDEN[p.b]||[]).forEach((h,j)=>{const g=tenGod(ds,h);godTally[g]=(godTally[g]||0)+[0.7,0.4,0.2][j];});});
+  const topGods=Object.entries(godTally).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]);
+  // 喜用简化
+  const dEl=STEM_EL[ds], yin=(dEl+4)%5, bi=dEl, ss=(dEl+1)%5, cai=(dEl+2)%5, guan=(dEl+3)%5;
+  const dstate=stateOf(dEl);
+  const support=wux[yin]+wux[bi]+(dstate==='旺'?2:dstate==='相'?1:0);
+  const drain=wux[ss]+wux[cai]+wux[guan]+(dstate==='死'||dstate==='囚'?1:0);
+  const strong=support>=drain;
+  const xi=strong?[ss,cai,guan]:[yin,bi], ji=strong?[yin,bi]:[ss,cai,guan];
+  return {pillars,ds, years:ys,wux,seasonEl,stateOf,dstate,dayun,forward,topGods,strong,xi,ji,dEl,mb,zy,birthUT,
+    spouseHidden:HIDDEN[pillars[2].b]||[]};
+}
+
+/* ================= 紫微引擎（校验版） ================= */
+const PAL_NAMES=['命宫','兄弟','夫妻','子女','财帛','疾厄','迁移','交友','事业','田宅','福德','父母'];
+const NAYIN_EL='金火木土金火水土金木水土火木水金火木土金火水土金木水土火木水';
+const JU={'水':2,'木':3,'金':4,'土':5,'火':6};
+const SIHUA=[['廉贞','破军','武曲','太阳'],['天机','天梁','紫微','太阴'],['天同','天机','文昌','廉贞'],['太阴','天同','天机','巨门'],['贪狼','太阴','右弼','天机'],['武曲','贪狼','天梁','文曲'],['太阳','武曲','太阴','天同'],['巨门','太阳','文曲','文昌'],['天梁','紫微','左辅','武曲'],['破军','巨门','太阴','贪狼']];
+function computeZiwei(zyear,lmonth,lday,hourIdx,gender){
+  const ys=((zyear-4)%10+10)%10, yb=((zyear-4)%12+12)%12;
+  const yinStem=(ys%5*2+2)%10, stemOf=b=>(yinStem+((b-2+12)%12))%10;
+  const ming=(2+(lmonth-1)-hourIdx+24)%12, shen=(2+(lmonth-1)+hourIdx)%12;
+  const msi=stemOf(ming);let gzi=0;for(let i=0;i<60;i++){if(i%10===msi&&i%12===ming){gzi=i;break;}}
+  const el=NAYIN_EL[gzi>>1], ju=JU[el];
+  const mult=Math.ceil(lday/ju)*ju, x=mult-lday, q=mult/ju;
+  const zw=x%2===0?(2+(q-1)+x)%12:(2+(q-1)-x+120)%12, tf=(16-zw)%12;
+  const stars={};const put=(b,n,c)=>{(stars[(b+120)%12]=stars[(b+120)%12]||[]).push({name:n,cls:c});};
+  put(zw,'紫微','main');put(zw-1,'天机','main');put(zw-3,'太阳','main');put(zw-4,'武曲','main');put(zw-5,'天同','main');put(zw-8,'廉贞','main');
+  put(tf,'天府','main');put(tf+1,'太阴','main');put(tf+2,'贪狼','main');put(tf+3,'巨门','main');put(tf+4,'天相','main');put(tf+5,'天梁','main');put(tf+6,'七杀','main');put(tf+10,'破军','main');
+  put(10-hourIdx,'文昌','aux');put(4+hourIdx,'文曲','aux');put(4+lmonth-1,'左辅','aux');put(10-(lmonth-1),'右弼','aux');
+  const palaces={};for(let i=0;i<12;i++)palaces[(ming-i+12)%12]=PAL_NAMES[i];
+  const forward=(ys%2===0)===(gender==='m'), daxian={};
+  for(let k=0;k<12;k++){const b=forward?(ming+k)%12:(ming-k+12)%12;daxian[b]=[ju+10*k,ju+10*k+9];}
+  return {ys,yb,ming,shen,ju,zw,stars,palaces,daxian,forward,huaMap:(()=>{const h=SIHUA[ys],m={};h.forEach((s,i)=>m[s]=i);return m;})()};
+}
+function palaceBranch(z,name){for(let b=0;b<12;b++)if(z.palaces[b]===name)return b;return 0;}
+function mainStarsAt(z,b){const l=(z.stars[b]||[]).filter(s=>s.cls==='main');if(l.length)return l.map(s=>s.name);const op=(z.stars[(b+6)%12]||[]).filter(s=>s.cls==='main');return op.map(s=>s.name+'(借)');}
+
+/* ================= 奇门引擎（校验版精简） ================= */
+const TERMS=[{lon:270,n:'冬至',yang:true,ju:[1,7,4]},{lon:285,n:'小寒',yang:true,ju:[2,8,5]},{lon:300,n:'大寒',yang:true,ju:[3,9,6]},{lon:315,n:'立春',yang:true,ju:[8,5,2]},{lon:330,n:'雨水',yang:true,ju:[9,6,3]},{lon:345,n:'惊蛰',yang:true,ju:[1,7,4]},{lon:0,n:'春分',yang:true,ju:[3,9,6]},{lon:15,n:'清明',yang:true,ju:[4,1,7]},{lon:30,n:'谷雨',yang:true,ju:[5,2,8]},{lon:45,n:'立夏',yang:true,ju:[4,1,7]},{lon:60,n:'小满',yang:true,ju:[5,2,8]},{lon:75,n:'芒种',yang:true,ju:[6,3,9]},{lon:90,n:'夏至',yang:false,ju:[9,3,6]},{lon:105,n:'小暑',yang:false,ju:[8,2,5]},{lon:120,n:'大暑',yang:false,ju:[7,1,4]},{lon:135,n:'立秋',yang:false,ju:[2,5,8]},{lon:150,n:'处暑',yang:false,ju:[1,4,7]},{lon:165,n:'白露',yang:false,ju:[9,3,6]},{lon:180,n:'秋分',yang:false,ju:[7,1,4]},{lon:195,n:'寒露',yang:false,ju:[6,9,3]},{lon:210,n:'霜降',yang:false,ju:[5,8,2]},{lon:225,n:'立冬',yang:false,ju:[6,9,3]},{lon:240,n:'小雪',yang:false,ju:[5,8,2]},{lon:255,n:'大雪',yang:false,ju:[4,7,1]}];
+const CIRCLE=[1,8,3,4,9,2,7,6],cIdx=p=>CIRCLE.indexOf(p);
+const HOME_STAR={1:'天蓬',8:'天任',3:'天冲',4:'天辅',9:'天英',2:'天芮',7:'天柱',6:'天心'};
+const HOME_DOOR={1:'休',8:'生',3:'伤',4:'杜',9:'景',2:'死',7:'惊',6:'开'};
+const SPIRITS=['值符','螣蛇','太阴','六合','白虎','玄武','九地','九天'];
+const SEQ=[4,5,6,7,8,9,3,2,1],XUN_YI={0:4,10:5,20:6,30:7,40:8,50:9};
+const GEO={1:'北',8:'东北',3:'东',4:'东南',9:'南',2:'西南',7:'西',6:'西北'};
+function computeQimen(y,m,d,hh,mi){
+  const localH=hh+mi/60, birthUT=jdUT(y,m,d,localH-8);
+  let lh=localH; const rolled=lh>=23;
+  const t0=new Date(Date.UTC(y,m-1,d)); t0.setUTCDate(t0.getUTCDate()+(rolled?1:0));
+  const jdn=Math.round(jdUT(t0.getUTCFullYear(),t0.getUTCMonth()+1,t0.getUTCDate(),0)+0.5);
+  const dgz=((jdn+49)%60+60)%60, hourIdx=Math.floor((lh%24+1)/2)%12;
+  const hgz=(()=>{const hs=(dgz%10%5*2+hourIdx)%10;for(let i=0;i<60;i++)if(i%10===hs&&i%12===hourIdx)return i;})();
+  const arr=[];for(const yy of[y-1,y,y+1])for(const t of TERMS)arr.push({...t,jd:termJD(yy,t.lon)});arr.sort((a,b)=>a.jd-b.jd);
+  let term=arr[0];for(const t of arr){if(t.jd<=birthUT)term=t;else break;}
+  const futou=dgz-(dgz%10)%5, fb=futou%12, yuan=[0,6,3,9].includes(fb)?0:([2,8,5,11].includes(fb)?1:2), ju=term.ju[yuan];
+  const yang=term.yang, dipan={};
+  for(let i=0;i<9;i++){const p=yang?((ju-1+i)%9)+1:(((ju-1-i)%9)+9)%9+1;dipan[p]=SEQ[i];}
+  const findPal=s=>{for(let p=1;p<=9;p++)if(dipan[p]===s)return p;};
+  const xun=hgz-hgz%10, yi=XUN_YI[xun], xunPal=findPal(yi);
+  const zhifuStar=xunPal===5?'天禽':HOME_STAR[xunPal], zhishiDoor=xunPal===5?'死':HOME_DOOR[xunPal];
+  let hs=hgz%10;if(hs===0)hs=yi;let luo=findPal(hs);if(luo===5)luo=2;
+  const starHome=xunPal===5?2:xunPal, off=(cIdx(luo)-cIdx(starHome)+8)%8;
+  const tian={},tianGan={};for(let i=0;i<8;i++){const from=CIRCLE[i],to=CIRCLE[(i+off)%8];tian[to]=HOME_STAR[from];tianGan[to]=dipan[from];}
+  const n=hgz%10;let L=yang?((xunPal-1+n)%9)+1:(((xunPal-1-n)%9)+9)%9+1;if(L===5)L=2;
+  const doorHome=xunPal===5?2:xunPal, offd=(cIdx(L)-cIdx(doorHome)+8)%8, ren={};
+  for(let i=0;i<8;i++)ren[CIRCLE[(i+offd)%8]]=HOME_DOOR[CIRCLE[i]];
+  const shen={};for(let k=0;k<8;k++){const p=yang?CIRCLE[(cIdx(luo)+k)%8]:CIRCLE[(cIdx(luo)-k+16)%8];shen[p]=SPIRITS[k];}
+  return {term,yuan,ju,yang,dgz,hgz,dipan,tian,tianGan,ren,shen,luo,zhifuStar,zhishiDoor,rolled};
+}
+
+/* ================= 特质标签数据 ================= */
+const STEM_TAG={0:['开创','正直','担当'],1:['柔韧','适应','借势'],2:['热烈','公开','慷慨'],3:['专注','细腻','文思'],4:['厚重','稳固','守信'],5:['包容','滋养','谦和'],6:['刚毅','变革','果断'],7:['精致','敏锐','自尊'],8:['智慧','奔放','通达'],9:['渗透','内敛','绵密']};
+const GOD_TAG={'比肩':['同侪','自持','竞争'],'劫财':['胆识','争夺','行动'],'食神':['才艺','享受','温和'],'伤官':['锋芒','技艺','叛逆'],'偏财':['机遇','经营','慷慨'],'正财':['务实','积蓄','稳定'],'七杀':['魄力','险成','行动'],'正官':['规范','名位','自律'],'偏印':['直觉','孤思','偏才'],'正印':['学识','庇护','仁厚']};
+const STAR_TAG={'紫微':['领导','尊贵','统御'],'天机':['智谋','机敏','策划'],'太阳':['博爱','声名','付出'],'武曲':['财富','果决','执行'],'天同':['温和','福气','亲和'],'廉贞':['权谋','原则','张力'],'天府':['稳健','包容','守成'],'太阴':['细腻','积蓄','温柔'],'贪狼':['欲望','多艺','社交'],'巨门':['口才','质疑','深究'],'天相':['辅佐','公正','服务'],'天梁':['荫庇','正直','长者'],'七杀':['果敢','冲劲','孤胆'],'破军':['开创','变革','消耗'],'文昌':['学识','文书'],'文曲':['才艺','口才'],'左辅':['助力'],'右弼':['人缘']};
+const QISTAR_TAG={'天蓬':['冒险','智诈'],'天任':['稳重','积累'],'天冲':['行动','冲劲'],'天辅':['文教','辅佐'],'天英':['文采','虚名'],'天芮':['研习','静守'],'天柱':['雄辩','毁折'],'天心':['谋略','医药','枢机'],'天禽':['中正','统御']};
+const QI_TAG={'乙':['贵人','柔化'],'丙':['权威','显耀'],'丁':['文书','希望'],'戊':['资本','稳固'],'己':['田宅','包容'],'庚':['阻隔','对抗'],'辛':['革新','过错'],'壬':['流动','奔波'],'癸':['闭藏','隐匿']};
+/* 同义归一 */
+const CANON={'统御':'领导','统率':'领导','主导':'领导','尊贵':'领导','名位':'领导',
+ '开拓':'开创','创新':'开创','变革':'开创','果敢':'果断','果决':'果断','魄力':'果断',
+ '稳固':'稳健','务实':'稳健','厚重':'稳健','守成':'稳健','稳重':'稳健','积累':'稳健','积蓄':'稳健',
+ '智慧':'智谋','机敏':'智谋','策划':'智谋','谋略':'智谋','深究':'思辨','质疑':'思辨','孤思':'思辨','直觉':'思辨','研习':'思辨',
+ '口才':'表达','文采':'表达','才艺':'表达','文书':'表达','文思':'表达','雄辩':'表达','多艺':'表达',
+ '温和':'亲和','包容':'亲和','人缘':'亲和','和合':'亲和','滋养':'亲和','付出':'博爱','慷慨':'博爱',
+ '自持':'独立','孤高':'独立','孤胆':'独立','孤直':'独立','自尊':'独立','内敛':'独立',
+ '冲劲':'行动','冒险':'行动','进取':'行动','奔放':'行动','胆识':'行动','争夺':'竞争','对抗':'竞争','阻隔':'竞争',
+ '经营':'财富','机遇':'财富','资本':'财富','求财':'财富','积财':'财富',
+ '桃花':'情感','姻缘':'情感','婚约':'情感','魅力':'情感','社交':'社交',
+ '学识':'学养','文教':'学养','庇护':'学养','荫庇':'学养','希望':'学养','辅佐':'辅佐','助力':'辅佐','服务':'辅佐',
+ '锋芒':'锐进','技艺':'表达','叛逆':'锐进','革新':'开创','险成':'行动','权威':'领导','显耀':'声名','声名':'声名','博爱':'博爱',
+ '专注':'专注','细腻':'细腻','温柔':'亲和','福气':'亲和','欲望':'行动','权谋':'谋略','原则':'正直','正直':'正直','担当':'正直','公正':'正直','规范':'自律','自律':'自律',
+ '执行':'果断','枢机':'领导','中正':'稳健','医药':'专业','偏才':'专业','专业':'专业','虚名':'声名','毁折':'锐进','贵人':'贵助','柔化':'亲和','柔韧':'适应','适应':'适应','借势':'适应','通达':'开创','渗透':'细腻','绵密':'细腻','闭藏':'内省','隐匿':'内省','静守':'内省','田宅':'安居','流动':'奔波','奔波':'奔波','消耗':'破立','原则性':'正直'};
+const canon=t=>CANON[t]||t;
+
+/* ================= 会通合成 ================= */
+let STATE=null;
+function synthesize(y,m,d,hh,mi,gender,lm,ld,question){
+  const bz=computeBazi(y,m,d,hh,mi,gender);
+  const zw=computeZiwei(bz.zy,lm,ld,Math.floor(((hh+mi/60)%24+1)/2)%12,gender);
+  // 奇门用"当下"（决策时机）—默认今天
+  const now=new Date(Date.now()+8*3600e3);
+  const qm=computeQimen(now.getUTCFullYear(),now.getUTCMonth()+1,now.getUTCDate(),now.getUTCHours(),now.getUTCMinutes());
+  // —— 收集特质标签 ——
+  const tagSys={}; // canonTag -> Set(system)
+  const add=(tag,sys)=>{const t=canon(tag);(tagSys[t]=tagSys[t]||new Set()).add(sys);};
+  // 八字
+  (STEM_TAG[bz.ds]||[]).forEach(t=>add(t,'bz'));
+  bz.topGods.forEach(g=>(GOD_TAG[g]||[]).forEach(t=>add(t,'bz')));
+  // 紫微：命宫、官禄、财帛
+  const mingB=zw.ming, guanB=palaceBranch(zw,'事业'), caiB=palaceBranch(zw,'财帛'), qiB=palaceBranch(zw,'夫妻');
+  mainStarsAt(zw,mingB).forEach(s=>(STAR_TAG[s.replace('(借)','')]||[]).forEach(t=>add(t,'zw')));
+  mainStarsAt(zw,guanB).forEach(s=>(STAR_TAG[s.replace('(借)','')]||[]).forEach(t=>add(t,'zw')));
+  mainStarsAt(zw,caiB).forEach(s=>(STAR_TAG[s.replace('(借)','')]||[]).forEach(t=>add(t,'zw')));
+  // 奇门（弱旁证）：日干奇仪 + 值符星
+  (QI_TAG[STEMS[qm.dgz%10]]||[]).forEach(t=>add(t,'qm'));
+  (QISTAR_TAG[qm.zhifuStar]||[]).forEach(t=>add(t,'qm'));
+  const convergent=Object.entries(tagSys).map(([t,s])=>({tag:t,sys:[...s],n:s.size}))
+    .filter(o=>o.n>=2).sort((a,b)=>b.n-a.n||b.sys.length-a.sys.length);
+  const allTags=Object.entries(tagSys).map(([t,s])=>({tag:t,sys:[...s]}));
+  // —— 当前大运 ——
+  const age=2026-y;
+  let curYun=bz.dayun.find(u=>age>=u.from&&age<=u.to)||bz.dayun[0];
+  const yunEls=[STEM_EL[curYun.gz%10],BR_EL[curYun.gz%12]];
+  const yunFav=yunEls.filter(e=>bz.xi.includes(e)).length-yunEls.filter(e=>bz.ji.includes(e)).length;
+  // 紫微大限
+  let daxB=mingB;for(let b=0;b<12;b++){if(zw.daxian[b]&&age>=zw.daxian[b][0]&&age<=zw.daxian[b][1]){daxB=b;break;}}
+  return {bz,zw,qm,convergent,allTags,age,curYun,yunEls,yunFav,daxB,mingB,guanB,caiB,qiB,question,lm,ld,
+    input:{y,m,d,hh,mi,gender}};
+}
+
+/* ================= 渲染：合盘 ================= */
+const $=id=>document.getElementById(id);
+function gz(i){return STEMS[i%10]+BRANCHES[i%12];}
+function renderCast(S){
+  const {bz,zw,qm}=S;
+  const dm=`${STEMS[bz.ds]}${ELEM[bz.dEl]}`;
+  const mingStars=mainStarsAt(zw,zw.ming).join('、')||'空宫';
+  const out=`
+    <div class="tri">
+      <div class="sys bz"><h4>四柱八字 <span class="role">时间·代数</span></h4>
+        <div class="big">${bz.pillars.map(p=>gz(p.gz)).join(' ')}</div>
+        <div class="kv">日主 <b>${dm}</b> · 生于${BRANCHES[bz.mb]}月「<b>${bz.dstate}</b>」· 身${bz.strong?'强':'弱'}</div>
+        <div class="kv">主导十神 <b>${bz.topGods.join('、')}</b></div>
+        <div class="kv">当前大运 <b>${gz(S.curYun.gz)}</b>（${S.curYun.from}–${S.curYun.to}岁）</div>
+        <a class="more" href="https://claude.ai/code/artifact/6804e7fd-a907-45e2-b9a7-e9854c1046f2" target="_blank">完整排盘 →</a></div>
+      <div class="sys zw"><h4>紫微斗数 <span class="role">命盘·几何</span></h4>
+        <div class="big">命宫 ${mingStars}</div>
+        <div class="kv">农历 <b>${S.lm}月${S.ld}日</b> · ${zw.forward?'阳':'阴'}${['男','女'][S.input.gender==='m'?0:1]}</div>
+        <div class="kv">事业宫 <b>${mainStarsAt(zw,S.guanB).join('、')||'—'}</b></div>
+        <div class="kv">夫妻宫 <b>${mainStarsAt(zw,S.qiB).join('、')||'—'}</b></div>
+        <a class="more" href="https://claude.ai/code/artifact/0c6878a9-dbb4-4ae8-8ea9-3e78c6e7fe34" target="_blank">完整排盘 →</a></div>
+      <div class="sys qm"><h4>奇门遁甲 <span class="role">此刻·博弈</span></h4>
+        <div class="big">${qm.term.n}·${qm.yang?'阳':'阴'}遁${'一二三四五六七八九'[qm.ju-1]}局</div>
+        <div class="kv">值符 <b>${qm.zhifuStar}</b> · 值使 <b>${qm.zhishiDoor}门</b></div>
+        <div class="kv">此刻时柱 <b>${gz(qm.hgz)}</b></div>
+        <div class="kv small">奇门取"当下"起局，故为决策时机而非出生盘</div>
+        <a class="more" href="https://claude.ai/code/artifact/1a782ec6-8480-4f66-97fb-dd642e806914" target="_blank">完整排盘 →</a></div>
+    </div>
+    <p class="small" style="margin-top:14px;">三盘已就位。请前往 <b>会通解读</b> 看交叉验证与分主题分析，再到 <b>人生指引</b> 获取可行动建议。</p>`;
+  $('cast-out').innerHTML=out;
+}
+
+/* ================= 渲染：会通解读 ================= */
+const FB_KEY=S=>`huitong-fb-${S.input.y}${S.input.m}${S.input.d}${S.input.hh}${S.input.mi}${S.input.gender}`;
+let FB={};
+function loadFB(S){try{const raw=localStorage.getItem(FB_KEY(S));FB=raw?JSON.parse(raw):{};}catch(e){FB={};}}
+function saveFB(S){try{localStorage.setItem(FB_KEY(S),JSON.stringify(FB));}catch(e){/* opaque origin: keep in-memory FB */}}
+
+function domainData(S){
+  const {bz,zw,qm}=S;
+  const dm=`${STEMS[bz.ds]}${ELEM[bz.dEl]}`;
+  const spouseGod=bz.spouseHidden.map(h=>tenGod(bz.ds,h));
+  const doorHint={'开':'开创/求职/见贵','休':'谈判/和解/休整','生':'求财/经营/新事','景':'文书/宣传/考试','伤':'竞技/讨还','杜':'防守/保密','惊':'辩讼/公关','死':'了结/静守'};
+  // 当下吉方（奇门）
+  let best=null;for(let p=1;p<=9;p++){if(p===5)continue;const doorGood=['开','休','生'].includes(qm.ren[p]);const starGood=['天心','天辅','天任','天禽','天冲'].includes(qm.tian[p]);if(doorGood&&starGood){best={p,door:qm.ren[p],star:qm.tian[p]};break;}if(doorGood&&!best)best={p,door:qm.ren[p],star:qm.tian[p]};}
+  return [
+    {key:'self',name:'核心自我',
+     lines:[['bz',`日主 <b>${dm}</b>，生于${BRANCHES[bz.mb]}月处「${bz.dstate}」，身${bz.strong?'强——主见足、能扛事，宜自立':'弱——善借力、宜依势，忌硬撑'}；主导十神为 <b>${bz.topGods.join('、')}</b>。`],
+            ['zw',`命宫主星 <b>${mainStarsAt(zw,zw.ming).join('、')||'空宫（借对宫）'}</b>，定你的人格基调与行事风格。`],
+            ['qm',`（旁证）当下日干为 <b>${STEMS[qm.dgz%10]}</b>，示你近期与世界交手的方式偏「${(QI_TAG[STEMS[qm.dgz%10]]||['—'])[0]}」。`]],
+     synth:convSentence(S,['领导','稳健','智谋','行动','亲和','独立','思辨','开创'],'你的核心自我')},
+    {key:'talent',name:'才性与资源',
+     lines:[['bz',`五行以 <b>${ELEM[maxEl(bz.wux)]}</b> 最旺、<b>${ELEM[minEl(bz.wux)]}</b> 最弱；${bz.strong?'身强宜泄秀（食伤生财）、以output立身':'身弱宜补根（印比扶助）、以积累立身'}。`],
+            ['zw',`财帛宫 <b>${mainStarsAt(zw,S.caiB).join('、')||'—'}</b>、事业宫 <b>${mainStarsAt(zw,S.guanB).join('、')||'—'}</b>，示你调动资源的天然路径。`]],
+     synth:convSentence(S,['财富','表达','学养','专业','谋略','辅佐'],'你的才性')},
+    {key:'love',name:'情感与关系',
+     lines:[['bz',`夫妻宫（日支${BRANCHES[bz.pillars[2].b]}）藏 <b>${spouseGod.join('、')||'—'}</b>，示你在亲密关系中看重与吸引的类型。`],
+            ['zw',`夫妻宫主星 <b>${mainStarsAt(zw,S.qiB).join('、')||'空宫（借对宫）'}</b>，描摹你的关系模式与伴侣样貌。`]],
+     synth:convSentence(S,['亲和','情感','独立','细腻','专注','博爱'],'你的关系模式')},
+    {key:'career',name:'事业与志向',
+     lines:[['bz',`官杀${has(bz,'官')?'有力→宜受约束、走体制/专业路线':'不显→宜自由度高的路径'}；食伤${has(bz,'食')?'旺→创造与表达是你的引擎':'平'}。`],
+            ['zw',`事业宫 <b>${mainStarsAt(zw,S.guanB).join('、')||'—'}</b> 是你志业的舞台底色。`],
+            ['qm',`（旁证）当下值符星 <b>${qm.zhifuStar}</b>，近期利「${(QISTAR_TAG[qm.zhifuStar]||['—'])[0]}」类事务。`]],
+     synth:convSentence(S,['领导','开创','财富','表达','辅佐','专业','谋略'],'你的志业方向')},
+    {key:'timing',name:'当下时机',
+     lines:[['bz',`当前大运 <b>${gz(S.curYun.gz)}</b>（${S.curYun.from}–${S.curYun.to}岁），带 ${S.yunEls.map(e=>ELEM[e]).join('、')}，与你的喜用「${bz.xi.map(e=>ELEM[e]).join('')}」${S.yunFav>0?'相合 → 顺势之运，宜进取':S.yunFav<0?'相悖 → 蓄力之运，宜守拙固本':'参半 → 平运，随机应变'}。`],
+            ['zw',`当前大限行至 <b>${zw.palaces[S.daxB]}</b>宫（${mainStarsAt(zw,S.daxB).join('、')||'—'}），此十年生活重心所偏。`],
+            ['qm',`此刻奇门吉方在 <b>${best?GEO[best.p]+'方':'—'}</b>${best?`（${best.door}门·${best.star}），宜「${doorHint[best.door]||'—'}」`:''}，供当下抉择参考。`]],
+     synth:`<b>会通</b>：八字大运定"这十年的底色"、紫微大限定"重心落在哪个领域"、奇门定"此刻这一步往哪个方向"——三个时间尺度叠合，可粗判：当前宜${S.yunFav>=0?'借势推进':'固本蓄势'}，重心在${zw.palaces[S.daxB]}，具体行动可参考上方吉方。`}
+  ];
+}
+function maxEl(w){let mi=0;for(let i=1;i<5;i++)if(w[i]>w[mi])mi=i;return mi;}
+function minEl(w){let mi=0;for(let i=1;i<5;i++)if(w[i]<w[mi])mi=i;return mi;}
+function has(bz,cat){const map={'官':['正官','七杀'],'食':['食神','伤官'],'财':['正财','偏财'],'印':['正印','偏印']};return bz.topGods.some(g=>map[cat].includes(g));}
+function convSentence(S,pool,label){
+  const hits=S.convergent.filter(c=>pool.includes(c.tag));
+  if(!hits.length)return `<b>会通</b>：三系在${label}上未见强共振，说明此域你的特征较分散或需结合具体经历判断——留意单系统提到但你深有共鸣的点。`;
+  const three=hits.filter(h=>h.n>=3),two=hits.filter(h=>h.n===2);
+  let s=`<b>会通</b>：`;
+  if(three.length)s+=`三系共振于 <b>${three.map(h=>h.tag).join('、')}</b>——这是最该正视的${label}特征。`;
+  if(two.length)s+=`${three.length?'另':''}两系呼应 <b>${two.map(h=>h.tag).join('、')}</b>。`;
+  s+=`不共振处不代表没有，只是信号较弱，交给你的现实经验裁断。`;
+  return s;
+}
+function sysDot(sys){return sys.map(s=>`<i class="dot${s}"></i>`).join('');}
+function renderRead(S){
+  const conv=S.convergent.slice(0,10);
+  const maxN=3;
+  let convHtml=conv.length?`<div class="conv">`+conv.map(c=>{
+    const segs=c.sys.map(s=>`<div class="seg dot${s}" style="flex:1;background:var(--${s==='zw'?'ziwei':s==='bz'?'bazi':'qimen'})"></div>`).join('');
+    return `<div class="row"><span class="theme">${c.tag}</span>
+      <div class="track">${segs}</div>
+      <span class="who">${sysDot(c.sys)}<span class="n">${c.n}系</span></span></div>`;
+  }).join('')+`</div>`:`<p class="note">本盘三系共振较少，个性较独特——更需结合你的真实经历来读。</p>`;
+
+  const wmax=Math.max(...S.bz.wux);
+  const ELC=['elmu','elhuo','eltu','eljin','elshui'],BC=['bmu','bhuo','btu','bjin','bshui'];
+  const wuxHtml=`<div class="wux">`+S.bz.wux.map((v,e)=>`<div class="row">
+    <span class="name ${ELC[e]}">${ELEM[e]} <span class="small">${S.bz.stateOf(e)}</span></span>
+    <div class="track"><div class="bar ${BC[e]}" style="width:${(v/wmax*100).toFixed(0)}%"></div></div>
+    <span class="tag">${v.toFixed(1)}${S.bz.xi.includes(e)?' ·喜':S.bz.ji.includes(e)?' ·忌':''}</span></div>`).join('')+`</div>`;
+
+  const doms=domainData(S);
+  const domHtml=doms.map(d=>{
+    const fb=FB[d.key];
+    return `<div class="domain" data-k="${d.key}">
+      <div class="dh"><b>${d.name}</b>
+        <span class="reson" data-k="${d.key}">
+          <button data-v="y" class="${fb==='y'?'on-y':''}">✓ 准</button>
+          <button data-v="m" class="${fb==='m'?'on-n':''}">~ 一般</button>
+          <button data-v="n" class="${fb==='n'?'on-n':''}">✗ 不准</button>
+        </span></div>
+      <div class="lines">${d.lines.map(l=>`<div class="ln ${l[0]}">${l[1]}</div>`).join('')}</div>
+      <div class="synth">${d.synth}</div>
+    </div>`;
+  }).join('');
+
+  $('read-out').innerHTML=`
+    <div class="card"><h3 style="margin-top:0;">共振主题 · 三面镜子的共同反光<span class="en" style="font-size:11px;color:var(--ink-soft);margin-left:8px;">被≥2系统同时指向</span></h3>
+      <p class="small">颜色＝来源系统：<span class="zwc">紫微</span> / <span class="bzc">八字</span> / <span class="qmc">奇门</span>。共振系数越高，越值得优先自省。</p>
+      ${convHtml}</div>
+    <div class="card"><h3 style="margin-top:0;">五行结构 · 禀赋的量化底盘 <span class="small">（八字主导·简化喜用模型）</span></h3>
+      ${wuxHtml}
+      <p class="small">日主 <b>${STEMS[S.bz.ds]}${ELEM[S.bz.dEl]}</b>·身${S.bz.strong?'强':'弱'}，故喜 <b>${S.bz.xi.map(e=>ELEM[e]).join('')}</b>、忌 <b>${S.bz.ji.map(e=>ELEM[e]).join('')}</b>（此为强弱简化判定，非命理师精断，仅供大运顺逆的粗略参照）。</p></div>
+    <h2 style="margin-top:26px;">分域会通 · 五个人生切面<span class="en">FIVE DOMAINS</span></h2>
+    <p class="note">每个切面先列三系各自怎么说（紫/八/奇），再给会通综合。读到觉得准的，点"✓ 准"；不准的点"✗ 不准"——你的反馈会即时校准「人生指引」里的自画像。</p>
+    ${domHtml}
+    <div class="guard"><b>再次提醒：</b>以上皆为<b>自省假设</b>而非事实判定。命理系统的长处是提供你未必想到的自我提问角度，短处是它什么都能自圆其说。请把"准/不准"的判断权始终握在自己手里——那正是把玄学转成自我认识的关键一步。</div>`;
+
+  $('read-out').querySelectorAll('.reson').forEach(r=>{
+    r.addEventListener('click',e=>{const btn=e.target.closest('button');if(!btn)return;
+      const k=r.dataset.k,v=btn.dataset.v;FB[k]=FB[k]===v?undefined:v;saveFB(S);renderRead(S);if(STATE)renderGuide(STATE);});
+  });
+}
+
+/* ================= 渲染：人生指引 ================= */
+function renderGuide(S){
+  const {bz,zw}=S;
+  const strengths=S.convergent.filter(c=>c.n>=2).slice(0,5);
+  const emphasized={};S.convergent.forEach(c=>emphasized[c.tag]=c.n);
+  // 反馈调权：准的域 +1，不准 -1（映射到该域池标签）
+  const domPools={self:['领导','稳健','智谋','行动','亲和','独立','思辨','开创'],talent:['财富','表达','学养','专业','谋略','辅佐'],love:['亲和','情感','独立','细腻','专注','博爱'],career:['领导','开创','财富','表达','辅佐','专业','谋略'],timing:[]};
+  Object.entries(FB).forEach(([k,v])=>{if(!domPools[k])return;const dv=v==='y'?1.5:v==='n'?-2:0;domPools[k].forEach(t=>{if(emphasized[t]!==undefined)emphasized[t]+=dv;});});
+  const selfTags=Object.entries(emphasized).sort((a,b)=>b[1]-a[1]);
+  const selfImg=selfTags.map(([t,w])=>`<span class="tg ${w<1?'dim':''}">${t}</span>`).join('');
+
+  // 张力：相斥标签同现
+  const tensions=[];const T=t=>S.allTags.some(x=>x.tag===t);
+  if(T('独立')&&T('亲和'))tensions.push('你身上「独立自守」与「亲和依存」并存——既想自己扛，又渴望联结。张力不是缺陷，认出它，就不会在该独处时强社交、该求助时硬扛。');
+  if(T('开创')&&T('稳健'))tensions.push('「开创变革」与「稳健守成」同在——你可能反复在"闯"与"守"之间摇摆。把大决策拆成"小步快闯+及时回稳"，可让两股力互补而非互耗。');
+  if(T('行动')&&T('思辨'))tensions.push('「即刻行动」与「反复思辨」并强——想得多也想动手，易陷"分析瘫痪"或"冲动后悔"。给自己设"思考截止线"是解药。');
+  if(bz.strong&&bz.topGods.some(g=>['七杀','伤官','劫财'].includes(g)))tensions.push(`身强而${bz.topGods.filter(g=>['七杀','伤官','劫财'].includes(g)).join('、')}旺，能量足但易冲、易伤人于无心——把这股劲导向"攻坚具体难题"，比对人更有建设性。`);
+  if(!tensions.length)tensions.push('本盘未见明显的内在标签冲突，能量方向较统一——优势是不易内耗，需留意的是视角可能偏单一，宜主动接触相反类型的人以补全。');
+
+  const yunGood=S.yunFav>0;
+  const el=ELEM[minEl(bz.wux)];
+  const guideHtml=`
+    <div class="card"><h3 style="margin-top:0;">你确认的自画像 <span class="small">（随"共鸣"反馈实时调整）</span></h3>
+      <div class="selfimg">${selfImg||'<span class="small">尚无共振标签，请先在解读页做反馈</span>'}</div>
+      <p class="small">高亮＝你标"准"或强共振的特质，淡化＝你标"不准"的。这就是"根据对话不断调节"的第一层——更深的调节发生在你与我（Claude）的对话里：把最准与最不准的告诉我，我据此细化解读。</p></div>
+
+    <div class="guide shi"><h3>可依之势 <span class="badge">STRENGTHS</span></h3>
+      <ul>${strengths.length?strengths.map(s=>`<li><b>${s.tag}</b>——${s.n}系共振，这是你可以放心押注、持续加码的底层优势。围绕它设计你的角色与环境。</li>`).join(''):'<li>共振优势尚不突出，建议先在解读页确认几条"准"的特质，据此聚焦。</li>'}</ul></div>
+
+    <div class="guide pian"><h3>当省之偏 <span class="badge">TENSIONS</span></h3>
+      <ul>${tensions.map(t=>`<li>${t}</li>`).join('')}</ul></div>
+
+    <div class="guide ji"><h3>当下之机 <span class="badge">TIMING</span></h3>
+      <ul>
+        <li>你正行 <b>${gz(S.curYun.gz)}</b> 大运（${S.curYun.from}–${S.curYun.to}岁），为<b>${yunGood?'顺势之运':S.yunFav<0?'蓄力之运':'平运'}</b>：${yunGood?'适合主动出击、扩张、承担更大责任——顺水推舟事半功倍。':S.yunFav<0?'适合修炼内功、打基础、谨慎扩张——逆水行舟，守住比抢进更重要。':'宜随机应变，不必强求大开大合。'}</li>
+        <li>紫微大限重心在 <b>${zw.palaces[S.daxB]}</b>宫，这十年生活的能量会自然向此领域倾斜，顺势经营它。</li>
+        <li>五行最缺 <b>${el}</b>：可在生活方式上有意补之（方位、颜色、行业属性、相处的人的特质），作为一种温和的自我提醒，而非迷信。</li>
+      </ul></div>
+
+    <div class="guide bu"><h3>可行一步 · 本周实验 <span class="badge">ACTION</span></h3>
+      <ul>
+        <li><b>用优势做一件事：</b>挑你最强的共振特质「${(strengths[0]||{tag:'——'}).tag}」，本周找一个真实场景刻意使用它一次，记录结果。这是把"命理假设"变成"现实数据"的最小实验。</li>
+        <li><b>对治一个偏：</b>针对上面某条"当省之偏"，设计一个反向小动作（如易冲动者，在下一个重要决定前强制隔夜再定）。</li>
+        <li><b>控制二分法：</b>把当前最困扰你的事，拆成"我完全不可控的"与"我此刻能做的一步"两栏，只在后者用力——这是三式会通给你的、最不玄学也最管用的一课。</li>
+      </ul></div>
+
+    <div class="card"><h3 style="margin-top:0;">深入分析笔记 · 接力用 <span class="small">（自动保存，载入存档时恢复）</span></h3>
+      <textarea id="deep-notes" placeholder="把你与 Claude 对话中得出的结论、验证过的判断、下一步计划记在这里。点“★ 存档”后随命盘一起保存，下次载入即可从此处接力，不必重来。">${NOTES.replace(/</g,'&lt;')}</textarea>
+      <p class="small">这段笔记随存档保存；也可在「档案库」导出为 JSON，下次贴给 Claude 从此处继续深入。</p></div>
+
+    <div class="guard"><b>如何与我共同完善：</b>回到对话，告诉我三件事——① 上面哪条最准、哪条最不准；② 你正面临的一个具体选择；③ 你的现实约束。我会据此收窄解读、更新这棵"命理会通"，让它从泛泛的自省提纲，逐步逼近真正贴合你的人生地图。记住知识树地脉那条铁律：用它<b>生成</b>假设，用<b>现实</b>检验假设，顺序不能反。</div>`;
+  $('guide-out').innerHTML=guideHtml;
+  const ta=$('deep-notes'); if(ta)ta.addEventListener('input',()=>{NOTES=ta.value;if(STATE)saveNotes(STATE);});
+}
+
+/* ================= 事件 ================= */
+const tabsNav=$('tabs');
+tabsNav.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  tabsNav.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));
+  document.querySelectorAll('section.tab').forEach(s=>s.classList.toggle('active',s.id===b.dataset.tab));});
+
+function readLunarInputs(){return {lm:+$('l-m').value||1,ld:+$('l-d').value||1};}
+function runAll(){
+  const y=+$('f-y').value,m=+$('f-m').value,d=+$('f-d').value;
+  const [hh,mi]=$('f-t').value.split(':').map(Number);
+  const g=$('f-g').value,q=$('f-q').value.trim();
+  const lun=solarToLunar(y,m,d);
+  $('l-m').value=lun.month;$('l-d').value=lun.day;
+  STATE=synthesize(y,m,d,hh,mi,g,lun.month,lun.day,q);
+  loadFB(STATE);loadNotes(STATE);
+  renderCast(STATE);renderRead(STATE);renderGuide(STATE);
+}
+$('form').addEventListener('submit',e=>{e.preventDefault();runAll();});
+$('f-demo').addEventListener('click',()=>{$('f-y').value=1990;$('f-m').value=6;$('f-d').value=15;$('f-t').value='12:30';$('f-g').value='m';$('f-q').value='事业选择';runAll();});
+$('l-apply').addEventListener('click',()=>{if(!STATE)return;const y=+$('f-y').value,m=+$('f-m').value,d=+$('f-d').value;const [hh,mi]=$('f-t').value.split(':').map(Number);const g=$('f-g').value,q=$('f-q').value.trim();const {lm,ld}=readLunarInputs();STATE=synthesize(y,m,d,hh,mi,g,lm,ld,q);loadFB(STATE);renderCast(STATE);renderRead(STATE);renderGuide(STATE);});
+
+/* ================= 档案库：持久化·接力深入 ================= */
+const VKEY='huitong-vault';
+let VAULT=(()=>{try{return JSON.parse(localStorage.getItem(VKEY)||'[]');}catch(e){return [];}})();
+function persistVault(){try{localStorage.setItem(VKEY,JSON.stringify(VAULT));}catch(e){/*opaque origin: keep in-memory*/}renderVault();}
+function birthKey(i){return `${i.y}-${i.m}-${i.d}-${i.hh}:${String(i.mi).padStart(2,'0')}-${i.gender}`;}
+let NOTES='';
+function notesKeyOf(S){return 'huitong-notes-'+birthKey(S.input);}
+function loadNotes(S){let n='';try{n=localStorage.getItem(notesKeyOf(S))||'';}catch(e){}if(!n){const p=VAULT.find(x=>x.id===birthKey(S.input));if(p)n=p.notes||'';}NOTES=n;}
+function saveNotes(S){try{localStorage.setItem(notesKeyOf(S),NOTES);}catch(e){}}
+function setStatus(id,msg){const el=$(id);if(!el)return;el.textContent=msg;clearTimeout(el._t);el._t=setTimeout(()=>{el.textContent='';},2600);}
+function saveCurrentProfile(name){
+  if(!STATE){setStatus('v-status','请先在「合盘」起盘');return;}
+  const inp={...STATE.input,lm:STATE.lm,ld:STATE.ld,question:STATE.question};
+  const id=birthKey(inp), existing=VAULT.find(p=>p.id===id);
+  const nm=(name&&name.trim())||(existing&&existing.name)||`${inp.y}-${String(inp.m).padStart(2,'0')}-${String(inp.d).padStart(2,'0')} ${inp.gender==='m'?'男':'女'}`;
+  const now=new Date(Date.now()+8*3600e3).toISOString().slice(0,16).replace('T',' ');
+  if(existing){existing.name=nm;existing.input=inp;existing.feedback={...FB};existing.notes=NOTES;existing.updatedAt=now;}
+  else VAULT.unshift({id,name:nm,input:inp,feedback:{...FB},notes:NOTES,createdAt:now,updatedAt:now});
+  persistVault();setStatus('v-status','已保存 · 共 '+VAULT.length+' 份');
+}
+function loadProfile(id){
+  const p=VAULT.find(x=>x.id===id);if(!p)return;const i=p.input;
+  $('f-y').value=i.y;$('f-m').value=i.m;$('f-d').value=i.d;
+  $('f-t').value=String(i.hh).padStart(2,'0')+':'+String(i.mi).padStart(2,'0');
+  $('f-g').value=i.gender;$('f-q').value=i.question||'';
+  STATE=synthesize(i.y,i.m,i.d,i.hh,i.mi,i.gender,i.lm,i.ld,i.question||'');
+  $('l-m').value=i.lm;$('l-d').value=i.ld;
+  FB={...(p.feedback||{})};try{localStorage.setItem(FB_KEY(STATE),JSON.stringify(FB));}catch(e){}
+  NOTES=p.notes||'';saveNotes(STATE);
+  renderCast(STATE);renderRead(STATE);renderGuide(STATE);
+  tabsNav.querySelector('button[data-tab="t-read"]').click();
+}
+function deleteProfile(id){VAULT=VAULT.filter(x=>x.id!==id);persistVault();}
+function renderVault(){
+  const box=$('vault-list');if(!box)return;
+  if(!VAULT.length){box.innerHTML='<div class="placeholder">尚无存档。到「合盘」起盘后点“★ 存档”，即可保存这次查询（含反馈与笔记），下次“载入接力”从此处继续深入。</div>';return;}
+  box.innerHTML=VAULT.map(p=>{const i=p.input;const fbN=Object.values(p.feedback||{}).filter(Boolean).length;
+    return `<div class="vrec"><div class="vmeta"><b>${p.name}</b>
+      <span class="small">${i.y}-${String(i.m).padStart(2,'0')}-${String(i.d).padStart(2,'0')} ${String(i.hh).padStart(2,'0')}:${String(i.mi).padStart(2,'0')} · ${i.gender==='m'?'男':'女'}${i.question?' · 问：'+i.question:''}</span>
+      <span class="small">更新 ${p.updatedAt||'—'} · 反馈 ${fbN} 项 · 笔记 ${(p.notes||'').length} 字</span></div>
+      <div class="vact"><button data-load="${p.id}">载入接力</button><button data-del="${p.id}">删除</button></div></div>`;}).join('');
+}
+$('f-save').addEventListener('click',()=>{saveCurrentProfile($('prof-name')?$('prof-name').value:'');tabsNav.querySelector('button[data-tab="t-vault"]').click();});
+$('v-save').addEventListener('click',()=>saveCurrentProfile($('prof-name').value));
+$('vault-list').addEventListener('click',e=>{const l=e.target.closest('[data-load]'),d=e.target.closest('[data-del]');if(l)loadProfile(l.dataset.load);if(d)deleteProfile(d.dataset.del);});
+$('io-export').addEventListener('click',()=>{$('io-box').value=JSON.stringify(VAULT,null,2);setStatus('io-status','已导出 '+VAULT.length+' 份，可复制备份');});
+$('io-copy').addEventListener('click',()=>{const t=$('io-box');t.select();let ok=false;try{ok=document.execCommand('copy');}catch(e){}if(navigator.clipboard&&t.value)navigator.clipboard.writeText(t.value).catch(()=>{});setStatus('io-status',ok?'已复制':'请手动复制文本框内容');});
+$('io-import').addEventListener('click',()=>{try{const a=JSON.parse($('io-box').value);if(Array.isArray(a)){VAULT=a;persistVault();setStatus('io-status','已导入 '+a.length+' 份');}else setStatus('io-status','JSON 应为数组');}catch(e){setStatus('io-status','JSON 格式有误');}});
+
+/* 初始示例 */
+$('f-demo').click();
+renderVault();
+</script>
