@@ -1,0 +1,902 @@
+<title>知识树 · 产学研思想者训练场</title>
+<style>
+:root{
+  --bg:#DEE3D6;
+  --bg-panel:#D3D9C8;
+  --bg-panel-2:#C8CFB9;
+  --ink:#202821;
+  --ink-soft:#55604F;
+  --line:rgba(32,40,33,.18);
+  --line-strong:rgba(32,40,33,.32);
+  --jade:#2F6B52;
+  --jade-soft:#3F7C61;
+  --indigo:#34507D;
+  --indigo-soft:#3F5D8E;
+  --copper:#B0601F;
+  --copper-soft:#C06F28;
+  --gold:#8C6A24;
+  --wood:#6B5335;
+  --wood-soft:#7C6142;
+  --stone:#525F63;
+  --stone-soft:#6B7A7E;
+  --yin-tint:rgba(25,35,28,.06);
+  --yang-tint:rgba(255,250,225,.30);
+  --font-display:"Source Han Serif SC","Songti SC","STSong","Noto Serif SC",serif;
+  --font-body:"PingFang SC","Source Han Sans SC","Noto Sans SC","Microsoft YaHei",-apple-system,sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Cascadia Code","Source Code Pro",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#141C19;
+    --bg-panel:#1B2521;
+    --bg-panel-2:#212C26;
+    --ink:#E7E9DE;
+    --ink-soft:#A8B0A0;
+    --line:rgba(231,233,222,.16);
+    --line-strong:rgba(231,233,222,.30);
+    --jade:#4E9B7C;
+    --jade-soft:#5CAE8B;
+    --indigo:#7B9BD1;
+    --indigo-soft:#8CACE0;
+    --copper:#E08A45;
+    --copper-soft:#EA9C5C;
+    --gold:#D4AE5C;
+    --wood:#9C8058;
+    --wood-soft:#AC9068;
+    --stone:#8FA3AC;
+    --stone-soft:#A5B7BE;
+    --yin-tint:rgba(0,0,0,.22);
+    --yang-tint:rgba(240,240,220,.05);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141C19; --bg-panel:#1B2521; --bg-panel-2:#212C26;
+  --ink:#E7E9DE; --ink-soft:#A8B0A0;
+  --line:rgba(231,233,222,.16); --line-strong:rgba(231,233,222,.30);
+  --jade:#4E9B7C; --jade-soft:#5CAE8B;
+  --indigo:#7B9BD1; --indigo-soft:#8CACE0;
+  --copper:#E08A45; --copper-soft:#EA9C5C;
+  --gold:#D4AE5C; --wood:#9C8058; --wood-soft:#AC9068;
+  --stone:#8FA3AC; --stone-soft:#A5B7BE;
+  --yin-tint:rgba(0,0,0,.22); --yang-tint:rgba(240,240,220,.05);
+}
+:root[data-theme="light"]{
+  --bg:#DEE3D6; --bg-panel:#D3D9C8; --bg-panel-2:#C8CFB9;
+  --ink:#202821; --ink-soft:#55604F;
+  --line:rgba(32,40,33,.18); --line-strong:rgba(32,40,33,.32);
+  --jade:#2F6B52; --jade-soft:#3F7C61;
+  --indigo:#34507D; --indigo-soft:#3F5D8E;
+  --copper:#B0601F; --copper-soft:#C06F28;
+  --gold:#8C6A24; --wood:#6B5335; --wood-soft:#7C6142;
+  --stone:#525F63; --stone-soft:#6B7A7E;
+  --yin-tint:rgba(25,35,28,.06); --yang-tint:rgba(255,250,225,.30);
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.page{max-width:1080px;margin:0 auto;padding:56px 24px 80px;}
+
+.hero{margin-bottom:36px;}
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--jade);
+  margin-bottom:14px;
+}
+h1{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(32px,5vw,48px);
+  margin:0 0 14px;
+  text-wrap:balance;
+  letter-spacing:.01em;
+}
+h1 .en{
+  font-family:var(--font-mono);
+  font-size:.36em;
+  font-weight:500;
+  color:var(--ink-soft);
+  letter-spacing:.06em;
+  margin-left:14px;
+  vertical-align:middle;
+}
+.subtitle{
+  max-width:62ch;
+  font-size:16px;
+  color:var(--ink-soft);
+  margin:0 0 18px;
+}
+.meta{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--ink-soft);
+  border-top:1px solid var(--line);
+  padding-top:14px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 18px;
+}
+
+.legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:8px;
+}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.02em;
+  padding:7px 12px;
+  border-radius:999px;
+  border:1px solid var(--line-strong);
+  background:var(--bg-panel);
+  color:var(--ink);
+}
+.chip .dot{width:9px;height:9px;border-radius:50%;flex:none;}
+.chip.physics .dot{background:var(--jade);}
+.chip.politics .dot{background:var(--indigo);}
+.chip.industry .dot{background:var(--copper);}
+.chip.core .dot{background:var(--gold);}
+.chip.meta .dot{background:var(--stone);}
+
+.bedrock{
+  margin:26px 0 40px;
+  padding:20px 18px;
+  border-radius:14px;
+  border:1px dashed var(--line-strong);
+  background:repeating-linear-gradient(135deg, color-mix(in srgb, var(--stone) 7%, transparent) 0 10px, transparent 10px 20px), var(--bg-panel);
+}
+.bedrock > h3{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--stone-soft);
+  margin:0 0 4px;
+}
+.bedrock > h3 .n{
+  font-family:var(--font-display);
+  font-size:16px;
+  color:var(--ink);
+  letter-spacing:0;
+  text-transform:none;
+  margin-left:8px;
+}
+.bedrock > .lead{
+  font-size:13px;
+  color:var(--ink-soft);
+  max-width:70ch;
+  margin:6px 0 16px;
+}
+.bedrock-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+  gap:14px;
+}
+.bedrock-grid details.node{border-bottom:none;padding:0;}
+.bedrock-grid details.node .body{margin-left:23px;}
+.bedrock-grid details.node .leaves{margin-left:23px;}
+
+.tree-wrap{
+  margin:28px 0 8px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(180deg, color-mix(in srgb, var(--bg-panel) 55%, transparent), transparent 40%), var(--bg);
+  padding:8px 4px 0;
+  overflow:hidden;
+}
+#tree-svg{width:100%;height:auto;display:block;}
+.node-label{
+  font-family:var(--font-body);
+  font-weight:600;
+}
+.node-desc{
+  font-family:var(--font-mono);
+}
+.leader{stroke:var(--line-strong);stroke-width:1;fill:none;}
+.root-path{fill:none;stroke-linecap:round;}
+.branch-path{fill:none;stroke-linecap:round;}
+.ring-line{fill:none;stroke:color-mix(in srgb, var(--bg) 40%, var(--ink) 8%);}
+.trunk-shape{stroke:var(--line-strong);stroke-width:1;}
+.ground-line{stroke:var(--line);stroke-width:1;stroke-dasharray:2 5;}
+.leaf-pill{stroke:var(--line-strong);stroke-width:1;}
+.leaf-text{font-family:var(--font-body);font-size:12.5px;fill:var(--ink);}
+.root-dot{stroke:var(--bg);stroke-width:2;}
+.root-text{font-family:var(--font-display);font-weight:700;font-size:14px;fill:var(--ink);}
+.ring-text{font-family:var(--font-display);font-weight:700;font-size:13px;fill:var(--ink);}
+.tag-en{font-family:var(--font-mono);font-size:9.5px;fill:var(--ink-soft);letter-spacing:.04em;}
+.hint{
+  font-family:var(--font-mono);
+  font-size:11px;
+  fill:var(--ink-soft);
+}
+
+.section-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:16px;
+  margin:56px 0 18px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:12px;
+}
+.section-head h2{
+  font-family:var(--font-display);
+  font-size:22px;
+  margin:0;
+}
+.section-head .en{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--ink-soft);
+}
+
+.columns{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+@media (max-width:800px){
+  .columns{grid-template-columns:1fr;}
+}
+.col{
+  background:var(--bg-panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:18px 16px;
+}
+.col > h3{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin:0 0 12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.col > h3 .n{
+  font-family:var(--font-display);
+  font-size:16px;
+  color:var(--ink);
+  letter-spacing:0;
+  text-transform:none;
+}
+
+details.node{
+  border-bottom:1px solid var(--line);
+  padding:9px 0;
+}
+details.node:last-child{border-bottom:none;}
+details.node summary{
+  cursor:pointer;
+  list-style:none;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:14.5px;
+}
+details.node summary::-webkit-details-marker{display:none;}
+details.node summary::before{
+  content:"+";
+  font-family:var(--font-mono);
+  font-weight:400;
+  font-size:13px;
+  color:var(--ink-soft);
+  width:14px;
+  flex:none;
+}
+details.node[open] summary::before{content:"–";}
+details.node summary .lens-dot{width:8px;height:8px;border-radius:50%;flex:none;}
+details.node .body{
+  margin:8px 0 2px 23px;
+  font-size:13px;
+  color:var(--ink-soft);
+}
+details.node .leaves{
+  margin:10px 0 2px 23px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.leaf-chip{
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  padding:4px 9px;
+  border-radius:8px;
+  background:var(--bg-panel-2);
+  border:1px solid var(--line);
+  color:var(--ink);
+}
+
+footer{
+  margin-top:56px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  font-size:13.5px;
+  color:var(--ink-soft);
+}
+footer p{max-width:70ch;}
+footer strong{color:var(--ink);}
+
+.taiji{transform-box:fill-box;transform-origin:center;}
+.taiji-ring{fill:none;stroke:var(--line-strong);stroke-width:1.5;}
+.field-yin{fill:var(--yin-tint);}
+.field-yang{fill:var(--yang-tint);}
+.field-ring{fill:none;stroke:var(--line);stroke-width:1;}
+.axis-char{font-family:var(--font-display);font-weight:700;font-size:21px;fill:var(--ink);}
+
+.lead-note{
+  font-size:13.5px;
+  color:var(--ink-soft);
+  max-width:78ch;
+  margin:2px 2px 14px;
+}
+.polar-wrap{
+  overflow-x:auto;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--bg-panel);
+}
+table.polar{border-collapse:collapse;width:100%;min-width:680px;font-size:13px;}
+.polar th{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  text-align:left;
+  padding:12px 14px;
+  border-bottom:1px solid var(--line-strong);
+  white-space:nowrap;
+}
+.polar th.sheng{color:var(--jade);}
+.polar th.ke{color:var(--copper);}
+.polar td{
+  padding:11px 14px;
+  border-bottom:1px solid var(--line);
+  vertical-align:top;
+  color:var(--ink-soft);
+  line-height:1.55;
+}
+.polar tr:last-child td{border-bottom:none;}
+.polar td.yin,.polar td.yang{
+  color:var(--ink);
+  font-weight:600;
+  font-family:var(--font-display);
+  white-space:nowrap;
+}
+.polar td.yin{background:var(--yin-tint);}
+.polar td.yang{background:var(--yang-tint);}
+@media (prefers-reduced-motion: no-preference){
+  .draw-in{
+    stroke-dasharray:1400;
+    stroke-dashoffset:1400;
+    animation:draw 1.8s ease forwards;
+  }
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  .taiji{animation:taiji-turn 90s linear infinite;}
+  @keyframes taiji-turn{to{transform:rotate(360deg);}}
+}
+</style>
+
+<div class="page">
+
+  <div class="hero">
+    <div class="eyebrow">个人知识体系 · 产学研思想者训练场</div>
+    <h1>知识树<span class="en">KNOWLEDGE TREE · v2.0</span></h1>
+    <p class="subtitle">立足复旦大学产学研合作处的日常工作——在物理学、政治学与产业化三重视角之间来回切换，快速理解跨专业、跨行业的问题。整棵树生长在一枚横卧的太极之中：地平线是阴阳分界，藏于地下者求真，显于地上者致善；两只鱼眼是系统的活性所在；五条枝干依生克之轮相养相制；纵轴自下而上贯通真、美、善。</p>
+    <div class="meta">
+      <span>版本 v2.0 · 2026-07-04</span>
+      <span>·</span>
+      <span>结构升级：太极场入图（S形地平线·双鱼眼）· 五枝生克之轮 · 真美善纵轴 · 阴阳对照表</span>
+      <span>·</span>
+      <span>随对话持续生长</span>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span class="chip physics"><span class="dot"></span>物理学视角 · 底层原理</span>
+    <span class="chip politics"><span class="dot"></span>政治学视角 · 社会与制度</span>
+    <span class="chip industry"><span class="dot"></span>产业化视角 · 技术与市场</span>
+    <span class="chip core"><span class="dot"></span>通用方法论 · 跨视角贯通</span>
+    <span class="chip meta"><span class="dot"></span>元知识 · 一切根系的地下水</span>
+  </div>
+
+  <div class="tree-wrap">
+    <svg id="tree-svg" viewBox="0 -80 1040 1060" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+
+  <div class="section-head" style="margin-top:36px;">
+    <h2>生克之轮 · 五枝之律</h2>
+    <span class="en">WHEEL OF GENERATION &amp; CONSTRAINT</span>
+  </div>
+  <p class="lead-note">外环为<strong>生</strong>（实线，顺时针）：养分沿环流动——思想点燃技术，技术落成产业，产业炼出组织，实践汇成政策，经费养育学术。内星为<strong>克</strong>（虚线）：每枝约束隔位之枝。克不是敌意，是系统的免疫——没有约束的相生会失衡成癌，没有相生的约束会窒息成死水。生为阳、克为阴，一放一收，轮转不息。</p>
+  <div class="tree-wrap" style="margin-top:0;">
+    <svg id="wheel-svg" viewBox="0 55 1040 505" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+
+  <div class="section-head" style="margin-top:32px;">
+    <h2>地脉 · 元知识层</h2>
+    <span class="en">BEDROCK — the questions every root drinks from</span>
+  </div>
+  <div class="bedrock">
+    <p class="lead">这五个问题不属于任何一个学科，而是关于"知识本身"如何运作的追问——所有树根都从这里汲取养分。</p>
+    <div class="bedrock-grid" id="bedrock"></div>
+  </div>
+
+  <div class="section-head">
+    <h2>阴阳之理 · 内在对偶</h2>
+    <span class="en">POLARITIES — each pair carries the other's eye</span>
+  </div>
+  <p class="lead-note">把树上反复出现的对偶关系摊开：每一对都互为鱼眼——阴中藏阳、阳中含阴。「相生」是它们互相成就的方式，「相克」是互相校正的方式；缺了任何一半，另一半都会退化。</p>
+  <div class="polar-wrap">
+    <table class="polar">
+      <thead>
+        <tr><th>阴 · 藏</th><th>阳 · 显</th><th class="sheng">相生（互相成就）</th><th class="ke">相克（互相校正）</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="yin">原理（根）</td><td class="yang">应用（冠）</td><td>原理催生应用；应用反哺新问题，逼出新原理</td><td>现实检验理论；理论戳破一厢情愿的幻想</td></tr>
+        <tr><td class="yin">默会知识（身教）</td><td class="yang">显性知识（论文·专利）</td><td>SECI 螺旋：内化与外化不断互转</td><td>文档僵化鲜活经验；经验总在溢出文档之外</td></tr>
+        <tr><td class="yin">学术（长周期·好奇心）</td><td class="yang">产业（短周期·需求）</td><td>经费养学术，思想孵产业</td><td>市场纪律防学术空转；学术批判防产业泡沫</td></tr>
+        <tr><td class="yin">天道（自然律·物理）</td><td class="yang">人道（制度·政治）</td><td>技术拓宽制度的可能空间</td><td>物理极限约束一切意志与规划</td></tr>
+        <tr><td class="yin">无知之知（元认知）</td><td class="yang">已知（知识存量）</td><td>已知给未知提供落脚点；未知牵引探索方向</td><td>已知的傲慢遮蔽新知；未知的敬畏校正傲慢</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-head">
+    <h2>知识树控制台</h2>
+    <span class="en">EXPAND EACH NODE — living document</span>
+  </div>
+  <div class="columns" id="console"></div>
+
+  <footer>
+    <p><strong>这棵树的设计法则：</strong>图中没有一处是装饰——每个形都对应一条律。①整树生长在一枚横卧的大太极中，S 形地平线即阴阳分界：藏于地下者为阴（求真），显于地上者为阳（致用）；西侧阴升——理论浮出成为可见，东侧阳降——应用之力探入地下，经济与历史两条根正生长在阳气下探之处。②两只鱼眼是系统的活性所在：求真世界的活眼是<strong>问题意识</strong>（真实问题点燃理论），致用世界的活眼是<strong>无知之知</strong>（知道自己不知道什么）——失去任何一只眼，太极便死。③小太极居于根干之枢，与大太极同构：太极之中复有太极。④五枝依生克之轮相养相制：生为阳、克为阴，克是系统的免疫而非敌意。⑤纵轴自下而上贯通真（向下扎根）、美（居中之衡）、善（向上结果）——美不是第三种东西，而是真与善互抱时呈现的形态。</p>
+    <p><strong>怎么让它继续生长：</strong>以后每加入一个新元素，都必须先回答"它属于哪条律"——是新的叶（技能）、干（方法）、根（学科）、地脉（元知识），还是新的对偶（阴阳之理）。凡是回答不出的，就还不配上树。</p>
+  </footer>
+</div>
+
+<script>
+const LENS_COLOR = {
+  physics: 'var(--jade)',
+  politics: 'var(--indigo)',
+  industry: 'var(--copper)',
+  core: 'var(--gold)',
+  meta: 'var(--stone)'
+};
+
+const DATA = {
+  meta: [
+    {name:'知识从哪里来', en:'Origin of Knowledge',
+     desc:'经验论与理性论之争、波普尔的证伪主义、库恩的范式转移——知识不是被发现的，而是猜想被反复反驳后剩下的东西。',
+     tags:['经验论/理性论','波普尔·证伪主义','库恩·范式转移','皮尔斯·溯因推理','波兰尼·默会知识']},
+    {name:'知识用到哪里去', en:'Application & Transfer',
+     desc:'从"知道是什么"到"知道怎么做"（赖尔）——知识只有在具体情境里兑现为行动，才真正完成了它的使命。',
+     tags:['实用主义(詹姆斯/杜威)','野中郁次郎SECI模型','情境认知','技术转移理论']},
+    {name:'能否融合迁移', en:'Cross-domain Fusion',
+     desc:'跨界不是"打通内容"，而是把一个领域的关系结构映射到另一个领域——类比与隐喻才是真正的引擎。',
+     tags:['结构映射理论(Gentner)','概念隐喻(莱考夫)','一般系统论(贝塔朗菲)','威尔逊·知识大融通']},
+    {name:'知识能否统一', en:'Unification of Knowledge',
+     desc:'乐观一方相信万物终可还原到物理；悲观一方（Cartwright）认为世界是"斑驳"的，各学科各有其不可还原的定律。还有第三条路：有些真理成对出现、互不可替代——玻尔把太极图画进盾徽，正是用阴阳表达量子互补原理。',
+     tags:['统一科学运动','还原论vs突现论','复杂性科学','信息论(香农/惠勒)','数学的不合理有效性(维格纳)','阴阳·互补原理(玻尔盾徽)']},
+    {name:'有没有元知识', en:'Is There Meta-knowledge',
+     desc:'关于"知道"本身的知识——知道自己知道什么、不知道什么，以及如何用同一套算法去更新所有信念。',
+     tags:['元认知','贝叶斯认知观','鲁姆斯菲尔德·未知的未知','芒格·思维模型格栅']}
+  ],
+  roots: [
+    {name:'物理学直觉', en:'Physical Intuition', lens:'physics',
+     desc:'还原论与其边界、量纲与尺度、能量-熵-信息作为万物通用语言。居于深阴之位：最藏而不显的天道。'},
+    {name:'政治学与制度', en:'Politics & Institutions', lens:'politics',
+     desc:'权力如何分配、公共选择与集体行动、制度如何塑造行为。藏于幕后的人道。'},
+    {name:'数理逻辑与概率', en:'Math & Probability', lens:'core',
+     desc:'形式化推理、贝叶斯更新、不确定性下的定量判断。主根之一：贯通万物的通用语法。'},
+    {name:'哲学与认识论', en:'Philosophy & Epistemology', lens:'core',
+     desc:'如何判断一个说法是否可信、科学方法论、批判性思维。主根之一：直抵地脉的追问。'},
+    {name:'经济学思维', en:'Economic Reasoning', lens:'industry',
+     desc:'稀缺、激励、边际分析、市场为何成功与失灵。阴中之阳：根系里通向人间的根，生长在阳气下探之处。'},
+    {name:'历史与案例思维', en:'History & Case Sense', lens:'core',
+     desc:'长周期规律、路径依赖，用类比而非套用去思考新问题。阴中之阳：过往实践沉入根系的光。'}
+  ],
+  trunk: [
+    {name:'系统与复杂性思维', en:'Systems & Complexity',
+     desc:'反馈环、非线性、涌现——把根部学科整合为对复杂系统的直觉。思维模型：阴阳消长（对立面互相定义、互含鱼眼、此消彼长的负反馈振荡）是它的千年原型，善用于生成假说，但须交给证伪检验。'},
+    {name:'决策与博弈理论', en:'Decision & Game Theory',
+     desc:'在信息不全、多方博弈下，做出可辩护的选择。'},
+    {name:'创新扩散与技术转移', en:'Diffusion & Tech Transfer',
+     desc:'技术如何从实验室走向市场——产学研工作的方法论核心。'},
+    {name:'治理与制度设计', en:'Governance & Institutional Design',
+     desc:'把政治学与经济学结合，理解组织、政策与激励的设计。'},
+    {name:'跨学科翻译力', en:'Boundary-Spanning Translation',
+     desc:'把一个领域的语言，翻译成另一个领域能听懂、能行动的语言。'}
+  ],
+  branches: [
+    {name:'科技前沿', en:'Technology Frontier', lens:'physics',
+     leaves:['关键技术图谱','专利与IP分析','技术成熟度TRL评估']},
+    {name:'产业与市场', en:'Industry & Market', lens:'industry',
+     leaves:['产业链地图','商业化路径设计','投融资逻辑']},
+    {name:'政策与治理', en:'Policy & Governance', lens:'politics',
+     leaves:['科技战略解读','成果转化政策','区域产业政策']},
+    {name:'学术生态', en:'Academic Ecosystem', lens:'core',
+     leaves:['学科前沿追踪','科研评价制度','人才引进机制']},
+    {name:'组织与沟通', en:'People & Organization', lens:'core',
+     leaves:['利益相关方管理','项目与谈判','写作与表达']}
+  ]
+};
+
+// ---------- SVG tree ----------
+const svg = document.getElementById('tree-svg');
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs){
+  const e = document.createElementNS(NS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+
+const W = 1040, GROUND = 500, TRUNK_TOP = 250, CX = 520;
+
+// ---------- the grand taiji field ----------
+// The whole tree grows inside one reclining taiji. The horizon is the S-curve
+// dividing line: hidden world (roots, truth-seeking) = yin, manifest world
+// (canopy, application) = yang. West side: yin rises above ground (theory
+// surfacing). East side: yang reaches underground (application pulling roots).
+const R_FIELD = 450, R_HALF = 225;
+const S_HORIZON = `M ${CX-R_FIELD} ${GROUND} A ${R_HALF} ${R_HALF} 0 0 1 ${CX} ${GROUND} A ${R_HALF} ${R_HALF} 0 0 0 ${CX+R_FIELD} ${GROUND}`;
+svg.appendChild(el('path', {d:`${S_HORIZON} A ${R_FIELD} ${R_FIELD} 0 0 1 ${CX-R_FIELD} ${GROUND} Z`, class:'field-yin'}));
+svg.appendChild(el('path', {d:`${S_HORIZON} A ${R_FIELD} ${R_FIELD} 0 0 0 ${CX-R_FIELD} ${GROUND} Z`, class:'field-yang'}));
+svg.appendChild(el('circle', {cx:CX, cy:GROUND, r:R_FIELD, class:'field-ring'}));
+svg.appendChild(el('path', {d:S_HORIZON, class:'ground-line', fill:'none'}));
+
+// the two eyes of the grand taiji — the living kernels of each world
+// dark eye inside the yang field: knowing what you don't know
+svg.appendChild(el('circle', {cx:CX+R_HALF, cy:GROUND, r:9, fill:'var(--ink)', opacity:.78}));
+// light eye inside the yin field: real problems ignite theory
+svg.appendChild(el('circle', {cx:CX-R_HALF, cy:GROUND, r:9, fill:'var(--bg)', stroke:'var(--line-strong)', 'stroke-width':1.5}));
+(function eyeLabels(){
+  const dx = CX+R_HALF, sx = CX-R_HALF;
+  const t1 = el('text', {x:dx+16, y:GROUND+4, class:'root-text', 'text-anchor':'start'});
+  t1.textContent = '阳中之阴 · 无知之知';
+  svg.appendChild(t1);
+  const t2 = el('text', {x:dx+16, y:GROUND+18, class:'tag-en', 'text-anchor':'start'});
+  t2.textContent = 'knowing the unknown';
+  svg.appendChild(t2);
+  const t3 = el('text', {x:sx-16, y:GROUND+4, class:'root-text', 'text-anchor':'end'});
+  t3.textContent = '阴中之阳 · 问题意识';
+  svg.appendChild(t3);
+  const t4 = el('text', {x:sx-16, y:GROUND+18, class:'tag-en', 'text-anchor':'end'});
+  t4.textContent = 'problems ignite theory';
+  svg.appendChild(t4);
+})();
+
+// the truth–beauty–goodness axis, west margin, bottom-up: 真 → 美 → 善
+(function axisTMS(){
+  const ax = 56;
+  const items = [
+    {ch:'善 ▲', cap:'向上结果 · 为人所用', y:140},
+    {ch:'美',    cap:'居中之衡 · 真善互抱', y:470},
+    {ch:'真 ▼', cap:'向下扎根 · 知其所以然', y:740}
+  ];
+  svg.appendChild(el('line', {x1:ax, y1:176, x2:ax, y2:436, stroke:'var(--line-strong)', 'stroke-width':1, 'stroke-dasharray':'2 5'}));
+  svg.appendChild(el('line', {x1:ax, y1:506, x2:ax, y2:706, stroke:'var(--line-strong)', 'stroke-width':1, 'stroke-dasharray':'2 5'}));
+  items.forEach(it => {
+    const c = el('text', {x:ax, y:it.y, class:'axis-char', 'text-anchor':'middle'});
+    c.textContent = it.ch;
+    svg.appendChild(c);
+    const cap = el('text', {x:ax, y:it.y+17, class:'tag-en', 'text-anchor':'middle'});
+    cap.textContent = it.cap;
+    svg.appendChild(cap);
+  });
+})();
+
+// trunk shape (tapered), width base 34 -> top 14
+const baseHW = 34, topHW = 14;
+const trunkD = `M ${CX-baseHW} ${GROUND}
+  C ${CX-baseHW-6} ${GROUND-100}, ${CX-topHW-10} ${TRUNK_TOP+60}, ${CX-topHW} ${TRUNK_TOP}
+  L ${CX+topHW} ${TRUNK_TOP}
+  C ${CX+topHW+10} ${TRUNK_TOP+60}, ${CX+baseHW+6} ${GROUND-100}, ${CX+baseHW} ${GROUND}
+  Z`;
+svg.appendChild(el('path', {d:trunkD, class:'trunk-shape draw-in', fill:'color-mix(in srgb, var(--wood) 22%, transparent)'}));
+
+// trunk rings + labels (trunk framework)
+DATA.trunk.forEach((t, i) => {
+  const n = DATA.trunk.length;
+  const y = GROUND - (i+1) * (GROUND - TRUNK_TOP) / (n+1);
+  const frac = (y - TRUNK_TOP) / (GROUND - TRUNK_TOP);
+  const hw = topHW + (baseHW - topHW) * frac;
+  svg.appendChild(el('path', {
+    d:`M ${CX-hw} ${y} Q ${CX} ${y+6} ${CX+hw} ${y}`,
+    class:'ring-line'
+  }));
+  const rightSide = i % 2 === 0;
+  const lx = rightSide ? CX + hw + 16 : CX - hw - 16;
+  const anchor = rightSide ? 'start' : 'end';
+  svg.appendChild(el('line', {x1: rightSide?CX+hw:CX-hw, y1:y, x2:lx-(rightSide?4:-4), y2:y, class:'leader'}));
+  const txt = el('text', {x:lx, y:y-4, class:'ring-text', 'text-anchor':anchor});
+  txt.textContent = `干 ${i+1} · ${t.name}`;
+  svg.appendChild(txt);
+  const txt2 = el('text', {x:lx, y:y+12, class:'tag-en', 'text-anchor':anchor});
+  txt2.textContent = t.en;
+  svg.appendChild(txt2);
+});
+
+// roots
+const rootOffsets = [-330,-195,-95,95,195,330];
+const rootEndY   = [610,690,760,760,690,610];
+DATA.roots.forEach((r, i) => {
+  const ex = CX + rootOffsets[i];
+  const ey = rootEndY[i];
+  const cx = CX + rootOffsets[i]*0.35;
+  const cy = GROUND + 45;
+  const path = `M ${CX} ${GROUND-6} Q ${cx} ${cy} ${ex} ${ey}`;
+  const color = LENS_COLOR[r.lens];
+  svg.appendChild(el('path', {d:path, class:'root-path draw-in', stroke:color, 'stroke-width':2.5, opacity:0.85}));
+  svg.appendChild(el('circle', {cx:ex, cy:ey, r:5.5, fill:color, class:'root-dot'}));
+  const above = ey - 14;
+  const t1 = el('text', {x:ex, y:above, class:'root-text', 'text-anchor':'middle'});
+  t1.textContent = r.name;
+  svg.appendChild(t1);
+  const t2 = el('text', {x:ex, y:above+15, class:'tag-en', 'text-anchor':'middle'});
+  t2.textContent = r.en;
+  svg.appendChild(t2);
+});
+svg.appendChild((()=>{const t=el('text',{x:CX,y:GROUND+46,class:'hint','text-anchor':'middle'});t.textContent='根 · 认知底座（基础学科）';return t;})());
+
+// ---------- taiji at the root collar (yin-yang complementarity model) ----------
+// Sits exactly where roots meet trunk: the pivot between underground (principles,
+// bedrock questions) and aboveground (application, market). Jade half = 原理/技术,
+// copper half = 市场/产业, each carrying the other's eye.
+(function drawTaiji(cx, cy, r){
+  const g = el('g', {class:'taiji'});
+  g.appendChild(el('circle', {cx, cy, r, fill:'var(--copper)'}));
+  g.appendChild(el('path', {
+    d:`M ${cx} ${cy-r} A ${r} ${r} 0 0 0 ${cx} ${cy+r} A ${r/2} ${r/2} 0 0 1 ${cx} ${cy} A ${r/2} ${r/2} 0 0 0 ${cx} ${cy-r} Z`,
+    fill:'var(--jade)'
+  }));
+  g.appendChild(el('circle', {cx, cy:cy-r/2, r:r/5.5, fill:'var(--copper)'}));
+  g.appendChild(el('circle', {cx, cy:cy+r/2, r:r/5.5, fill:'var(--jade)'}));
+  svg.appendChild(g);
+  svg.appendChild(el('circle', {cx, cy, r, class:'taiji-ring'}));
+
+  // label to the right
+  svg.appendChild(el('line', {x1:cx+r+4, y1:cy, x2:cx+r+38, y2:cy, class:'leader'}));
+  const t1 = el('text', {x:cx+r+44, y:cy-2, class:'root-text', 'text-anchor':'start'});
+  t1.textContent = '阴阳 · 互补思维';
+  svg.appendChild(t1);
+  const t2 = el('text', {x:cx+r+44, y:cy+14, class:'tag-en', 'text-anchor':'start'});
+  t2.textContent = 'contraria sunt complementa';
+  svg.appendChild(t2);
+})(CX, GROUND, 26);
+
+// ---------- bedrock / water table (meta-knowledge) ----------
+const WATER_Y = 800;
+const META_Y = 850;
+
+// faint capillary lines: every root end drinks down to the water table
+rootOffsets.forEach((off, i) => {
+  const ex = CX + off, ey = rootEndY[i];
+  svg.appendChild(el('line', {x1:ex, y1:ey, x2:ex, y2:WATER_Y, stroke:'var(--stone)', 'stroke-width':1, opacity:0.28, 'stroke-dasharray':'2 4'}));
+});
+
+// wavy water-table line
+const waterPts = [];
+for(let x = 90; x <= W-90; x += (W-180)/16){
+  const wob = Math.sin(x/60) * 5;
+  waterPts.push(`${x} ${WATER_Y+wob}`);
+}
+svg.appendChild(el('polyline', {points:waterPts.join(' '), fill:'none', stroke:'var(--stone)', 'stroke-width':1.5, opacity:0.55}));
+svg.appendChild((()=>{const t=el('text',{x:CX,y:WATER_Y+26,class:'hint','text-anchor':'middle',fill:'var(--stone-soft)'});t.textContent='地脉 · 元知识层 —— 一切根系共同汲取的水源';return t;})());
+
+const metaOffsets = [-360,-190,0,190,360];
+DATA.meta.forEach((m, i) => {
+  const ex = CX + metaOffsets[i];
+  svg.appendChild(el('line', {x1:ex, y1:WATER_Y+2, x2:ex, y2:META_Y-14, stroke:'var(--stone)', 'stroke-width':1.5, opacity:0.6}));
+  const d = 8;
+  svg.appendChild(el('path', {d:`M ${ex} ${META_Y-d} L ${ex+d} ${META_Y} L ${ex} ${META_Y+d} L ${ex-d} ${META_Y} Z`, fill:'var(--stone)', opacity:0.9}));
+  const t1 = el('text', {x:ex, y:META_Y+26, class:'root-text', 'text-anchor':'middle'});
+  t1.textContent = m.name;
+  svg.appendChild(t1);
+  const t2 = el('text', {x:ex, y:META_Y+41, class:'tag-en', 'text-anchor':'middle'});
+  t2.textContent = m.en;
+  svg.appendChild(t2);
+});
+
+// branches + leaf clusters
+const branchOffsets = [-300,-155,0,155,300];
+const branchEndY    = [140,75,40,75,140];
+DATA.branches.forEach((b, i) => {
+  const ex = CX + branchOffsets[i];
+  const ey = branchEndY[i];
+  const cx = CX + branchOffsets[i]*0.42;
+  const cy = TRUNK_TOP - 35;
+  const path = `M ${CX} ${TRUNK_TOP+4} Q ${cx} ${cy} ${ex} ${ey}`;
+  const color = LENS_COLOR[b.lens];
+  svg.appendChild(el('path', {d:path, class:'branch-path draw-in', stroke:color, 'stroke-width':3, opacity:0.9}));
+
+  // branch label
+  const labelY = ey - 8;
+  const t1 = el('text', {x:ex, y:labelY, class:'root-text', 'text-anchor':'middle'});
+  t1.textContent = b.name;
+  svg.appendChild(t1);
+  const t2 = el('text', {x:ex, y:labelY+15, class:'tag-en', 'text-anchor':'middle'});
+  t2.textContent = b.en;
+  svg.appendChild(t2);
+
+  // leaf pills stacked upward
+  const dir = branchOffsets[i] === 0 ? 0 : (branchOffsets[i] > 0 ? 1 : -1);
+  b.leaves.forEach((leaf, li) => {
+    const ly = labelY - 34 - li*30;
+    const lx = ex + dir * li * 18;
+    const w = Math.min(150, 22 + leaf.length * 11);
+    svg.appendChild(el('line', {x1:ex, y1:labelY-20, x2:lx, y2:ly+8, class:'leader'}));
+    svg.appendChild(el('rect', {x:lx-w/2, y:ly-11, width:w, height:22, rx:11, class:'leaf-pill', fill:'color-mix(in srgb, '+color+' 16%, var(--bg))'}));
+    const lt = el('text', {x:lx, y:ly+4, class:'leaf-text', 'text-anchor':'middle'});
+    lt.textContent = leaf;
+    svg.appendChild(lt);
+  });
+});
+svg.appendChild((()=>{const t=el('text',{x:CX,y:TRUNK_TOP-2,class:'hint','text-anchor':'middle'});t.textContent='';return t;})());
+svg.appendChild((()=>{const t=el('text',{x:60,y:-56,class:'hint'});t.textContent='冠 · 应用领域与技能（可继续长新叶）';return t;})());
+
+// ---------- Console (expandable outline) ----------
+const consoleEl = document.getElementById('console');
+
+function makeCol(titleEn, titleZh, n){
+  const col = document.createElement('div');
+  col.className = 'col';
+  const h = document.createElement('h3');
+  h.innerHTML = `${titleEn} <span class="n">${titleZh}</span>`;
+  col.appendChild(h);
+  return col;
+}
+
+const colRoots = makeCol('ROOTS', '根 · 认知底座');
+DATA.roots.forEach(r => {
+  const d = document.createElement('details');
+  d.className = 'node';
+  d.innerHTML = `<summary><span class="lens-dot" style="background:${LENS_COLOR[r.lens]}"></span>${r.name}</summary>
+    <div class="body">${r.desc}</div>`;
+  colRoots.appendChild(d);
+});
+
+const colTrunk = makeCol('TRUNK', '干 · 贯通框架');
+DATA.trunk.forEach((t,i) => {
+  const d = document.createElement('details');
+  d.className = 'node';
+  d.innerHTML = `<summary><span class="lens-dot" style="background:var(--wood-soft)"></span>${i+1}. ${t.name}</summary>
+    <div class="body">${t.desc}</div>`;
+  colTrunk.appendChild(d);
+});
+
+const colBranches = makeCol('CANOPY', '枝叶 · 应用领域');
+DATA.branches.forEach(b => {
+  const d = document.createElement('details');
+  d.className = 'node';
+  const leavesHtml = b.leaves.map(l => `<span class="leaf-chip">${l}</span>`).join('');
+  d.innerHTML = `<summary><span class="lens-dot" style="background:${LENS_COLOR[b.lens]}"></span>${b.name}</summary>
+    <div class="leaves">${leavesHtml}</div>`;
+  colBranches.appendChild(d);
+});
+
+consoleEl.appendChild(colRoots);
+consoleEl.appendChild(colTrunk);
+consoleEl.appendChild(colBranches);
+
+// ---------- bedrock console ----------
+const bedrockEl = document.getElementById('bedrock');
+DATA.meta.forEach(m => {
+  const d = document.createElement('details');
+  d.className = 'node';
+  const tagsHtml = m.tags.map(t => `<span class="leaf-chip">${t}</span>`).join('');
+  d.innerHTML = `<summary><span class="lens-dot" style="background:var(--stone)"></span>${m.name}</summary>
+    <div class="body">${m.desc}</div>
+    <div class="leaves">${tagsHtml}</div>`;
+  bedrockEl.appendChild(d);
+});
+
+// ---------- wheel of generation & constraint (five branches) ----------
+(function wheel(){
+  const ws = document.getElementById('wheel-svg');
+  const wc = {x:520, y:300}, R = 200;
+  const NODES = [
+    {name:'学术生态', phase:'木', lens:'core'},
+    {name:'科技前沿', phase:'火', lens:'physics'},
+    {name:'产业与市场', phase:'土', lens:'industry'},
+    {name:'组织与沟通', phase:'金', lens:'core'},
+    {name:'政策与治理', phase:'水', lens:'politics'}
+  ];
+  const pos = NODES.map((_, i) => {
+    const a = (-90 + i*72) * Math.PI/180;
+    return {x: wc.x + R*Math.cos(a), y: wc.y + R*Math.sin(a), a: -90 + i*72};
+  });
+  const pt = deg => {
+    const a = deg*Math.PI/180;
+    return {x: wc.x + R*Math.cos(a), y: wc.y + R*Math.sin(a)};
+  };
+
+  // defs: arrowhead for 生, bar for 克
+  const defs = el('defs', {});
+  const mArrow = el('marker', {id:'m-sheng', viewBox:'0 0 10 10', refX:'8', refY:'5', markerWidth:'7', markerHeight:'7', orient:'auto-start-reverse'});
+  mArrow.appendChild(el('path', {d:'M 0 0 L 10 5 L 0 10 Z', fill:'var(--jade)'}));
+  defs.appendChild(mArrow);
+  const mBar = el('marker', {id:'m-ke', viewBox:'0 0 8 10', refX:'4', refY:'5', markerWidth:'6', markerHeight:'8', orient:'auto'});
+  mBar.appendChild(el('rect', {x:'3', y:'0', width:'2.5', height:'10', fill:'var(--copper)'}));
+  defs.appendChild(mBar);
+  ws.appendChild(defs);
+
+  // 克 chords first (under the nodes): each constrains the branch two steps on
+  const KE = [
+    {f:0, t:2, label:'批判戳破泡沫',  lx:599, ly:274},
+    {f:2, t:4, label:'现实约束政策',  lx:462, ly:373},
+    {f:4, t:1, label:'监管为技术设界', lx:520, ly:231},
+    {f:1, t:3, label:'颠覆重塑组织',  lx:578, ly:373},
+    {f:3, t:0, label:'考核约束学术',  lx:441, ly:274}
+  ];
+  KE.forEach(k => {
+    const A = pos[k.f], B = pos[k.t];
+    const dx = B.x-A.x, dy = B.y-A.y, len = Math.hypot(dx,dy);
+    const ux = dx/len, uy = dy/len, trim = 62;
+    ws.appendChild(el('line', {
+      x1:A.x+ux*trim, y1:A.y+uy*trim, x2:B.x-ux*trim, y2:B.y-uy*trim,
+      stroke:'var(--copper)', 'stroke-width':1.6, 'stroke-dasharray':'5 5',
+      opacity:.75, 'marker-end':'url(#m-ke)'
+    }));
+    const t = el('text', {x:k.lx, y:k.ly, class:'hint', 'text-anchor':'middle', fill:'var(--copper)'});
+    t.textContent = k.label;
+    ws.appendChild(t);
+  });
+
+  // 生 arcs along the outer circle, clockwise
+  const SHENG = ['思想点燃技术','技术落成产业','产业炼出组织','实践汇成政策','经费养育学术'];
+  NODES.forEach((_, i) => {
+    const a1 = -90 + i*72 + 18, a2 = -90 + (i+1)*72 - 18;
+    const P1 = pt(a1), P2 = pt(a2);
+    ws.appendChild(el('path', {
+      d:`M ${P1.x} ${P1.y} A ${R} ${R} 0 0 1 ${P2.x} ${P2.y}`,
+      fill:'none', stroke:'var(--jade)', 'stroke-width':2.2, 'marker-end':'url(#m-sheng)'
+    }));
+    const am = (-90 + i*72 + 36) * Math.PI/180;
+    const lx = wc.x + 237*Math.cos(am), ly = wc.y + 237*Math.sin(am);
+    const t = el('text', {x:lx, y:ly+4, class:'leaf-text', 'text-anchor':'middle', fill:'var(--jade)'});
+    t.textContent = SHENG[i];
+    ws.appendChild(t);
+  });
+
+  // node pills with phase glyphs
+  NODES.forEach((n, i) => {
+    const p = pos[i], color = LENS_COLOR[n.lens];
+    const w = n.name.length*15 + 44;
+    ws.appendChild(el('rect', {x:p.x-w/2, y:p.y-19, width:w, height:38, rx:19, fill:'color-mix(in srgb, '+color+' 14%, var(--bg-panel))', stroke:color, 'stroke-width':1.5}));
+    const t = el('text', {x:p.x+9, y:p.y+5, class:'root-text', 'text-anchor':'middle'});
+    t.textContent = n.name;
+    ws.appendChild(t);
+    ws.appendChild(el('circle', {cx:p.x-w/2+2, cy:p.y, r:11, fill:color}));
+    const ph = el('text', {x:p.x-w/2+2, y:p.y+4.5, 'text-anchor':'middle', fill:'var(--bg)', style:'font-family:var(--font-display);font-size:12px;font-weight:700;'});
+    ph.textContent = n.phase;
+    ws.appendChild(ph);
+  });
+
+  // a small still taiji at the hub: 生为阳，克为阴
+  const hub = el('g', {class:'taiji'});
+  hub.appendChild(el('circle', {cx:wc.x, cy:wc.y, r:14, fill:'var(--jade)'}));
+  hub.appendChild(el('path', {d:`M ${wc.x} ${wc.y-14} A 14 14 0 0 0 ${wc.x} ${wc.y+14} A 7 7 0 0 1 ${wc.x} ${wc.y} A 7 7 0 0 0 ${wc.x} ${wc.y-14} Z`, fill:'var(--copper)'}));
+  hub.appendChild(el('circle', {cx:wc.x, cy:wc.y-7, r:2.6, fill:'var(--jade)'}));
+  hub.appendChild(el('circle', {cx:wc.x, cy:wc.y+7, r:2.6, fill:'var(--copper)'}));
+  ws.appendChild(hub);
+  ws.appendChild(el('circle', {cx:wc.x, cy:wc.y, r:14, class:'taiji-ring'}));
+})();
+</script>
