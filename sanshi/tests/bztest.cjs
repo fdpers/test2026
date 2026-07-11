@@ -1,7 +1,7 @@
-const { chromium } = require('playwright');
+const { launchChromium } = require('./pw.cjs');
 const fs = require('fs');
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launchChromium();
   const p = await b.newPage({ viewport: { width: 1280, height: 1100 } });
   p.on('pageerror', e => console.log('PAGE ERROR:', e.message));
   const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + fs.readFileSync('bazi.html', 'utf8') + '</body></html>';

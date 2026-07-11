@@ -61,6 +61,6 @@ test('AI academy build is deterministic and carries release metadata', async () 
   assert.match(artifact, /data-ai-study-panel/);
   assert.match(artifact, /\/api\/health/);
   assert.match(artifact, /\/api\/chat/);
-  assert.match(artifact, /"version":"1\.1\.0"/);
+  assert.match(artifact, /"version":"1\.2\.0"/);
   assert.match(artifact, /"sourceRevision":"test-revision"/);
 });
