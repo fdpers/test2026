@@ -1,11 +1,11 @@
-const { chromium } = require('playwright');
+const { launchChromium } = require('./pw.cjs');
 const http = require('http'); const fs = require('fs');
 const html = fs.readFileSync('huitong.html','utf8');
 const page = '<!doctype html><html><head><meta charset="utf-8"></head><body>'+html+'</body></html>';
 const srv = http.createServer((req,res)=>{res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end(page);});
 srv.listen(0, async ()=>{
   const port = srv.address().port;
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launchChromium();
   const p = await b.newPage({ viewport:{width:1200,height:1200} });
   const errs=[]; p.on('pageerror',e=>errs.push('PAGEERR '+e.message)); p.on('console',m=>{if(m.type()==='error')errs.push('CON '+m.text());});
   await p.goto('http://localhost:'+port+'/');

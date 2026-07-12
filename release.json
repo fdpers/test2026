@@ -1,7 +1,8 @@
 {
-  "version": "1.1.0",
-  "operationId": "OP-20260705-001",
+  "version": "1.2.0",
+  "operationId": "OP-20260706-002",
   "baseline": "7996142680f9d593d36c1a1433e31b221d2a56e2",
   "baselineTree": "dd70074ed28ff9e3ccda1f66bb9e5457507cc316",
-  "promptVersion": "canonical-v1"
+  "promptVersion": "canonical-v1",
+  "promptSha256": "6bd24616772d3bddb7c9912af23a7a3fafc9331ef9f0f5d73b475a4f0edd806e"
 }

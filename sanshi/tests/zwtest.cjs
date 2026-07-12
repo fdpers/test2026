@@ -1,7 +1,7 @@
-const { chromium } = require('playwright');
+const { launchChromium } = require('./pw.cjs');
 const fs = require('fs');
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launchChromium();
   const p = await b.newPage({ viewport: { width: 1280, height: 1000 } });
   p.on('pageerror', e => console.log('PAGE ERROR:', e.message));
   const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + fs.readFileSync('ziwei.html', 'utf8') + '</body></html>';
@@ -28,7 +28,7 @@ const fs = require('fs');
     t.push(['火六局日1', B[zwPos(1,6)], '酉']);  // 火六局初一紫微在酉
     t.push(['金四局日1', B[zwPos(1,4)], '亥']);  // 金四局初一紫微在亥
     t.push(['木三局日1', B[zwPos(1,3)], '辰']);  // 木三局初一紫微在辰
-    t.push(['土五局日2', B[zwPos(2,5)], '未']);  // 土五局初二紫微在未? (借数3奇: 寅+0-3=亥) hmm
+    t.push(['土五局日2', B[zwPos(2,5)], '亥']);  // 土五局初二紫微在亥
     // Case 3: 天府镜像: 紫微午 → 天府戌
     t.push(['case1 天府', B[(16-c.zw)%12], '戌']);
     // Case 4: 甲年四化

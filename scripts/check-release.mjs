@@ -3,8 +3,8 @@ import { resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 const expected = {
-  version: '1.1.0',
-  operationId: 'OP-20260705-001',
+  version: '1.2.0',
+  operationId: 'OP-20260706-002',
   baseline: '7996142680f9d593d36c1a1433e31b221d2a56e2',
 };
 
@@ -35,7 +35,7 @@ const activeRows = worklog
 assert(activeRows.length === 1, `Expected one active WORKLOG row, found ${activeRows.length}`);
 assert(activeRows[0].includes(`| ${version} |`), 'WORKLOG version mismatch');
 assert(activeRows[0].includes('| Codex |'), 'WORKLOG owner mismatch');
-assert(activeRows[0].includes('| codex/ai-dialog-v1 |'), 'WORKLOG branch mismatch');
+assert(activeRows[0].includes('| codex/four-site-dialog-v1.2 |'), 'WORKLOG branch mismatch');
 
 assert(changelog.includes(expected.operationId), 'CHANGELOG is missing the operation ID');
 assert(changelog.includes(version), 'CHANGELOG is missing the target version');
